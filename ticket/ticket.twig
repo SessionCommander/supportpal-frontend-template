@@ -199,6 +199,16 @@
     <script src="{{ asset_rev('resources/assets/libs/att.preview/js/att.preview.min.js') }}"></script>
     <script>
         new FileUpload();
+        
+        // Make "(Remove Attachment)" text clickable
+        $(document).on('click', '.sp-remove-attachment-text', function(e) {
+            e.preventDefault();
+            var $li = $(this).closest('li');
+            var $deleteBtn = $li.find('.sp-delete-attachment');
+            if ($deleteBtn.length && !$deleteBtn.hasClass('sp-hidden')) {
+                $deleteBtn.trigger('click');
+            }
+        });
     </script>
 
     <!-- Custom fields -->

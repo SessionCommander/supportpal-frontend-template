@@ -43,7 +43,7 @@
                         {{ form_label('department', Lang.choice('ticket.department', 1)) }}
                         <div class="sp-input-container">
                             {{ form_hidden('department', department.id) }}
-                            <span class="department-name" style="color: #d1d5db; font-size: 0.875rem;">{{ department.frontend_name }}</span>
+                            <span class="department-name" style="display: inline-block; width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6; font-size: 0.875rem; line-height: 1.5;">{{ department.frontend_name }}</span>
                         </div>
                     </div>
 
@@ -122,6 +122,7 @@
                                     <span class="sp-file-information" style="display: inline-block; vertical-align: middle;">
                                         <span class="sp-filename" style="color: #d1d5db; font-size: 0.875rem;"></span>
                                         <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;"></span>
+                                        <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove Attachment)</span>
                                     </span>
                                 </div>
                                 <div class="sp-delete-attachment sp-hidden" title="{{ Lang.get('general.remove') }}">
@@ -145,6 +146,7 @@
                                             <span class="sp-file-information" style="display: inline-block; vertical-align: middle;">
                                                 <span class="sp-filename" style="color: #d1d5db; font-size: 0.875rem;">{{ file }}</span>
                                                 <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;"></span>
+                                                <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove Attachment)</span>
                                             </span>
                                         </div>
                                         <div class="sp-delete-attachment" data-url="{{ route('ticket.frontend.attachment.destroy') }}" data-hash="{{ hash }}" title="{{ Lang.get('general.remove') }}">
@@ -225,6 +227,16 @@
     <script src="{{ asset_rev('resources/assets/libs/fileupload/js/jquery.fileupload.min.js') }}"></script>
     <script>
         new FileUpload();
+        
+        // Make "(Remove Attachment)" text clickable
+        $(document).on('click', '.sp-remove-attachment-text', function(e) {
+            e.preventDefault();
+            var $li = $(this).closest('li');
+            var $deleteBtn = $li.find('.sp-delete-attachment');
+            if ($deleteBtn.length && !$deleteBtn.hasClass('sp-hidden')) {
+                $deleteBtn.trigger('click');
+            }
+        });
     </script>
 
     <!-- Custom fields -->
