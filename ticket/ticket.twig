@@ -203,8 +203,23 @@
         {{ jsValidatorFields|raw }}
     {% endif %}
 
-    <!-- WYSIWYG Editor -->
-    <script src="{{ asset_rev('resources/assets/libs/editor.min.js') }}"></script>
+    <!-- Auto-expanding textarea -->
+    <script>
+        (function() {
+            var textarea = document.getElementById('newMessage');
+            if (textarea) {
+                // Auto-expand on input
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+                
+                // Set initial height
+                textarea.style.height = 'auto';
+                textarea.style.height = (textarea.scrollHeight) + 'px';
+            }
+        })();
+    </script>
 
     <!-- Attachments -->
     <script src="{{ asset_rev('resources/assets/libs/fileupload/js/jquery.fileupload.min.js') }}"></script>

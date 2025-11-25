@@ -13,13 +13,6 @@
 						{{ Lang.get('general.staff') }}
 					</span>
 				{% endif %}
-				{% if not message.attachments.isEmpty() %}
-					<span class="sp-attachment sp-description" style="color: #9ca3af; font-size: 0.875rem;">&nbsp;
-						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;">
-							<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-						</svg>
-					</span>
-				{% endif %}
 				<div class="sp-description">{{ timeago(message.created_at) }}</div>
 			</div>
 		</div>
@@ -53,9 +46,9 @@
 			</div>
 
 			{% for attachment in message.attachments %}
-				<li class="sp-relative" data-download-url="{{ attachment.direct_frontend_url }}" data-filename="{{ attachment.original_name }}">
+				<li class="sp-relative" data-download-url="{{ attachment.direct_frontend_url }}" data-filename="{{ attachment.original_name }}" style="position: relative;">
                     {% if message.by != 0 %}
-						<div class="sp-delete-attachment" style="position: absolute; top: 0.5rem; right: 0.5rem;"
+						<div class="sp-delete-attachment"
 							 title="{{ Lang.get('general.delete') }}"
 							 data-url="{{ route('ticket.frontend.attachment.destroy') }}"
                              data-token="{{ Request.input('token', '') }}"
