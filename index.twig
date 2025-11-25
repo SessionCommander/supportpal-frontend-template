@@ -25,8 +25,7 @@
 
     {{ View.fireHook('frontend.body_start') }}
 
-    <header class="sp-sticky sp-top-0 sp-z-10002 sp-px-4 sm:sp-px-6 lg:sp-px-8 print:sp-static print:sp-px-0 print:sp-shadow-none
-                   {% if not (route starts with 'core.frontend.home') or not show_search %}sp-shadow{% endif %}">
+    <header class="sp-px-4 sm:sp-px-6 lg:sp-px-8 print:sp-static print:sp-px-0 print:sp-shadow-none" id="main-header">
         <div class="sp-container sp-relative sp-py-0 sp-m-auto print:sp-max-w-full" style="max-width: 1280px;">
             {{ View.fireHook('frontend.header_start') }}
 
@@ -46,29 +45,36 @@
             </div>
             {% endif %}
 
-            <div class="sp-flex sp-items-center" style="height: 80px;">
+            <div class="sp-flex sp-items-center sp-justify-between" style="height: 80px;">
                 <div class="sp-grow">
-                    <a href="{{ route('core.frontend.home') }}" class="sp-flex sp-items-center" style="gap: 0.75rem;">
+                    <a href="{{ route('core.frontend.home') }}" class="sp-flex sp-items-center" style="gap: 0.75rem; text-decoration: none;">
                         {% if Config.get('settings.favicon') is not empty %}
-                            <img src="{{ Config.get('settings.favicon') }}" alt="{{ company }}" class="sp-logo" style="width: 40px; height: 40px;" />
+                            <img src="{{ Config.get('settings.favicon') }}" alt="{{ company }}" class="sp-logo" style="width: 40px; height: 40px; transition: transform 0.2s;" />
                         {% else %}
-                            <img src="{{ get_logo(false) }}" alt="{{ company }}" class="sp-logo sp-inline dark:sp-hidden print:sp-inline" style="width: 40px; height: 40px;" />
-                            <img src="{{ get_logo(true) }}" alt="{{ company }}" class="sp-logo sp-hidden dark:sp-inline print:sp-hidden" style="width: 40px; height: 40px;" />
+                            <img src="{{ get_logo(false) }}" alt="{{ company }}" class="sp-logo sp-inline dark:sp-hidden print:sp-inline" style="width: 40px; height: 40px; transition: transform 0.2s;" />
+                            <img src="{{ get_logo(true) }}" alt="{{ company }}" class="sp-logo sp-hidden dark:sp-inline print:sp-hidden" style="width: 40px; height: 40px; transition: transform 0.2s;" />
                         {% endif %}
                         <span style="font-size: 1.25rem; font-weight: 700; color: white;">SessionCommander</span>
                     </a>
                 </div>
 
                 <div class="sp-flex-none print:sp-hidden sp-hidden lg:sp-flex sp-items-center" style="gap: 2rem;">
-                    {% if not (route starts with 'core.frontend.home') and show_search %}
-                        <a class="sp-search-button" style="padding: 0.5rem; color: var(--gray-300);">
-                            <i class="fas fa-search"></i>
-                        </a>
-                    {% endif %}
-
                     {% if Config.get('settings.website_url') is not empty %}
-                        <a href="{{ Config.get('settings.website_url') }}" style="color: var(--gray-300); text-decoration: none; transition: color 0.2s;">
-                            {{ Lang.get('core.back_to_website') }}
+                        <a href="{{ Config.get('settings.website_url') }}/features" style="color: var(--gray-300); text-decoration: none; transition: color 0.2s; position: relative;">
+                            Features
+                        </a>
+                        <a href="{{ Config.get('settings.website_url') }}/pricing" style="color: var(--gray-300); text-decoration: none; transition: color 0.2s; position: relative;">
+                            Pricing
+                        </a>
+                        <a href="{{ Config.get('settings.website_url') }}/about" style="color: var(--gray-300); text-decoration: none; transition: color 0.2s; position: relative;">
+                            About
+                        </a>
+                        <div style="height: 24px; width: 1px; background: var(--gray-700); margin: 0 0.5rem;"></div>
+                        <a href="{{ route('core.frontend.home') }}" style="color: var(--gray-400); text-decoration: none; transition: color 0.2s; font-size: 0.875rem;">
+                            Support
+                        </a>
+                        <a href="{{ Config.get('settings.website_url') }}/community" style="color: var(--gray-400); text-decoration: none; transition: color 0.2s; font-size: 0.875rem;">
+                            Community
                         </a>
                     {% endif %}
 
@@ -85,18 +91,18 @@
                         </div>
                     {% else %}
                         <a href="{{ route('user.login') }}" class="bg-purple-gradient">
-                            {{ Lang.get('user.login') }}
+                            Log In
                         </a>
                     {% endif %}
                 </div>
 
                 <div class="sp-flex-none sp-leading-0 lg:sp-hidden print:sp-hidden">
                     <div class="sp-mobile-nav-button sp-inline-block">
-                        <div class="sp-px-3/2 sp-py-1 sp-rounded sp-border sp-cursor-pointer" style="color: var(--gray-300);">
+                        <button style="color: var(--gray-300); background: none; border: none; cursor: pointer; padding: 0.5rem;" aria-label="Toggle menu">
                             <svg focusable="false" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
                                 <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="currentColor"></path>
                             </svg>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -116,7 +122,7 @@
 
     {% block precontent %}{% endblock %}
 
-    <div class="sp-relative xs:sp-px-6 lg:sp-static lg:sp-px-8 print:sp-px-0">
+    <div class="sp-relative xs:sp-px-6 lg:sp-static lg:sp-px-8 print:sp-px-0" style="padding-top: 80px;">
         <div class="sp-container sp-mx-auto sp-my-4 xs:sp-my-6 lg:sp-my-8 print:sp-max-w-full" style="max-width: 1280px;">
 
             {{ View.fireHook('frontend.wrapper_start') }}
@@ -259,6 +265,15 @@
                         <a href="{{ Config.get('settings.website_url') }}/terms" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
                             Terms of Service
                         </a>
+                        <a href="{{ Config.get('settings.website_url') }}/terms-summary" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
+                            Terms Summary
+                        </a>
+                        <a href="{{ Config.get('settings.website_url') }}/sla" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
+                            SLA
+                        </a>
+                        <a href="{{ Config.get('settings.website_url') }}/dpa" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
+                            DPA
+                        </a>
                     {% endif %}
                     {% if Config.get('settings.language_frontend_toggle') == 1 %}
                         <div class="sp-flex-none print:sp-hidden" style="display: inline-flex; align-items: center; gap: 0.5rem;">
@@ -284,6 +299,29 @@
     {% include 'frontend.' ~ template ~ '.footer_common' %}
 
     <script src="{{ asset_rev('resources/assets/frontend/js/main.js')}}"></script>
+
+    <script>
+        // Header scroll effect to match website
+        (function() {
+            const header = document.getElementById('main-header');
+            if (header) {
+                let scrolled = false;
+                const handleScroll = () => {
+                    const isScrolled = window.scrollY > 20;
+                    if (isScrolled !== scrolled) {
+                        scrolled = isScrolled;
+                        if (scrolled) {
+                            header.classList.add('scrolled');
+                        } else {
+                            header.classList.remove('scrolled');
+                        }
+                    }
+                };
+                window.addEventListener('scroll', handleScroll);
+                handleScroll(); // Check initial state
+            }
+        })();
+    </script>
 
     {% block scripts_footer %}{% endblock %}
 

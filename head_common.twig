@@ -71,41 +71,70 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Header Styling */
 header {
-  background-color: rgba(3, 7, 18, 0.95) !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 50 !important;
+  background-color: transparent !important;
   backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+header.scrolled {
+  background-color: rgba(3, 7, 18, 0.95) !important;
   border-bottom: 1px solid rgba(168, 85, 247, 0.2);
 }
 
 .sp-logo {
   height: 40px;
-  width: auto;
+  width: 40px;
 }
 
 /* Navigation Links */
-header a:not(.sp-logo):not(.sp-action):not(.sp-search-button) {
+header .sp-container > div > div:last-child a:not(.bg-purple-gradient):not(.sp-action):not(.sp-search-button) {
   color: var(--gray-300) !important;
+  text-decoration: none !important;
   transition: color 0.2s ease;
+  position: relative;
 }
 
-header a:not(.sp-logo):not(.sp-action):not(.sp-search-button):hover {
+header .sp-container > div > div:last-child a:not(.bg-purple-gradient):not(.sp-action):not(.sp-search-button):hover {
   color: white !important;
+}
+
+header .sp-container > div > div:last-child a:not(.bg-purple-gradient):not(.sp-action):not(.sp-search-button)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--purple-500);
+  transition: width 0.3s ease;
+}
+
+header .sp-container > div > div:last-child a:not(.bg-purple-gradient):not(.sp-action):not(.sp-search-button):hover::after {
+  width: 100%;
 }
 
 /* Purple Gradient Button */
 .bg-purple-gradient {
   background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%);
-  color: white;
+  color: white !important;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   font-weight: 500;
-  text-decoration: none;
+  font-size: 0.875rem;
+  text-decoration: none !important;
   display: inline-block;
   transition: opacity 0.2s;
 }
 
 .bg-purple-gradient:hover {
   opacity: 0.9;
-  color: white;
+  color: white !important;
 }
 
 /* Content Area */
@@ -113,6 +142,7 @@ header a:not(.sp-logo):not(.sp-action):not(.sp-search-button):hover {
   background-color: var(--gray-900) !important;
   border: 1px solid rgba(168, 85, 247, 0.2);
   border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 /* Footer Styling */
@@ -283,12 +313,17 @@ a:hover {
 /* Responsive adjustments */
 @media (min-width: 768px) {
   footer .sp-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }
   
   footer .sp-mt-8 {
-    flex-direction: row;
+    flex-direction: row !important;
   }
+}
+
+/* Footer link hover effects */
+footer a:hover {
+  color: var(--purple-400) !important;
 }
 
 /* Table styling */
@@ -313,11 +348,14 @@ table td {
   background-color: var(--gray-800);
   border: 1px solid rgba(168, 85, 247, 0.2);
   border-radius: 0.5rem;
+  transition: all 0.2s ease;
 }
 
 .sp-dashboard-section:hover,
 .sp-card:hover {
   border-color: rgba(168, 85, 247, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 /* Icon colors */
@@ -338,5 +376,73 @@ table td {
 /* Smooth transitions */
 * {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Header link hover effects */
+header a[href*="/features"]:hover,
+header a[href*="/pricing"]:hover,
+header a[href*="/about"]:hover {
+  color: white !important;
+}
+
+header a[href*="/features"]::after,
+header a[href*="/pricing"]::after,
+header a[href*="/about"]::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--purple-500);
+  transition: width 0.3s ease;
+}
+
+header a[href*="/features"]:hover::after,
+header a[href*="/pricing"]:hover::after,
+header a[href*="/about"]:hover::after {
+  width: 100%;
+}
+
+/* Logo hover effect */
+header a[href*="frontend.home"]:hover .sp-logo {
+  transform: scale(1.1);
+}
+
+/* Body padding for fixed header */
+body {
+  padding-top: 0;
+}
+
+/* Improve typography */
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+  line-height: 1.2;
+}
+
+/* Better spacing */
+.sp-content {
+  padding-top: 0;
+}
+
+/* Search container styling */
+.sp-search-container {
+  background-color: transparent !important;
+  padding-top: 80px;
+}
+
+/* Mobile menu improvements */
+.sp-mobile-nav {
+  padding-top: 80px;
+}
+
+/* Ensure proper text colors */
+.sp-text-primary,
+.sp-text-secondary {
+  color: var(--gray-100) !important;
+}
+
+.sp-text-tertiary {
+  color: var(--gray-400) !important;
 }
 </style>
