@@ -248,6 +248,14 @@
             var errorMessage = 'An error occurred while uploading the file.';
             if (data.jqXHR && data.jqXHR.responseJSON && data.jqXHR.responseJSON.message) {
                 errorMessage = data.jqXHR.responseJSON.message;
+            } else if (data.jqXHR && data.jqXHR.responseJSON && data.jqXHR.responseJSON.errors) {
+                // Handle validation errors (e.g., file extension)
+                var errors = data.jqXHR.responseJSON.errors;
+                if (errors.files && errors.files.length > 0) {
+                    errorMessage = errors.files[0];
+                } else if (errors[0]) {
+                    errorMessage = errors[0];
+                }
             } else if (data.textStatus) {
                 errorMessage = data.textStatus;
             }
@@ -262,11 +270,64 @@
                 $('html, body').animate({
                     scrollTop: $errorAlert.offset().top - 100
                 }, 300);
+            } else {
+                // Create error alert if it doesn't exist
+                var $newAlert = $('<div class="attachment sp-alert sp-alert-error sp-alert-sticky"><div class="sp-container sp-mx-auto">' + errorMessage + '</div></div>');
+                $('form').first().before($newAlert);
+                $newAlert.removeClass('sp-hidden');
+                
+                // Scroll to error
+                $('html, body').animate({
+                    scrollTop: $newAlert.offset().top - 100
+                }, 300);
             }
             
             // Remove the failed file from the list
             if (data.context) {
                 $(data.context).remove();
+            }
+        });
+        
+        // Validate file extensions before upload
+        $(document).on('fileuploadadd', '.sp-file-upload', function(e, data) {
+            var file = data.files[0];
+            if (file && file.name) {
+                var fileName = file.name.toLowerCase();
+                var allowedExtensions = ['.pdf', '.doc', '.docx', '.txt', '.jpg', '.jpeg', '.png', '.gif', '.zip', '.rar', '.xls', '.xlsx', '.csv'];
+                var hasValidExtension = false;
+                
+                for (var i = 0; i < allowedExtensions.length; i++) {
+                    if (fileName.endsWith(allowedExtensions[i])) {
+                        hasValidExtension = true;
+                        break;
+                    }
+                }
+                
+                if (!hasValidExtension) {
+                    var errorMessage = 'File type not supported. Please upload a file with one of the following extensions: ' + allowedExtensions.join(', ');
+                    
+                    // Show error alert
+                    var $errorAlert = $('.attachment.sp-alert-error');
+                    if ($errorAlert.length) {
+                        $errorAlert.find('.sp-container').text(errorMessage);
+                        $errorAlert.removeClass('sp-hidden');
+                    } else {
+                        var $newAlert = $('<div class="attachment sp-alert sp-alert-error sp-alert-sticky"><div class="sp-container sp-mx-auto">' + errorMessage + '</div></div>');
+                        $('form').first().before($newAlert);
+                        $newAlert.removeClass('sp-hidden');
+                    }
+                    
+                    // Scroll to error
+                    setTimeout(function() {
+                        $('html, body').animate({
+                            scrollTop: $('.attachment.sp-alert-error').offset().top - 100
+                        }, 300);
+                    }, 100);
+                    
+                    // Prevent upload
+                    e.preventDefault();
+                    return false;
+                }
             }
         });
     </script>

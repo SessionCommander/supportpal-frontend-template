@@ -1761,7 +1761,7 @@ input[type="submit"]:hover {
   font-size: 0.75rem !important;
 }
 
-/* Simplify attachment preview structure in reply history */
+/* Simplify attachment preview structure in reply history - match new reply form */
 .sp-attachments li > a {
   display: flex !important;
   align-items: center !important;
@@ -1771,20 +1771,38 @@ input[type="submit"]:hover {
   color: inherit !important;
 }
 
-.sp-attachments .sp-preview {
-  flex-shrink: 0 !important;
-  width: 3rem !important;
-  height: 3rem !important;
-  margin: 0 !important;
+/* Hide hover icons in reply history attachments */
+.sp-attachments .sp-preview-hover {
+  display: none !important;
 }
 
-.sp-attachments .sp-preview > div {
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 0.375rem !important;
+.sp-attachments .sp-preview {
+  display: none !important;
+}
+
+/* Match attachment structure to new reply form */
+.sp-attachments li {
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
+  gap: 0.75rem !important;
+}
+
+.sp-attachments .sp-file-information {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.25rem !important;
+}
+
+.sp-attachments .sp-filename {
+  color: #d1d5db !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.sp-attachments .sp-filesize {
+  color: #9ca3af !important;
+  font-size: 0.75rem !important;
 }
 
 .sp-progress-bar {
@@ -1962,7 +1980,7 @@ input[type="submit"]:hover {
   visibility: visible !important;
 }
 
-/* Validation errors should always be visible */
+/* Validation errors should always be visible - less garish styling */
 .sp-validation-error,
 .sp-field-error,
 .sp-validation-container .error,
@@ -1972,7 +1990,25 @@ label.error,
 [class*="error"]:not([class*="hidden"]):not(.sp-hidden) {
   display: block !important;
   visibility: visible !important;
+  color: #d1d5db !important;
+  background: rgba(239, 68, 68, 0.05) !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+  border-radius: 0.375rem !important;
+  padding: 0.5rem 0.75rem !important;
+  margin-top: 0.5rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+
+/* Make validation errors in editor container less intrusive */
+.sp-validation-container .error,
+.sp-validation-container label.error {
+  background: rgba(239, 68, 68, 0.05) !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
   color: #fca5a5 !important;
+  margin-top: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: 0.375rem !important;
 }
 
 /* Ensure hidden elements stay hidden - but NEVER hide errors or alerts */
