@@ -1170,6 +1170,7 @@ a[href]:hover {
 .sp-message-text {
   color: #d1d5db;
   line-height: 1.6;
+  padding-left: 0.5rem !important; /* Reduced left padding */
 }
 
 .sp-message-text p {
@@ -1178,6 +1179,13 @@ a[href]:hover {
 
 .sp-message-text p:last-child {
   margin-bottom: 0;
+}
+
+/* Override name colors to always be white */
+.sp-message-header .sp-name,
+.sp-message-header .sp-name.sp-text-red-600,
+.sp-message-header .sp-name.sp-text-green-600 {
+  color: white !important;
 }
 
 /* Attachments Styling */
@@ -1583,6 +1591,22 @@ input[type="submit"]:hover {
   border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
 }
 
+/* TinyMCE Statusbar - minimal styling, colors only */
+.tox .tox-statusbar {
+  background: rgba(17, 24, 39, 0.5) !important;
+  border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
+  color: #d1d5db !important;
+}
+
+.tox .tox-statusbar__path-item {
+  color: #d1d5db !important;
+}
+
+.tox .tox-statusbar__path-item:hover {
+  background: rgba(168, 85, 247, 0.1) !important;
+  color: #a855f7 !important;
+}
+
 /* Attachment Section Styling */
 .sp-attachment-section {
   background: rgba(31, 41, 55, 0.5) !important;
@@ -1611,6 +1635,13 @@ input[type="submit"]:hover {
 
 .sp-delete-attachment:hover {
   background: #dc2626 !important;
+}
+
+/* Make sure delete button is visible in attachment items */
+.sp-attachment-item .sp-delete-attachment {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .sp-progress-bar {
@@ -1709,8 +1740,31 @@ input[type="submit"]:hover {
 
 /* Specific styling for CC field */
 .ticket-cc-select + .select2-container,
+.ticket-cc-select-sidebar + .select2-container,
 .sp-recipients-input + .select2-container {
   width: 100% !important;
+}
+
+/* Sidebar CC field Select2 input box styling */
+.ticket-cc-select-sidebar + .select2-container .select2-selection--multiple {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+}
+
+.ticket-cc-select-sidebar + .select2-container.select2-container--focus .select2-selection--multiple {
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.ticket-cc-select-sidebar + .select2-container .select2-search--inline .select2-search__field {
+  background: transparent !important;
+  color: #f3f4f6 !important;
+  border: none !important;
+  padding: 0.5rem 0.75rem !important;
+}
+
+/* Sidebar box border color fix */
+.sp-sidebar-box {
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
 }
 
 /* CC recipients display styling */
@@ -1749,10 +1803,51 @@ input[type="submit"]:hover {
 }
 
 
-/* Ensure hidden elements stay hidden */
-.sp-hidden,
-[class*="hidden"]:not([class*="hover"]):not([class*="focus"]),
+/* CRITICAL: Ensure error messages are ALWAYS visible (unless explicitly hidden) */
+.sp-alert-error:not(.sp-hidden),
+.sp-alert-success:not(.sp-hidden),
+.sp-alert-warning:not(.sp-hidden),
+.sp-alert-info:not(.sp-hidden),
+.sp-alert:not(.sp-hidden) {
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* JavaScript message box - show when sp-hidden is removed or has content */
+#js-message-box:not(.sp-hidden),
+#js-message-box.sp-alert:not(.sp-hidden),
+[id*="js-message-box"]:not(.sp-hidden) {
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Validation errors should always be visible */
+.sp-validation-error,
+.sp-field-error,
+.sp-validation-container .error,
+label.error,
+.field-error,
+.error-message,
+[class*="error"]:not([class*="hidden"]):not(.sp-hidden) {
+  display: block !important;
+  visibility: visible !important;
+  color: #fca5a5 !important;
+}
+
+/* Ensure hidden elements stay hidden - but NEVER hide errors or alerts */
+.sp-hidden:not(.sp-alert-error):not(.sp-alert-success):not(.sp-alert-warning):not(.sp-alert-info):not(.sp-alert) {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* js-message-box can be hidden only when it has sp-hidden class */
 [id*="js-message-box"].sp-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Elements with "hidden" in class name (but not error-related) */
+[class*="hidden"]:not([class*="hover"]):not([class*="focus"]):not(.sp-alert):not(.sp-alert-error):not(.sp-alert-success):not(.sp-alert-warning):not(.sp-alert-info):not([class*="error"]):not([class*="validation"]):not([id*="js-message-box"]) {
   display: none !important;
   visibility: hidden !important;
 }
