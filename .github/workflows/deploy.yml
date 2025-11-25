@@ -22,19 +22,22 @@ jobs:
       
       - name: Ensure deployment directory exists
         run: |
-          # Check if the deployment directory exists, create it if it doesn't
+          # Check if the template directory exists, create it if it doesn't
+          # DEPLOY_PATH is the SupportPal root, template goes in resources/templates/frontend/sessioncommander
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT || 22 }} \
             ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
-            "if [ ! -d '${{ secrets.DEPLOY_PATH }}' ]; then \
-              mkdir -p '${{ secrets.DEPLOY_PATH }}' && \
-              echo '✓ Created deployment directory: ${{ secrets.DEPLOY_PATH }}'; \
+            "TEMPLATE_PATH='${{ secrets.DEPLOY_PATH }}/resources/templates/frontend/sessioncommander'; \
+            if [ ! -d \"\$TEMPLATE_PATH\" ]; then \
+              mkdir -p \"\$TEMPLATE_PATH\" && \
+              echo \"✓ Created template directory: \$TEMPLATE_PATH\"; \
             else \
-              echo '✓ Deployment directory already exists: ${{ secrets.DEPLOY_PATH }}'; \
+              echo \"✓ Template directory already exists: \$TEMPLATE_PATH\"; \
             fi"
       
       - name: Deploy to server
         run: |
           # Deploy all template files to the SupportPal template directory
+          # DEPLOY_PATH is the SupportPal root, template goes in resources/templates/frontend/sessioncommander
           # The -a flag ensures all files are included, --delete removes files not in source
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT || 22 }}" \
@@ -43,9 +46,24 @@ jobs:
             --exclude='README.md' \
             --exclude='.gitignore' \
             ./ \
-            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}/resources/templates/frontend/sessioncommander/
           
-          echo "✓ Deployment complete. Template files have been deployed to ${{ secrets.DEPLOY_PATH }}"
+          echo "✓ Deployment complete. Template files have been deployed to ${{ secrets.DEPLOY_PATH }}/resources/templates/frontend/sessioncommander"
+      
+      - name: Clear template cache
+        run: |
+          # DEPLOY_PATH is already the SupportPal root directory
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.DEPLOY_PORT || 22 }} \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+            "if [ -d '${{ secrets.DEPLOY_PATH }}/storage/framework/cache' ]; then \
+              rm -rf '${{ secrets.DEPLOY_PATH }}/storage/framework/cache'/* && \
+              echo '✓ Cleared template cache: ${{ secrets.DEPLOY_PATH }}/storage/framework/cache'; \
+            elif [ -d '${{ secrets.DEPLOY_PATH }}/storage/cache' ]; then \
+              rm -rf '${{ secrets.DEPLOY_PATH }}/storage/cache'/* && \
+              echo '✓ Cleared template cache: ${{ secrets.DEPLOY_PATH }}/storage/cache'; \
+            else \
+              echo '⚠ Cache directory not found, skipping cache clear'; \
+            fi"
       
       - name: Cleanup
         if: always()

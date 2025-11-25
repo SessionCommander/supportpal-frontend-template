@@ -43,7 +43,7 @@ This template includes a GitHub Actions workflow for automated deployment to you
 ### Prerequisites
 
 1. A server with SSH access
-2. A directory on the server where you want to deploy the template files (typically `/path/to/supportpal/resources/templates/frontend/sessioncommander`)
+2. The SupportPal installation root directory path (e.g., `/var/www/supportpal`)
 3. SSH key pair for authentication
 
 ### Setup Steps
@@ -82,13 +82,12 @@ This template includes a GitHub Actions workflow for automated deployment to you
      - Example: Get it with `cat ~/.ssh/github_deploy_key`
      
      **DEPLOY_PATH** (required)
-     - The directory on your server where template files should be deployed
-     - This should be the full path to your custom template directory
-     - **Must be:** `/path/to/supportpal/resources/templates/frontend/sessioncommander`
+     - The SupportPal installation root directory on your server
+     - This should be the full path to your SupportPal installation root
+     - The template will be deployed to: `$DEPLOY_PATH/resources/templates/frontend/sessioncommander`
      - Note: The path uses `templates` (plural) not `template`
-     - The directory name must not contain periods
-     - Example: `/var/www/supportpal/resources/templates/frontend/sessioncommander`
-     - The directory will be created if it doesn't exist
+     - The template directory will be created automatically if it doesn't exist
+     - Example: `/var/www/supportpal` or `/opt/supportpal`
      
      **DEPLOY_PORT** (optional)
      - SSH port (defaults to 22 if not set)
@@ -102,14 +101,16 @@ This template includes a GitHub Actions workflow for automated deployment to you
 
 1. On push to `master`, GitHub Actions:
    - Checks out your code
+   - Ensures the template directory exists at `$DEPLOY_PATH/resources/templates/frontend/sessioncommander`
    - Uses rsync to efficiently sync template files to your server via SSH
-   - Deploys to the specified directory (removes old files, adds new ones)
+   - Deploys to the template directory (removes old files, adds new ones)
+   - Clears the SupportPal template cache to ensure new templates are loaded
 
 ### Server Requirements
 
 - SSH access enabled
-- Write permissions to the deployment directory
-- The deployment directory must be: `resources/templates/frontend/your-template-name/` within your SupportPal installation
+- Write permissions to the SupportPal installation directory
+- The template will be deployed to: `resources/templates/frontend/sessioncommander/` within your SupportPal installation
 - The template directory name must not contain periods (as per SupportPal requirements)
 
 ### Activating the Template in SupportPal
@@ -138,8 +139,9 @@ After deployment:
 
 **Files Not Updating:**
 - Check that the deployment is successful in GitHub Actions logs
-- Verify the deployment path is correct
-- Ensure the template directory name matches what's configured in SupportPal
+- Verify the DEPLOY_PATH is set to the SupportPal root directory (not the template directory)
+- Ensure the template directory name matches what's configured in SupportPal (`sessioncommander`)
+- Check that the cache was cleared successfully
 
 **Template Not Appearing:**
 - Verify the template directory name matches exactly (case-sensitive)
