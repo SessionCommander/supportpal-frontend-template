@@ -28,36 +28,30 @@
 
 	{% if not message.attachments.isEmpty() %}
 		<ul class="sp-attachments">
-			<hr class="sp-mx-0 sp-my-3" style="border-color: rgba(168, 85, 247, 0.2);" />
+			<hr class="sp-mx-0 sp-my-3 sp-border-secondary" />
 
 			<div class="sp-flex">
 				<div class="sp-grow">
 					<h4 class="sp-m-0">{{ Lang.choice('general.attachment', 2) }}</h4>
 				</div>
 				<div class="sp-flex-initial">
-					<button class="sp-download-all as-link" style="display: none; background: none; border: none; color: #9ca3af; cursor: pointer; padding: 0.5rem; border-radius: 0.25rem; transition: color 0.2s;" title="{{ Lang.get('general.download_all') }}">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-							<polyline points="7 10 12 15 17 10"/>
-							<line x1="12" x2="12" y1="15" y2="3"/>
-						</svg>
+					<button class="sp-download-all as-link" style="display: none;" title="{{ Lang.get('general.download_all') }}">
+						<i class="fas fa-download sp-text-secondary hover:sp-text-primary"></i>
 					</button>
 				</div>
 			</div>
 
 			{% for attachment in message.attachments %}
-				<li class="sp-relative" data-download-url="{{ attachment.direct_frontend_url }}" data-filename="{{ attachment.original_name }}" style="position: relative;">
+				<li class="sp-relative" data-download-url="{{ attachment.direct_frontend_url }}" data-filename="{{ attachment.original_name }}">
                     {% if message.by != 0 %}
-						<div class="sp-delete-attachment"
+						<div class="sp-delete-attachment sp-absolute sp-end-0 sp-px-2 sp-py-1/2 sp-bg-red-600 sp-rounded-se
+                                sp-text-white sp-cursor-pointer sp-z-10 hover:sp-bg-red-800"
 							 title="{{ Lang.get('general.delete') }}"
 							 data-url="{{ route('ticket.frontend.attachment.destroy') }}"
                              data-token="{{ Request.input('token', '') }}"
                              data-attachment-id="{{ attachment.id }}"
                              data-hash="{{ attachment.upload_hash }}">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ef4444;">
-								<path d="M18 6 6 18"/>
-								<path d="m6 6 12 12"/>
-							</svg>
+							<i class="fas fa-times"></i>
 						</div>
 					{% endif %}
 
