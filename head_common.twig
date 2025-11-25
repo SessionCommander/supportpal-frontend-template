@@ -1150,7 +1150,15 @@ a[href]:hover {
 .sp-message.sp-message-new,
 .sp-message.unread,
 .sp-message[style*="background"][style*="blue"],
-.sp-message[style*="background-color"][style*="blue"] {
+.sp-message[style*="background-color"][style*="blue"],
+.sp-message[style*="background"][style*="#"],
+.sp-message[style*="background-color"][style*="#"] {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+}
+
+/* Ensure newly added messages appear with normal styling */
+.sp-messages-container > .sp-message:first-child {
   background: rgba(31, 41, 55, 0.5) !important;
   border: 1px solid rgba(168, 85, 247, 0.2) !important;
 }
@@ -1630,13 +1638,6 @@ input[type="submit"]:hover {
 
 
 /* Attachment Section Styling */
-.sp-attachment-section {
-  background: rgba(31, 41, 55, 0.5) !important;
-  border-radius: 0.5rem !important;
-  padding: 0.75rem !important;
-  margin-top: 0.5rem !important;
-  padding-bottom: 0.75rem !important;
-}
 
 
 .sp-file-input:hover {

@@ -42,6 +42,11 @@
                 </svg>
                 {{ Lang.get('general.print') }}
             </a>
+            {% if ticket.status.id != Config.get('settings.default_resolved_status') %}
+                <button class="sp-mark-resolved" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; text-decoration: none; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;" data-close="{{ Lang.get('ticket.mark_resolved_and_post_reply') }}">
+                    Mark as Resolved
+                </button>
+            {% endif %}
         </div>
 
         <div class="sp-sidebar-box">
