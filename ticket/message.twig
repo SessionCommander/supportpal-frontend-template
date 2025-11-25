@@ -27,20 +27,20 @@
 	</div>
 
 	{% if not message.attachments.isEmpty() %}
-		<ul class="sp-attachments">
-			<hr class="sp-mx-0 sp-my-3 sp-border-secondary" />
+		<hr class="sp-mx-0 sp-my-3 sp-border-secondary" />
 
-			<div class="sp-flex">
-				<div class="sp-grow">
-					<h4 class="sp-m-0">{{ Lang.choice('general.attachment', 2) }}</h4>
-				</div>
-				<div class="sp-flex-initial">
-					<button class="sp-download-all as-link" style="display: none;" title="{{ Lang.get('general.download_all') }}">
-						<i class="fas fa-download sp-text-secondary hover:sp-text-primary"></i>
-					</button>
-				</div>
+		<div class="sp-flex">
+			<div class="sp-grow">
+				<h4 class="sp-m-0">{{ Lang.choice('general.attachment', 2) }}</h4>
 			</div>
+			<div class="sp-flex-initial">
+				<button class="sp-download-all as-link" style="display: none;" title="{{ Lang.get('general.download_all') }}">
+					<i class="fas fa-download sp-text-secondary hover:sp-text-primary"></i>
+				</button>
+			</div>
+		</div>
 
+		<ul class="sp-attachments">
 			{% for attachment in message.attachments %}
 				<li style="margin-bottom: 0.5rem;">
 					{% if attachment.upload.isPreviewable() %}
