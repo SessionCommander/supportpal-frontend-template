@@ -8,136 +8,142 @@
         {{ form_hidden('token', Request.input('token')) }}
     {% endif %}
 
-    {# Hidden CC field for form submission - synced from sidebar via JS #}
-    <select name="cc[]" multiple="multiple" class="ticket-cc-select-hidden" style="display: none;">
-        {% for email in organisationEmails %}
-            <option selected="selected" data-data='{{ {'value': email, 'unremovable': true}|json_encode(constant('JSON_FORCE_OBJECT')) }}'
-                    value='{{ email }}'>
-                {{ email }}
-            </option>
-        {% endfor %}
-        {% for email in ticket.cc %}
-            <option selected="selected" value='{{ email }}'>{{ email }}</option>
-        {% endfor %}
-    </select>
-
     <div class="reply-form sp-editor-container sp-form-row sp-form-full">
         <div class="sp-input-container">
-            <h2 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">{{ Lang.choice('ticket.post_reply', 1) }}</h2>
-            <div class="tox-rounded-none sp-validation-container" style="min-height: 500px; margin-bottom: 0;">
+            <div class="sp-recipients sp-truncate sp-cursor-pointer">
+                <div class="sp-table-row">
+                    <div class="sp-table-cell">{{ Lang.get('ticket.cc') }}</div>
+                    <div class="sp-table-cell">
+                        <div class="sp-recipients-text">
+                            {% if organisationEmails is empty and ticket.cc is empty %}
+                                <div class="sp-description">{{ Lang.get('ticket.cc_desc') }}</div>
+                            {% else %}
+                                {{ organisationEmails.concat(ticket.cc).join(', ') }}
+                            {% endif %}
+                        </div>
+
+                        <select name="cc[]" multiple="multiple" class="sp-recipients-input sp-hidden">
+                            {% for email in organisationEmails %}
+                                <option selected="selected" data-data='{{ {'value': email, 'unremovable': true}|json_encode(constant('JSON_FORCE_OBJECT')) }}'
+                                        value='{{ email }}'>
+                                    {{ email }}
+                                </option>
+                            {% endfor %}
+                            {% for email in ticket.cc %}
+                                <option selected="selected" value='{{ email }}'>{{ email }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tox-rounded-none sp-validation-container">
                 {% set loadDraftMessageRoute = draft is not empty ? route('ticket.frontend.message.showJson', {id: draft.id}) : null %}
                 {{ form_editor('text', null, {'data-route': loadDraftMessageRoute, 'id': 'newMessage'}) }}
             </div>
 
-            <div class="sp-attachment-section">
-                <label class="sp-file-input">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-                    </svg>
-                    {{ Lang.get('general.add_attachment') }}
+            <div class="sp-flex sp-items-stretch sp-px-1 sp-bg-secondary sp-border sp-border-t-0 sp-border-tertiary sp-rounded-b">
+                <label class="sp-file-input sp-inline-block sp-px-2 sp-py-3/2 sp-text-sm sp-cursor-pointer hover:sp-text-secondary
+                             {% if not auth_check() %}sp-flex-grow{% else %}sp-flex-none{% endif %}">
+                    <i class="fas fa-paperclip"></i>
+                    <span class="sp-hidden md:sp-inline">&nbsp;{{ Lang.get('general.add_attachment') }}</span>
                     <input class="sp-file-upload" type="file" name="files[]"
-                           data-url="{{ route('ticket.frontend.attachment.upload') }}" multiple="multiple" style="display: none;">
+                           data-url="{{ route('ticket.frontend.attachment.upload') }}" multiple="multiple">
                 </label>
 
                 {% if auth_check() %}
-                    <div style="display: inline-flex; align-items: center; gap: 0.75rem; margin-left: 1rem;">
-                        <span class="save-draft" style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.5rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;"
-                              title="{{ Lang.get('ticket.save_draft') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-                                <polyline points="17 21 17 13 7 13 7 21"/>
-                                <polyline points="7 3 7 8 15 8"/>
-                            </svg>
-                            <span class="sp-hidden md:sp-inline">{{ Lang.get('ticket.save_draft') }}</span>
-                        </span>
+                    <div class="tox-button-separator"></div>
 
-                        <span class="discard-draft {% if draft|default is empty %}sp-hidden{% endif %}" style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.5rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;"
+                    <span class="save-draft sp-inline-block sp-px-3/2 sp-py-1 sp-cursor-pointer hover:sp-text-secondary"
+                          title="{{ Lang.get('ticket.save_draft') }}">
+                        <i class="fas fa-save"></i>
+                    </span>
+
+                    <span class="discard-draft sp-inline-block sp-px-3/2 sp-py-1 sp-cursor-pointer hover:sp-text-secondary
+                                 {% if draft|default is empty %}sp-hidden{% endif %}"
                                       title="{{ Lang.get('ticket.discard_draft') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 6h18"/>
-                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-                            </svg>
-                            <span class="sp-hidden md:sp-inline">{{ Lang.get('ticket.discard_draft') }}</span>
-                        </span>
+                        <i class="fas fa-eraser"></i>
+                    </span>
 
-                        <span class="draft-success {% if draft|default is empty %}sp-hidden{% endif %}" style="color: #9ca3af; font-size: 0.75rem;">
-                            {% if draft|default is not empty %}
-                                {{ Lang.get('ticket.draft_saved', {'time': formatDate(draft.updated_at)}) }}
-                            {% endif %}
+                    <span class="draft-success sp-description sp-inline-block sp-px-2 sp-py-3/2 sp-text-xs sp-truncate
+                                 sm:sp-text-sm {% if draft|default is empty %}sp-hidden{% endif %}">
+                        {% if draft|default is not empty %}
+                            {{ Lang.get('ticket.draft_saved', {'time': formatDate(draft.updated_at)}) }}
+                        {% endif %}
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="sp-attachment-details">
+                <input type="hidden" name="attachment[]" disabled="disabled" />
+                {% for attachment in draft.attachments %}
+                    <input type="hidden" name="attachment[{{ attachment.upload_hash }}]"
+                           id="attachment[{{ attachment.upload_hash }}]"
+                           value="{{ attachment.original_name }}" />
+                {% endfor %}
+            </div>
+
+            <ul class="sp-attached-files">
+                <li class="sp-flex sp-hidden">
+                    <div class="sp-me-2 sp-truncate">
+                        <i class="fas fa-file"></i>&nbsp;
+
+                        <span class="sp-file-information">
+                            <span class="sp-filename"></span>
+                            <span class="sp-description sp-filesize"></span>
                         </span>
                     </div>
-                {% endif %}
 
-                <div class="sp-attachment-details">
-                    <input type="hidden" name="attachment[]" disabled="disabled" />
-                    {% for attachment in draft.attachments %}
-                        <input type="hidden" name="attachment[{{ attachment.upload_hash }}]"
-                               id="attachment[{{ attachment.upload_hash }}]"
-                               value="{{ attachment.original_name }}" />
-                    {% endfor %}
-                </div>
+                    <div class="sp-delete-attachment sp-hidden sp-bg-red-600" title="{{ Lang.get('general.remove') }}">
+                        <i class="fas fa-times sp-text-white"></i>
+                    </div>
 
-                <ul class="sp-attached-files" style="list-style: none; padding: 0; margin: 0.75rem 0 0.75rem 0;">
-                    <li class="sp-attachment-item sp-hidden" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; margin-bottom: 0.5rem; position: relative;">
-                        <div style="flex: 1; min-width: 0;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9ca3af; display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                            </svg>
-                            <span class="sp-file-information" style="display: inline-block; vertical-align: middle;">
-                                <span class="sp-filename" style="color: #d1d5db; font-size: 0.875rem;"></span>
-                                <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;"></span>
+                    <div class="sp-progress-bar">
+                        <div class="sp-bar"></div>
+                    </div>
+                </li>
+
+                {% for attachment in draft.attachments %}
+                    <li class="sp-flex">
+                        <div class="sp-me-2 sp-truncate">
+                            <i class="fas fa-file"></i>&nbsp;
+
+                            <span class="sp-file-information">
+                            <span class="sp-filename">{{ attachment.original_name }}</span>
+                                <span class="sp-description sp-filesize">({{ attachment.upload.size }})</span>
                             </span>
                         </div>
-                        <div class="sp-delete-attachment" title="{{ Lang.get('general.remove') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 6 6 18"/>
-                                <path d="m6 6 12 12"/>
-                            </svg>
-                        </div>
-                        <div class="sp-progress-bar" style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: rgba(168, 85, 247, 0.2); border-radius: 0 0 0.375rem 0.375rem; overflow: hidden;">
-                            <div class="sp-bar" style="height: 100%; background: #a855f7; width: 0%; transition: width 0.3s;"></div>
+
+                        <div class="sp-delete-attachment sp-bg-red-600"
+                             data-url="{{ route('ticket.frontend.attachment.destroy') }}"
+                             data-attachment-id="{{ attachment.id }}"
+                             data-size="{{ attachment.upload.getRawOriginal('size') }}"
+                             data-hash="{{ attachment.upload_hash }}"
+                             data-silent="false"
+                             title="{{ Lang.get('general.remove') }}">
+                            <i class="fas fa-times sp-text-white"></i>
                         </div>
                     </li>
-
-                    {% for attachment in draft.attachments %}
-                        <li class="sp-attachment-item" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; margin-bottom: 0.5rem;">
-                            <div style="flex: 1; min-width: 0;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9ca3af; display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                                    <polyline points="14 2 14 8 20 8"/>
-                                </svg>
-                                <span class="sp-file-information" style="display: inline-block; vertical-align: middle;">
-                                    <span class="sp-filename" style="color: #d1d5db; font-size: 0.875rem;">{{ attachment.original_name }}</span>
-                                    <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;">({{ attachment.upload.size }})</span>
-                                </span>
-                            </div>
-                            <div class="sp-delete-attachment" data-url="{{ route('ticket.frontend.attachment.destroy') }}"
-                                 data-attachment-id="{{ attachment.id }}"
-                                 data-size="{{ attachment.upload.getRawOriginal('size') }}"
-                                 data-hash="{{ attachment.upload_hash }}"
-                                 data-silent="false"
-                                 title="{{ Lang.get('general.remove') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M18 6 6 18"/>
-                                    <path d="m6 6 12 12"/>
-                                </svg>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="sp-attachment-dragover sp-hidden" style="margin-top: 0.75rem;">
-                {{ Lang.get('general.drag_and_drop') }}
-            </div>
-
-            <input type="hidden" name="close" value="0" />
-
-            <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
-                {{ form_submit(Lang.choice('ticket.post_reply', 1), {'style': 'padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 500; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;'}) }}
-            </div>
+                {% endfor %}
+            </ul>
         </div>
+    </div>
+
+    <div class="sp-mt-4">
+        <div class="sp-attachment-dragover sp-hidden">
+            {{ Lang.get('general.drag_and_drop') }}
+        </div>
+    </div>
+
+    <input type="hidden" name="close" value="0" />
+
+    <div class="sp-flex sp-flex-wrap sp-mt-6 sm:sp-flex-nowrap">
+        {{ form_submit(Lang.choice('ticket.post_reply', 1), {'class': 'sp-w-full sm:sp-w-auto', 'disabled': 'disabled'}) }}
+
+        {% set class = 'sp-mark-resolved sp-w-full sm:sp-w-auto sp-mt-4 sm:sp-mt-0 sm:sp-ml-4' %}
+        {% if ticket.status.id == Config.get('settings.default_resolved_status') %}
+            {% set class = class ~ ' ' ~ 'sp-hidden' %}
+        {% endif %}
+        {{ form_button(Lang.get('ticket.mark_resolved'), {'class': class, 'data-close': Lang.get('ticket.mark_resolved_and_post_reply')}) }}
     </div>
 </form>
