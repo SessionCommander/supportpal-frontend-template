@@ -1770,24 +1770,33 @@ input[type="submit"]:hover {
   border: none !important;
   padding: 0 !important;
   margin-bottom: 0.5rem !important;
+  overflow: visible !important;
 }
 
 .sp-attachments li:last-child {
   margin-bottom: 0 !important;
 }
 
-/* Apply background styling directly to the link element */
+/* Apply background styling directly to the link element - allow horizontal expansion */
 .sp-attachment-dragover,
 ul.sp-attachments > li a {
   border-radius: 0.375rem !important;
   background-color: rgba(31, 41, 55, 0.5) !important;
   border: 1px solid rgba(168, 85, 247, 0.2) !important;
   padding: 0.75rem !important;
-  flex: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
   min-width: 0 !important;
+  transition: background-color 0.2s, border-color 0.2s !important;
 }
 
-/* Allow horizontal expansion - no word wrapping */
+/* Hover effect on attachment link */
+ul.sp-attachments > li a:hover {
+  background-color: rgba(31, 41, 55, 0.7) !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+/* Allow horizontal expansion - no word wrapping, no flex constraint */
 .sp-attachments .sp-file-information {
   display: inline-flex !important;
   align-items: center !important;

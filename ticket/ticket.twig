@@ -367,11 +367,49 @@
             }
         });
         
+        // Function to clear errors
+        function clearErrors() {
+            $('#js-message-box').addClass('sp-hidden').removeClass('sp-alert-error').html('');
+            $('#js-message-box')[0].style.display = 'none';
+            $('.attachment.sp-alert-error').addClass('sp-hidden');
+            $('.sp-validation-container .error, .sp-validation-container label.error').addClass('sp-hidden');
+            $('.sp-validation-container').removeClass('error-active');
+        }
+        
+        // Clear errors when valid attachment is uploaded
+        $(document).on('fileuploaddone', '.sp-file-upload', function(e, data) {
+            if (data.result && !data.result.error) {
+                clearErrors();
+            }
+        });
+        
+        // Clear errors when user types in message box
+        $(document).on('input change keyup', '#newMessage, .tox-edit-area', function() {
+            var editorContent = '';
+            if (typeof tinymce !== 'undefined' && tinymce.get('newMessage')) {
+                editorContent = tinymce.get('newMessage').getContent().trim();
+            } else if ($('#newMessage').length) {
+                editorContent = $('#newMessage').val().trim();
+            }
+            
+            if (editorContent) {
+                clearErrors();
+            }
+        });
+        
+        // Clear errors when clicking Post Reply or Mark as Resolved
+        $(document).on('click', 'button[type="submit"], .sp-mark-resolved', function() {
+            clearErrors();
+        });
+        
         // Handle form validation errors - show at top
         $(document).on('submit', '.sp-message-form', function(e) {
-            // Clear any previous errors
+            // Clear errors first, then check for new validation errors
+            clearErrors();
+            
+            // Check for validation errors after a short delay
             setTimeout(function() {
-                var $errors = $('.sp-validation-container .error:visible');
+                var $errors = $('.sp-validation-container .error:not(.sp-hidden), .sp-validation-container label.error:not(.sp-hidden)');
                 if ($errors.length) {
                     var errorMessages = [];
                     $errors.each(function() {
@@ -382,7 +420,6 @@
                     });
                     if (errorMessages.length) {
                         showErrorAtTop(errorMessages.join('<br>'));
-                        $('.sp-validation-container .error').addClass('sp-hidden');
                     }
                 }
             }, 100);

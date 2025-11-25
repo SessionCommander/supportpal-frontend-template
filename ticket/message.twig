@@ -48,16 +48,16 @@
 							<a class="sp-attachment-preview"
 							   data-video='{"source": [{"src":"{{ attachment.previewFrontendUrl(true) }}", "type":"{{ attachment.upload.mime }}"}], "attributes": {"preload": false, "controls": true}}'
 					   		   data-download-url="{{ attachment.direct_frontend_url }}"
-					   		   style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
+					   		   style="text-decoration: none; color: inherit; display: inline-flex; align-items: center;">
 						{% else %}
 							<a class="{% if attachment.upload.isPreviewableImage() %}sp-attachment-preview{% endif %}"
 					   		   {% if not attachment.upload.isPreviewableImage() %}target="_blank"{% endif %}
 					           href="{{ attachment.previewFrontendUrl(true) }}"
 					           data-download-url="{{ attachment.direct_frontend_url }}"
-					           style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
+					           style="text-decoration: none; color: inherit; display: inline-flex; align-items: center;">
 						{% endif %}
 					{% else %}
-						<a href="{{ attachment.direct_frontend_url }}" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
+						<a href="{{ attachment.direct_frontend_url }}" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center;">
 					{% endif %}
 						<span class="sp-file-information" style="display: inline-flex; align-items: center; gap: 0.25rem; white-space: nowrap;">
 							<span class="sp-filename">{{ attachment.original_name }}</span>
