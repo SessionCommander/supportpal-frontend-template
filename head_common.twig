@@ -1797,6 +1797,18 @@ ul.sp-attachments > li a:hover {
 }
 
 /* Allow horizontal expansion - no word wrapping, no flex constraint */
+.sp-attachments li {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.sp-attachments li > a {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
 .sp-attachments .sp-file-information {
   display: inline-flex !important;
   align-items: center !important;
@@ -2112,7 +2124,7 @@ label.error:not(.sp-hidden),
 .tox .tox-collection__item {
   background: rgba(17, 24, 39, 0.95) !important;
   border-color: rgba(168, 85, 247, 0.2) !important;
-  color: #d1d5db !important;
+  color: #f3f4f6 !important;
 }
 
 .tox .tox-collection__item:hover,
@@ -2261,12 +2273,20 @@ label.error:not(.sp-hidden),
   border-radius: 0.5rem !important;
 }
 
-.tox .tox-collection__item {
-  color: #d1d5db !important;
+/* Ensure all text in TinyMCE dropdown items (including headings) is white/light */
+.tox .tox-collection__item,
+.tox .tox-collection__item *,
+.tox .tox-collection__item .tox-collection__item-label,
+.tox .tox-collection__item .tox-collection__item-checkmark,
+.tox .tox-menu .tox-collection__item,
+.tox .tox-menu .tox-collection__item * {
+  color: #f3f4f6 !important;
 }
 
 .tox .tox-collection__item:hover,
-.tox .tox-collection__item--active {
+.tox .tox-collection__item:hover *,
+.tox .tox-collection__item--active,
+.tox .tox-collection__item--active * {
   background: rgba(168, 85, 247, 0.2) !important;
   color: #a855f7 !important;
 }

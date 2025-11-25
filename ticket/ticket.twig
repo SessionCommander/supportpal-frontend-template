@@ -32,18 +32,6 @@
     <div class="sp-sidebar" style="flex: none; width: 100%; padding: 0; margin-bottom: 1.5rem;">
         {{ View.fireHook('frontend.sidebar_start') }}
 
-        <div class="sp-print-ticket" style="margin-bottom: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="{{ route('ticket.frontend.ticket.print', {'number': ticket.number, 'token': Request.get('token')}) }}"
-               class="sp-button" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; text-decoration: none; font-size: 0.875rem; transition: all 0.2s;" target="_blank">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 6 2 18 2 18 9"/>
-                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-                    <rect width="12" height="8" x="6" y="14"/>
-                </svg>
-                {{ Lang.get('general.print') }}
-            </a>
-        </div>
-
         <div class="sp-sidebar-box">
             <h2 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">{{ Lang.get('ticket.ticket_details') }}</h2>
 
@@ -302,6 +290,37 @@
             observer.observe(this, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
         });
         
+        // Track if there's an active attachment error that should persist
+        var hasActiveAttachmentError = false;
+        var attachmentErrorMessage = '';
+        var errorPersistenceInterval = null;
+        
+        // Function to start error persistence monitoring
+        function startErrorPersistence() {
+            if (errorPersistenceInterval) {
+                return; // Already running
+            }
+            errorPersistenceInterval = setInterval(function() {
+                if (hasActiveAttachmentError && attachmentErrorMessage) {
+                    var $errorBox = $('#js-message-box');
+                    if ($errorBox.length && ($errorBox.hasClass('sp-hidden') || !$errorBox.text().trim())) {
+                        showErrorAtTop(attachmentErrorMessage);
+                    }
+                } else {
+                    // Clear interval if no active error
+                    stopErrorPersistence();
+                }
+            }, 500);
+        }
+        
+        // Function to stop error persistence monitoring
+        function stopErrorPersistence() {
+            if (errorPersistenceInterval) {
+                clearInterval(errorPersistenceInterval);
+                errorPersistenceInterval = null;
+            }
+        }
+        
         // Handle file upload errors
         $(document).on('fileuploadfail', '.sp-file-upload', function(e, data) {
             var errorMessage = 'An error occurred while uploading the file.';
@@ -319,8 +338,15 @@
                 errorMessage = data.textStatus;
             }
             
+            // Set flag to track active attachment error
+            hasActiveAttachmentError = true;
+            attachmentErrorMessage = errorMessage;
+            
             // Show error at top of page
             showErrorAtTop(errorMessage);
+            
+            // Start monitoring to ensure error persists
+            startErrorPersistence();
             
             // Hide local error containers
             $('.attachment.sp-alert-error').addClass('sp-hidden');
@@ -349,8 +375,15 @@
                 if (!hasValidExtension) {
                     var errorMessage = 'File type not supported. Please upload a file with one of the following extensions: ' + allowedExtensions.join(', ');
                     
+                    // Set flag to track active attachment error
+                    hasActiveAttachmentError = true;
+                    attachmentErrorMessage = errorMessage;
+                    
                     // Show error at top of page
                     showErrorAtTop(errorMessage);
+                    
+                    // Start monitoring to ensure error persists
+                    startErrorPersistence();
                     
                     // Hide local error containers
                     $('.attachment.sp-alert-error').addClass('sp-hidden');
@@ -374,12 +407,23 @@
             $('.attachment.sp-alert-error').addClass('sp-hidden');
             $('.sp-validation-container .error, .sp-validation-container label.error').addClass('sp-hidden');
             $('.sp-validation-container').removeClass('error-active');
+            // Clear attachment error flag and stop monitoring
+            hasActiveAttachmentError = false;
+            attachmentErrorMessage = '';
+            stopErrorPersistence();
+        }
+        
+        // Function to clear only attachment errors (when conditions are met)
+        function clearAttachmentErrors() {
+            if (hasActiveAttachmentError) {
+                clearErrors();
+            }
         }
         
         // Clear errors when valid attachment is uploaded
         $(document).on('fileuploaddone', '.sp-file-upload', function(e, data) {
             if (data.result && !data.result.error) {
-                clearErrors();
+                clearAttachmentErrors();
             }
         });
         
@@ -393,13 +437,13 @@
             }
             
             if (editorContent) {
-                clearErrors();
+                clearAttachmentErrors();
             }
         });
         
         // Clear errors when clicking Post Reply or Mark as Resolved
         $(document).on('click', 'button[type="submit"], .sp-mark-resolved', function() {
-            clearErrors();
+            clearAttachmentErrors();
         });
         
         // Handle form validation errors - show at top
