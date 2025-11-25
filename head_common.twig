@@ -358,45 +358,11 @@ main {
   background-color: transparent;
 }
 
-/* Ensure no white overlays from SupportPal defaults */
-body > *:not(header):not(footer):not(main),
-body > div:not(.content-wrapper) {
+/* Override any SupportPal default white backgrounds - be more specific */
+body.sp-bg-secondary,
+body.sp-bg-primary {
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.15) 0%, rgba(111, 34, 50, 0.1) 50%, rgba(17, 24, 39, 1) 100%) !important;
   background-color: transparent !important;
-}
-
-/* Override any SupportPal default white backgrounds */
-.sp-bg-primary,
-.sp-bg-secondary,
-[class*="sp-bg-"] {
-  background-color: transparent !important;
-}
-
-/* Ensure no overlay is blocking interactions */
-body::before,
-body::after,
-html::before,
-html::after {
-  display: none !important;
-  pointer-events: none !important;
-  content: none !important;
-}
-
-/* Make sure main content is interactive */
-main,
-.content-wrapper,
-.sp-content-inner,
-.sp-wrapper {
-  pointer-events: auto !important;
-  position: relative !important;
-  z-index: 1 !important;
-  background-color: transparent !important;
-}
-
-/* Override any SupportPal wrapper that might have white background */
-.sp-wrapper,
-.sp-content-wrapper {
-  background-color: transparent !important;
-  background: transparent !important;
 }
 
 /* Old breadcrumb styling - now using page-header-breadcrumb */
@@ -1465,23 +1431,6 @@ input[type="submit"]:hover {
   color: #a855f7 !important;
 }
 
-/* Hide SupportPal branding */
-*[class*="supportpal"],
-*[id*="supportpal"],
-*[class*="SupportPal"],
-*[id*="SupportPal"],
-*[class*="support-pal"] {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-/* Hide footer text containing SupportPal */
-footer:has-text("SupportPal"),
-footer:has-text("Self-Hosted"),
-*:contains("Self-Hosted Help Desk Software by SupportPal") {
-  display: none !important;
-  visibility: hidden !important;
-}
 
 /* Ensure hidden elements stay hidden */
 .sp-hidden,
