@@ -27,52 +27,78 @@
 	</div>
 
 	{% if not message.attachments.isEmpty() %}
-		<hr class="sp-mx-0 sp-my-3 sp-border-secondary" />
-
-		<div class="sp-flex">
-			<div class="sp-grow">
-				<h4 class="sp-m-0">{{ Lang.choice('general.attachment', 2) }}</h4>
-			</div>
-			<div class="sp-flex-initial">
-				<button class="sp-download-all as-link" style="display: none;" title="{{ Lang.get('general.download_all') }}">
-					<i class="fas fa-download sp-text-secondary hover:sp-text-primary"></i>
-				</button>
-			</div>
-		</div>
-
 		<ul class="sp-attachments">
+			<hr class="sp-mx-0 sp-my-3 sp-border-secondary" />
+
+			<div class="sp-flex">
+				<div class="sp-grow">
+					<h4 class="sp-m-0">{{ Lang.choice('general.attachment', 2) }}</h4>
+				</div>
+				<div class="sp-flex-initial">
+					<button class="sp-download-all as-link" style="display: none;" title="{{ Lang.get('general.download_all') }}">
+						<i class="fas fa-download sp-text-secondary hover:sp-text-primary"></i>
+					</button>
+				</div>
+			</div>
+
 			{% for attachment in message.attachments %}
-				<li style="margin-bottom: 0.5rem;">
-					{% if attachment.upload.isPreviewable() %}
-						{% if attachment.upload.isPreviewableVideo() or attachment.upload.isPreviewableAudio() %}
-							<a class="sp-attachment-preview"
-							   data-video='{"source": [{"src":"{{ attachment.previewFrontendUrl(true) }}", "type":"{{ attachment.upload.mime }}"}], "attributes": {"preload": false, "controls": true}}'
-					   		   data-download-url="{{ attachment.direct_frontend_url }}"
-					   		   style="text-decoration: underline; color: #d1d5db;">
-						{% else %}
-							<a class="{% if attachment.upload.isPreviewableImage() %}sp-attachment-preview{% endif %}"
-					   		   {% if not attachment.upload.isPreviewableImage() %}target="_blank"{% endif %}
-					           href="{{ attachment.previewFrontendUrl(true) }}"
-					           data-download-url="{{ attachment.direct_frontend_url }}"
-					           style="text-decoration: underline; color: #d1d5db;">
-						{% endif %}
-					{% else %}
-						<a href="{{ attachment.direct_frontend_url }}" style="text-decoration: underline; color: #d1d5db;">
-					{% endif %}
-						<span class="sp-filename">{{ attachment.original_name }}</span>
-					</a>
-					<span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.875rem; margin-left: 0.5rem;">({{ attachment.upload.size }})</span>
-					{% if message.by != 0 %}
-						<div class="sp-delete-attachment"
+				<li class="sp-relative" data-download-url="{{ attachment.direct_frontend_url }}" data-filename="{{ attachment.original_name }}">
+                    {% if message.by != 0 %}
+						<div class="sp-delete-attachment sp-absolute sp-end-0 sp-px-2 sp-py-1/2 sp-bg-red-600 sp-rounded-se
+                                sp-text-white sp-cursor-pointer sp-z-10 hover:sp-bg-red-800"
+							 title="{{ Lang.get('general.delete') }}"
 							 data-url="{{ route('ticket.frontend.attachment.destroy') }}"
-							 data-attachment-id="{{ attachment.id }}"
-							 data-size="{{ attachment.upload.getRawOriginal('size') }}"
-							 data-hash="{{ attachment.upload_hash }}"
-							 data-silent="false"
-							 title="{{ Lang.get('general.remove') }}">
-							<i class="fas fa-times sp-text-white"></i>
+                             data-token="{{ Request.input('token', '') }}"
+                             data-attachment-id="{{ attachment.id }}"
+                             data-hash="{{ attachment.upload_hash }}">
+							<i class="fas fa-times"></i>
 						</div>
 					{% endif %}
+
+					{% if attachment.upload.isPreviewable() %}
+						{% if attachment.upload.isPreviewableVideo() or attachment.upload.isPreviewableAudio() %}
+							<a class="sp-attachment-preview group"
+							   data-video='{"source": [{"src":"{{ attachment.previewFrontendUrl(true) }}", "type":"{{ attachment.upload.mime }}"}], "attributes": {"preload": false, "controls": true}}'
+					   		   data-download-url="{{ attachment.direct_frontend_url }}">
+						{% else %}
+							<a class="{% if attachment.upload.isPreviewableImage() %}sp-attachment-preview{% endif %} group"
+						   	   {% if not attachment.upload.isPreviewableImage() %}target="_blank"{% endif %}
+						       href="{{ attachment.previewFrontendUrl(true) }}"
+						       data-download-url="{{ attachment.direct_frontend_url }}">
+						{% endif %}
+					{% else %}
+						<a class="sp-group" href="{{ attachment.direct_frontend_url }}">
+							{% endif %}
+							<div class="sp-preview sp-relative sp-h-20 sp--mx-4 sp--mt-2 sp-mb-2 sp-rounded-t sp-text-center">
+								<div class="sp-h-20 sp-bg-primary sp-border sp-border-b-0 sp-border-secondary sp-rounded-t
+								group-hover:sp-opacity-25">
+									{% if attachment.upload.isPreviewableImage() %}
+										<span data-preview-url="{{ attachment.previewFrontendUrl() }}"
+											  data-download-url="{{ attachment.direct_frontend_url }}"
+											  data-icon="{{ attachment.upload.icon }}">
+											<i class="fas fa-spinner fa-spin fa-fw sp-mt-8"></i>
+										</span>
+									{% else %}
+										<span class="fiv-viv fiv-icon-{{ attachment.upload.icon }} sp-text-5xl sp-mt-4 group-hover:sp-opacity-0"></span>
+									{% endif %}
+								</div>
+
+								<div class="sp-preview-hover sp-absolute sp-w-full sp-h-full sp-top-0
+											sp-pt-{% if attachment.upload.isPreviewableImage() %}4{% else %}3{% endif %}
+											sp-text-4xl sp-opacity-0 group-hover:sp-opacity-100">
+									{% if attachment.upload.isPreviewable() %}
+										<i class="fas {% if attachment.upload.isPreviewableAudio() %}fa-headphones{% else %}fa-eye{% endif %}"></i>
+									{% else %}
+										<i class="fas fa-download"></i>
+									{% endif %}
+								</div>
+							</div>
+
+							<div>
+								<div class="sp-attachment-name">{{ attachment.original_name }}</div>
+								<div class="sp-description">{{ attachment.upload.size }}</div>
+							</div>
+						</a>
 				</li>
 			{% endfor %}
 		</ul>
