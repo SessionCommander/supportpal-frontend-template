@@ -27,7 +27,18 @@
 
         <div class="dashboard-grid">
             {% if isModuleEnabled('Selfservice') %}
-                <a href="{{ route('selfservice.index') }}" class="dashboard-card" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem; text-decoration: none; transition: all 0.2s;">
+                {% set knowledge_base_type = null %}
+                {% if types is not empty and not types.isEmpty() %}
+                    {% for type in types %}
+                        {% if type.slug != 'announcements' %}
+                            {% set knowledge_base_type = type %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if knowledge_base_type is null %}
+                        {% set knowledge_base_type = types.first() %}
+                    {% endif %}
+                {% endif %}
+                <a href="{% if knowledge_base_type is not null %}{{ route('selfservice.index', [ knowledge_base_type.slug ]) }}{% else %}{{ route('selfservice.index', ['articles']) }}{% endif %}" class="dashboard-card" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem; text-decoration: none; transition: all 0.2s;">
                     <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
                             <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
