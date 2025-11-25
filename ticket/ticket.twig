@@ -65,7 +65,7 @@
         {% if ticket.locked == 0 and channelAddonInstance.canReplyToTicket(ticket, auth_user() ?: ticket.user) %}
             {% if organisationEmails is defined or ticket.cc is not empty %}
                 <div class="sp-sidebar-box">
-                    <h2 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">{{ Lang.get('ticket.cc') }}</h2>
+                    <h2 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">CC Recipients</h2>
                     <div class="sp-form-row">
                         <div class="sp-input-container">
                             <div class="sp-recipients-text" style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">
@@ -203,20 +203,90 @@
         {{ jsValidatorFields|raw }}
     {% endif %}
 
-    <!-- Auto-expanding textarea -->
+    <!-- Auto-expanding textarea and form handling -->
     <script>
         (function() {
             var textarea = document.getElementById('newMessage');
+            var postReplyButton = document.getElementById('postReplyButton');
+            var markResolvedButton = document.querySelector('.sp-mark-resolved');
+            var closeInput = document.querySelector('input[name="close"]');
+            
             if (textarea) {
                 // Auto-expand on input
                 textarea.addEventListener('input', function() {
                     this.style.height = 'auto';
                     this.style.height = (this.scrollHeight) + 'px';
+                    
+                    // Enable/disable Post Reply button based on content
+                    if (postReplyButton) {
+                        if (this.value.trim().length > 0) {
+                            postReplyButton.disabled = false;
+                            postReplyButton.style.opacity = '1';
+                            postReplyButton.style.cursor = 'pointer';
+                        } else {
+                            postReplyButton.disabled = true;
+                            postReplyButton.style.opacity = '0.5';
+                            postReplyButton.style.cursor = 'not-allowed';
+                        }
+                    }
                 });
                 
                 // Set initial height
                 textarea.style.height = 'auto';
                 textarea.style.height = (textarea.scrollHeight) + 'px';
+                
+                // Check initial state
+                if (postReplyButton) {
+                    if (textarea.value.trim().length > 0) {
+                        postReplyButton.disabled = false;
+                        postReplyButton.style.opacity = '1';
+                        postReplyButton.style.cursor = 'pointer';
+                    } else {
+                        postReplyButton.disabled = true;
+                        postReplyButton.style.opacity = '0.5';
+                        postReplyButton.style.cursor = 'not-allowed';
+                    }
+                }
+            }
+            
+            // Handle Mark as Resolved button
+            if (markResolvedButton && closeInput) {
+                markResolvedButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (closeInput) {
+                        closeInput.value = '1';
+                    }
+                    
+                    // If there's a message form, submit it
+                    var messageForm = document.querySelector('.sp-message-form');
+                    if (messageForm) {
+                        // Enable the submit button if it's disabled
+                        var submitBtn = messageForm.querySelector('input[type="submit"], button[type="submit"]');
+                        if (submitBtn && submitBtn.disabled) {
+                            submitBtn.disabled = false;
+                        }
+                        messageForm.submit();
+                    } else {
+                        // If no form, just mark as resolved via AJAX or redirect
+                        var ticketId = '{{ ticket.id }}';
+                        if (ticketId && typeof App !== 'undefined' && App.FrontendTicketView) {
+                            // Use the existing ticket view functionality
+                            if (typeof jQuery !== 'undefined') {
+                                jQuery.ajax({
+                                    url: '{{ route('ticket.frontend.ticket.update', {'number': ticket.number}) }}',
+                                    method: 'POST',
+                                    data: {
+                                        _token: document.querySelector('meta[name="csrf_token"]').content,
+                                        close: 1
+                                    },
+                                    success: function() {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
             }
         })();
     </script>
