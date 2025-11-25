@@ -233,7 +233,12 @@
             e.preventDefault();
             var $li = $(this).closest('li');
             var $deleteBtn = $li.find('.sp-delete-attachment');
-            if ($deleteBtn.length && !$deleteBtn.hasClass('sp-hidden')) {
+            if ($deleteBtn.length) {
+                // Show the delete button if it's hidden (for newly uploaded attachments)
+                if ($deleteBtn.hasClass('sp-hidden')) {
+                    $deleteBtn.removeClass('sp-hidden');
+                }
+                // Trigger the click on the delete button to open the confirmation modal
                 $deleteBtn.trigger('click');
             }
         });
