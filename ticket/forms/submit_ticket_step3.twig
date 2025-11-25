@@ -303,27 +303,8 @@
             }
         });
         
-        // Function to clear errors
-        function clearErrors() {
-            $('#js-message-box').addClass('sp-hidden').removeClass('sp-alert-error').html('');
-            $('#js-message-box')[0].style.display = 'none';
-            $('.attachment.sp-alert-error').addClass('sp-hidden');
-            $('.sp-validation-container .error, .sp-validation-container label.error').addClass('sp-hidden');
-            $('.sp-validation-container').removeClass('error-active');
-        }
-        
-        // Clear errors when valid attachment is uploaded
-        $(document).on('fileuploaddone', '.sp-file-upload', function(e, data) {
-            if (data.result && !data.result.error) {
-                clearErrors();
-            }
-        });
-        
-        // Clear errors when form is submitted
+        // Handle form validation errors - show at top
         $(document).on('submit', 'form.validate', function(e) {
-            // Clear attachment errors when form is submitted
-            clearErrors();
-            
             // Check for validation errors after a short delay
             setTimeout(function() {
                 var $errors = $('.sp-validation-container .error:not(.sp-hidden), .sp-validation-container label.error:not(.sp-hidden)');
