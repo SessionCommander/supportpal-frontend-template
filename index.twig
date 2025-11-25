@@ -25,86 +25,55 @@
 
     {{ View.fireHook('frontend.body_start') }}
 
-    <header class="sp-px-4 sm:sp-px-6 lg:sp-px-8 print:sp-static print:sp-px-0 print:sp-shadow-none" id="main-header">
-        <div class="sp-container sp-relative sp-py-0 sp-m-auto print:sp-max-w-full" style="max-width: 1280px;">
+    <!-- Header - Exact match to website -->
+    <header id="main-header">
+        <div class="header-container">
             {{ View.fireHook('frontend.header_start') }}
 
-            {% if show_search %}
-            <div class="sp-search sp-absolute sp-hidden sp-flex sp-items-center sp-h-full sp-w-full sp--mt-2
-                        sp-bg-primary sp-z-10 print:sp-hidden">
-                <div class="sp-grow sp-w-full">
-                    <form name="search" action="{{ route('core.frontend.search') }}" method="get">
-                        <input type="search" name="query" placeholder="{{ Lang.get('general.search') }}" />
-                    </form>
-                </div>
-                <div class="sp-flex-none">
-                    <div class="sp-search-close sp-button sp-ms-3" title="{{ Lang.get('general.close') }}">
-                        <i class="fas fa-times"></i>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
+            <div class="header-inner">
+                <a href="{{ route('core.frontend.home') }}" class="logo-link">
+                    {% if Config.get('settings.favicon') is not empty %}
+                        <img src="{{ Config.get('settings.favicon') }}" alt="{{ company }}" />
+                    {% else %}
+                        <img src="{{ get_logo(false) }}" alt="{{ company }}" class="sp-inline dark:sp-hidden print:sp-inline" />
+                        <img src="{{ get_logo(true) }}" alt="{{ company }}" class="sp-hidden dark:sp-inline print:sp-hidden" />
+                    {% endif %}
+                    <span class="logo-text">SessionCommander</span>
+                </a>
 
-            <div class="sp-flex sp-items-center sp-justify-between" style="height: 80px;">
-                <div class="sp-grow">
-                    <a href="{{ route('core.frontend.home') }}" class="sp-flex sp-items-center" style="gap: 0.75rem; text-decoration: none;">
-                        {% if Config.get('settings.favicon') is not empty %}
-                            <img src="{{ Config.get('settings.favicon') }}" alt="{{ company }}" class="sp-logo" style="width: 40px; height: 40px; transition: transform 0.2s;" />
-                        {% else %}
-                            <img src="{{ get_logo(false) }}" alt="{{ company }}" class="sp-logo sp-inline dark:sp-hidden print:sp-inline" style="width: 40px; height: 40px; transition: transform 0.2s;" />
-                            <img src="{{ get_logo(true) }}" alt="{{ company }}" class="sp-logo sp-hidden dark:sp-inline print:sp-hidden" style="width: 40px; height: 40px; transition: transform 0.2s;" />
-                        {% endif %}
-                        <span style="font-size: 1.25rem; font-weight: 700; color: white;">SessionCommander</span>
-                    </a>
-                </div>
-
-                <div class="sp-flex-none print:sp-hidden sp-hidden lg:sp-flex sp-items-center" style="gap: 2rem;">
+                <!-- Desktop Navigation -->
+                <div class="nav-desktop">
                     {% if Config.get('settings.website_url') is not empty %}
-                        <a href="{{ Config.get('settings.website_url') }}/features" style="color: var(--gray-300); text-decoration: none; transition: color 0.2s; position: relative;">
-                            Features
-                        </a>
-                        <a href="{{ Config.get('settings.website_url') }}/pricing" style="color: var(--gray-300); text-decoration: none; transition: color 0.2s; position: relative;">
-                            Pricing
-                        </a>
-                        <a href="{{ Config.get('settings.website_url') }}/about" style="color: var(--gray-300); text-decoration: none; transition: color 0.2s; position: relative;">
-                            About
-                        </a>
-                        <div style="height: 24px; width: 1px; background: var(--gray-700); margin: 0 0.5rem;"></div>
-                        <a href="{{ route('core.frontend.home') }}" style="color: var(--gray-400); text-decoration: none; transition: color 0.2s; font-size: 0.875rem;">
-                            Support
-                        </a>
-                        <a href="{{ Config.get('settings.website_url') }}/community" style="color: var(--gray-400); text-decoration: none; transition: color 0.2s; font-size: 0.875rem;">
-                            Community
-                        </a>
+                        <a href="{{ Config.get('settings.website_url') }}/features" class="nav-link">Features</a>
+                        <a href="{{ Config.get('settings.website_url') }}/pricing" class="nav-link">Pricing</a>
+                        <a href="{{ Config.get('settings.website_url') }}/about" class="nav-link">About</a>
+                        <div class="nav-divider"></div>
+                        <a href="{{ route('core.frontend.home') }}" class="nav-resource">Support</a>
+                        <a href="{{ Config.get('settings.website_url') }}/community" class="nav-resource">Community</a>
                     {% endif %}
 
                     {% if auth_check() %}
-                        <div class="sp-dropdown-container sp-relative sp-ms-1">
-                            <a class="sp-action" style="color: var(--gray-300); text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                                <img class="sp-avatar sp-max-w-sm sp-shadow" src="{{ auth_user().avatar_url }}" style="width: 32px; height: 32px; border-radius: 50%;" />&nbsp;
+                        <div class="sp-dropdown-container sp-relative" style="margin-left: 0.5rem;">
+                            <a class="sp-action" style="color: #d1d5db; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                                <img class="sp-avatar" src="{{ auth_user().avatar_url }}" style="width: 32px; height: 32px; border-radius: 50%;" />
                                 {{ auth_user().formatted_name }}
-                                <i class="fas fa-chevron-down sp-ms-1 sp-text-xs" aria-hidden="true"></i>
+                                <i class="fas fa-chevron-down" style="margin-left: 0.25rem; font-size: 0.75rem;" aria-hidden="true"></i>
                             </a>
                             <div class="sp-dropdown sp-end-0 sp-mt-2">
                                 {% include 'frontend.' ~ template ~ '.navigation' with {'account': true} %}
                             </div>
                         </div>
                     {% else %}
-                        <a href="{{ route('user.login') }}" class="bg-purple-gradient">
-                            Log In
-                        </a>
+                        <a href="{{ route('user.login') }}" class="btn-login">Log In</a>
                     {% endif %}
                 </div>
 
-                <div class="sp-flex-none sp-leading-0 lg:sp-hidden print:sp-hidden">
-                    <div class="sp-mobile-nav-button sp-inline-block">
-                        <button style="color: var(--gray-300); background: none; border: none; cursor: pointer; padding: 0.5rem;" aria-label="Toggle menu">
-                            <svg focusable="false" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
-                                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="currentColor"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Toggle menu">
+                    <svg viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="currentColor"></path>
+                    </svg>
+                </button>
             </div>
 
             {% block header %}{% endblock %}
@@ -113,41 +82,48 @@
         </div>
     </header>
 
-    <nav class="sp-mobile-nav sp-hidden sp-fixed sp-w-full sp-top-0 sp-px-4 sm:sp-px-6 sp-bg-primary-800 sp-shadow-inner
-                sp-text-white sp-overflow-y-auto sp-z-10001 lg:sp-hidden print:sp-hidden" style="background-color: var(--gray-950); border-top: 1px solid rgba(168, 85, 247, 0.2);">
-        <div class="sp-container sp-py-6 sp-m-auto">
-            {% include 'frontend.' ~ template ~ '.navigation' %}
+    <!-- Mobile Menu -->
+    <nav id="mobile-menu">
+        <div class="menu-content">
+            {% if Config.get('settings.website_url') is not empty %}
+                <a href="{{ Config.get('settings.website_url') }}/features" class="mobile-nav-link">Features</a>
+                <a href="{{ Config.get('settings.website_url') }}/pricing" class="mobile-nav-link">Pricing</a>
+                <a href="{{ Config.get('settings.website_url') }}/about" class="mobile-nav-link">About</a>
+                <div class="mobile-nav-divider">
+                    <a href="{{ route('core.frontend.home') }}" class="mobile-nav-resource">Support</a>
+                    <a href="{{ Config.get('settings.website_url') }}/community" class="mobile-nav-resource">Community</a>
+                    {% if auth_check() %}
+                        <a href="{{ route('user.login') }}" class="mobile-btn-login">{{ Lang.get('user.login') }}</a>
+                    {% else %}
+                        <a href="{{ route('user.login') }}" class="mobile-btn-login">Log In</a>
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
     </nav>
 
     {% block precontent %}{% endblock %}
 
-    <div class="sp-relative xs:sp-px-6 lg:sp-static lg:sp-px-8 print:sp-px-0" style="padding-top: 80px;">
-        <div class="sp-container sp-mx-auto sp-my-4 xs:sp-my-6 lg:sp-my-8 print:sp-max-w-full" style="max-width: 1280px;">
-
+    <!-- Main Content -->
+    <main>
+        <div class="content-wrapper">
             {{ View.fireHook('frontend.wrapper_start') }}
 
-            <div class="sp-px-6 sp-mb-4 sp-leading-none xs:sp-px-0 xs:sp-mb-6 lg:sp-mb-8">
-                <h1 class="sp-hidden md:sp-block sp-mb-3 sp-text-3xl sp-font-normal print:sp-block">
-                    {{ title|raw }}
+            <div style="margin-bottom: 2rem;">
+                <h1 style="display: none;">
+                    {% block title %}{{ Lang.get('general.support_portal') }}{% endblock %}
                 </h1>
-
-                <div class="sp-breadcrumb md:sp-text-sm print:sp-mb-6">
+                <div class="sp-breadcrumb">
                     <a href="{{ route('core.frontend.home') }}">{{ Lang.get('general.support_portal') }}</a> &nbsp;&raquo;&nbsp;
                     {% block breadcrumb %}{% endblock %}
                 </div>
-
-                <hr class="sp-hidden sp-mx-0 print:sp-block" />
             </div>
 
-            <div class="sp-flex sp-flex-wrap-reverse sp-min-w-0 lg:sp-flex-nowrap">
-
-                <div class="sp-content sp-grow sp-w-full sp-overflow-hidden lg:sp-w-auto">
-
+            <div style="display: flex; flex-wrap: wrap-reverse; gap: 2rem;">
+                <div style="flex: 1; min-width: 0;">
                     {{ View.fireHook('frontend.content_start') }}
 
-                    <div class="sp-content-inner sp-p-6 sp-bg-primary sp-break-words xs:sp-rounded print:sp-p-0">
-
+                    <div class="sp-content-inner">
                         {{ View.fireHook('frontend.content_inner_start') }}
 
                         {% block subtitle %}{% endblock %}
@@ -175,110 +151,88 @@
                         {% block content %}{% endblock %}
 
                         {{ View.fireHook('frontend.content_inner_end') }}
-
                     </div>
 
                     {{ View.fireHook('frontend.content_end') }}
-
                 </div>
 
                 {% block sidebar %}{% endblock %}
 
                 {{ View.fireHook('frontend.wrapper_end') }}
             </div>
-
         </div>
-    </div>
+    </main>
 
-    <footer class="sp-px-4 sm:sp-px-6 lg:sp-px-8 sp-mt-12 sp-border-t sp-border-tertiary print:sp-px-0" style="background-color: var(--gray-900); border-top: 1px solid rgba(168, 85, 247, 0.2);">
-        <div class="sp-container sp-py-12 sp-mx-auto print:sp-max-w-full" style="max-width: 1280px;">
-            <div class="sp-grid sp-grid-cols-1 md:sp-grid-cols-4 sp-gap-8" style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 2rem;">
+    <!-- Footer - Exact match to website -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
                 <!-- Brand -->
-                <div class="sp-col-span-1 md:sp-col-span-2">
-                    <a href="{{ route('core.frontend.home') }}" class="sp-flex sp-items-center" style="gap: 0.75rem; margin-bottom: 1rem; text-decoration: none;">
+                <div class="footer-brand">
+                    <a href="{{ route('core.frontend.home') }}" class="footer-logo-link">
                         {% if Config.get('settings.favicon') is not empty %}
-                            <img src="{{ Config.get('settings.favicon') }}" alt="{{ company }}" style="width: 40px; height: 40px;" />
+                            <img src="{{ Config.get('settings.favicon') }}" alt="{{ company }}" />
                         {% else %}
-                            <img src="{{ get_logo(false) }}" alt="{{ company }}" class="sp-inline dark:sp-hidden" style="width: 40px; height: 40px;" />
-                            <img src="{{ get_logo(true) }}" alt="{{ company }}" class="sp-hidden dark:sp-inline" style="width: 40px; height: 40px;" />
+                            <img src="{{ get_logo(false) }}" alt="{{ company }}" class="sp-inline dark:sp-hidden" />
+                            <img src="{{ get_logo(true) }}" alt="{{ company }}" class="sp-hidden dark:sp-inline" />
                         {% endif %}
-                        <span style="font-size: 1.25rem; font-weight: 700; color: white;">SessionCommander</span>
+                        <span class="footer-logo-text">SessionCommander</span>
                     </a>
-                    <p style="color: var(--gray-400); font-size: 0.875rem; max-width: 28rem; margin: 0;">
+                    <p class="footer-description">
                         Recording session management designed exclusively for classical music professionals.
                     </p>
                 </div>
 
                 <!-- Quick Links -->
-                <div>
-                    <h3 style="color: white; font-weight: 600; margin-bottom: 1rem; font-size: 1rem;">Quick Links</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
                         {% if Config.get('settings.website_url') is not empty %}
                             <li>
-                                <a href="{{ Config.get('settings.website_url') }}/features" style="color: var(--gray-400); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                                    Features
-                                </a>
+                                <a href="{{ Config.get('settings.website_url') }}/features">Features</a>
                             </li>
                             <li>
-                                <a href="{{ Config.get('settings.website_url') }}/pricing" style="color: var(--gray-400); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                                    Pricing
-                                </a>
+                                <a href="{{ Config.get('settings.website_url') }}/pricing">Pricing</a>
                             </li>
                             <li>
-                                <a href="{{ Config.get('settings.website_url') }}/about" style="color: var(--gray-400); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                                    About
-                                </a>
+                                <a href="{{ Config.get('settings.website_url') }}/about">About</a>
                             </li>
                         {% endif %}
                     </ul>
                 </div>
 
                 <!-- Resources -->
-                <div>
-                    <h3 style="color: white; font-weight: 600; margin-bottom: 1rem; font-size: 1rem;">Resources</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
                         <li>
-                            <a href="{{ route('core.frontend.home') }}" style="color: var(--gray-400); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                                Support
-                            </a>
+                            <a href="{{ route('core.frontend.home') }}">Support</a>
                         </li>
                         {% if Config.get('settings.website_url') is not empty %}
                             <li>
-                                <a href="{{ Config.get('settings.website_url') }}/community" style="color: var(--gray-400); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                                    Community Forum
-                                </a>
+                                <a href="{{ Config.get('settings.website_url') }}/community">Community Forum</a>
                             </li>
                         {% endif %}
                     </ul>
                 </div>
             </div>
 
-            <div class="sp-mt-8 sp-pt-8 sp-border-t" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--gray-800); display: flex; flex-direction: column; gap: 1rem; align-items: center; justify-content: space-between;">
-                <p style="color: var(--gray-500); font-size: 0.875rem; margin: 0;">
+            <div class="footer-bottom">
+                <p class="footer-copyright">
                     &copy; {{ "now"|date("Y") }} SessionCommander. All rights reserved.
                 </p>
-                <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: center;">
+                <div class="footer-links">
                     {% if Config.get('settings.website_url') is not empty %}
-                        <a href="{{ Config.get('settings.website_url') }}/privacy" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                            Privacy Policy
-                        </a>
-                        <a href="{{ Config.get('settings.website_url') }}/terms" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                            Terms of Service
-                        </a>
-                        <a href="{{ Config.get('settings.website_url') }}/terms-summary" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                            Terms Summary
-                        </a>
-                        <a href="{{ Config.get('settings.website_url') }}/sla" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                            SLA
-                        </a>
-                        <a href="{{ Config.get('settings.website_url') }}/dpa" style="color: var(--gray-500); text-decoration: none; font-size: 0.875rem; transition: color 0.2s;">
-                            DPA
-                        </a>
+                        <a href="{{ Config.get('settings.website_url') }}/privacy">Privacy Policy</a>
+                        <a href="{{ Config.get('settings.website_url') }}/terms">Terms of Service</a>
+                        <a href="{{ Config.get('settings.website_url') }}/terms-summary">Terms Summary</a>
+                        <a href="{{ Config.get('settings.website_url') }}/sla">SLA</a>
+                        <a href="{{ Config.get('settings.website_url') }}/dpa">DPA</a>
                     {% endif %}
                     {% if Config.get('settings.language_frontend_toggle') == 1 %}
-                        <div class="sp-flex-none print:sp-hidden" style="display: inline-flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-language" title="{{ Lang.choice('general.language', 1) }}" style="color: var(--gray-500);"></i>
-                            <select name="language" style="background-color: var(--gray-800); color: var(--gray-300); border: 1px solid var(--gray-700); border-radius: 0.375rem; padding: 0.25rem 0.5rem; font-size: 0.875rem;">
+                        <div style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-language" title="{{ Lang.choice('general.language', 1) }}" style="color: #6b7280;"></i>
+                            <select name="language" style="background-color: #1f2937; color: #d1d5db; border: 1px solid #374151; border-radius: 0.375rem; padding: 0.25rem 0.5rem; font-size: 0.875rem;">
                                 {% for code, language in languages %}
                                     <option value="{{ code }}"
                                             {% if code == App.getLocale() %}selected="selected"{% endif %}
@@ -301,7 +255,7 @@
     <script src="{{ asset_rev('resources/assets/frontend/js/main.js')}}"></script>
 
     <script>
-        // Header scroll effect to match website
+        // Header scroll effect - exact match to website
         (function() {
             const header = document.getElementById('main-header');
             if (header) {
@@ -319,6 +273,17 @@
                 };
                 window.addEventListener('scroll', handleScroll);
                 handleScroll(); // Check initial state
+            }
+        })();
+
+        // Mobile menu toggle
+        (function() {
+            const toggle = document.getElementById('mobile-menu-toggle');
+            const menu = document.getElementById('mobile-menu');
+            if (toggle && menu) {
+                toggle.addEventListener('click', () => {
+                    menu.classList.toggle('open');
+                });
             }
         })();
     </script>
