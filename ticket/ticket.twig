@@ -191,42 +191,15 @@
         // Make "(Remove)" text clickable for reply history attachments
         $(document).on('click', '.sp-attachments .sp-remove-attachment-text', function(e) {
             e.preventDefault();
-            var $link = $(this);
-            var url = $link.data('url');
-            var guestToken = $link.data('token');
-            var attachmentId = $link.data('attachment-id');
-            var hash = $link.data('hash');
-            var csrfToken = $('meta[name=csrf_token]').prop('content');
-            
-            if (confirm('Are you sure you want to remove this attachment?')) {
-                var postData = {
-                    _token: csrfToken,
-                    attachment_id: attachmentId,
-                    hash: hash
-                };
-                
-                // Add guest token if it exists
-                if (guestToken) {
-                    postData.token = guestToken;
+            var $li = $(this).closest('li');
+            var $deleteBtn = $li.find('.sp-delete-attachment');
+            if ($deleteBtn.length) {
+                // Show the delete button if it's hidden
+                if ($deleteBtn.hasClass('sp-hidden')) {
+                    $deleteBtn.removeClass('sp-hidden');
                 }
-                
-                $.ajax({
-                    url: url,
-                    method: 'DELETE',
-                    data: postData,
-                    success: function() {
-                        $link.closest('li').fadeOut(function() {
-                            $(this).remove();
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        var errorMessage = 'Failed to remove attachment.';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
-                        }
-                        showErrorAtTop(errorMessage);
-                    }
-                });
+                // Trigger the click on the delete button to use the FileUpload library's delete mechanism
+                $deleteBtn.trigger('click');
             }
         });
         
