@@ -1760,37 +1760,59 @@ input[type="submit"]:hover {
   display: none !important;
 }
 
-/* Match attachment structure to new reply form - full width, no background */
+/* Match attachment structure to new reply form - full width with background */
 .sp-attachments li {
   display: flex !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   gap: 0.75rem !important;
   width: 100% !important;
   background: transparent !important;
   border: none !important;
-  padding: 0.5rem 0 !important;
-  margin-bottom: 0.25rem !important;
+  padding: 0 !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .sp-attachments li:last-child {
   margin-bottom: 0 !important;
 }
 
+/* Attachment name container - expands to fit content */
+.sp-attachments li > div {
+  flex: 1 !important;
+  min-width: 0 !important;
+  background: rgba(31, 41, 55, 0.5) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+  border-radius: 0.375rem !important;
+  padding: 0.75rem !important;
+}
+
+/* Remove truncate class to allow expansion */
+.sp-attachments li .sp-truncate {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+}
+
 .sp-attachments .sp-file-information {
   display: inline-flex !important;
   align-items: center !important;
   gap: 0.25rem !important;
+  flex-wrap: wrap !important;
+  width: 100% !important;
 }
 
 .sp-attachments .sp-filename {
   color: #d1d5db !important;
   font-size: 0.875rem !important;
   font-weight: 500 !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 .sp-attachments .sp-filesize {
   color: #9ca3af !important;
   font-size: 0.75rem !important;
+  flex-shrink: 0 !important;
 }
 
 .sp-attachments .sp-remove-attachment-text {
@@ -1800,6 +1822,7 @@ input[type="submit"]:hover {
   cursor: pointer !important;
   text-decoration: underline !important;
   flex-shrink: 0 !important;
+  align-self: center !important;
 }
 
 .sp-progress-bar {
