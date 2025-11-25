@@ -427,28 +427,9 @@
             }
         });
         
-        // Clear errors when user types in message box
-        $(document).on('input change keyup', '#newMessage, .tox-edit-area', function() {
-            var editorContent = '';
-            if (typeof tinymce !== 'undefined' && tinymce.get('newMessage')) {
-                editorContent = tinymce.get('newMessage').getContent().trim();
-            } else if ($('#newMessage').length) {
-                editorContent = $('#newMessage').val().trim();
-            }
-            
-            if (editorContent) {
-                clearAttachmentErrors();
-            }
-        });
-        
-        // Clear errors when clicking Post Reply or Mark as Resolved
-        $(document).on('click', 'button[type="submit"], .sp-mark-resolved', function() {
-            clearAttachmentErrors();
-        });
-        
-        // Handle form validation errors - show at top
+        // Clear errors when form is submitted (reply posted)
         $(document).on('submit', '.sp-message-form', function(e) {
-            // Clear errors first, then check for new validation errors
+            // Clear attachment errors when reply is posted
             clearErrors();
             
             // Check for validation errors after a short delay

@@ -1649,14 +1649,42 @@ input[type="submit"]:hover {
 }
 
 .sp-attached-files li {
-  background: rgba(31, 41, 55, 0.5) !important;
-  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+  background: transparent !important;
+  border: none !important;
   position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.75rem !important;
-  padding: 0.75rem !important;
+  display: block !important;
+  padding: 0 !important;
+  margin-bottom: 0.5rem !important;
   overflow: visible !important;
+}
+
+.sp-attached-files li:last-child {
+  margin-bottom: 0 !important;
+}
+
+.sp-attached-files .sp-file-information {
+  display: inline !important;
+}
+
+.sp-attached-files .sp-filename {
+  color: #d1d5db !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  font-size: 0.875rem !important;
+}
+
+.sp-attached-files .sp-filesize {
+  color: #9ca3af !important;
+  font-size: 0.875rem !important;
+  margin-left: 0.5rem !important;
+}
+
+.sp-attached-files .sp-remove-attachment-text {
+  color: #ef4444 !important;
+  font-size: 0.875rem !important;
+  margin-left: 0.5rem !important;
+  cursor: pointer !important;
+  text-decoration: underline !important;
 }
 
 .sp-delete-attachment {

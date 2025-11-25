@@ -83,48 +83,33 @@
                 {% endfor %}
             </div>
 
-            <ul class="sp-attached-files">
-                <li class="sp-flex sp-hidden">
-                    <div class="sp-me-2 sp-truncate">
-                        <i class="fas fa-file"></i>&nbsp;
-
-                        <span class="sp-file-information">
-                            <span class="sp-filename"></span>
-                            <span class="sp-description sp-filesize"></span>
-                            <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
-                        </span>
-                    </div>
-
-                    <div class="sp-delete-attachment sp-hidden sp-bg-red-600" title="{{ Lang.get('general.remove') }}">
-                        <i class="fas fa-times sp-text-white"></i>
-                    </div>
-
-                    <div class="sp-progress-bar">
+            <ul class="sp-attached-files" style="list-style: none; padding: 0; margin: 0.75rem 0;">
+                <li class="sp-hidden" style="display: none;">
+                    <span class="sp-file-information">
+                        <span class="sp-filename" style="color: #d1d5db; text-decoration: underline; cursor: pointer;"></span>
+                        <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.875rem; margin-left: 0.5rem;"></span>
+                        <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.875rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
+                    </span>
+                    <div class="sp-delete-attachment sp-hidden" data-url="{{ route('ticket.frontend.attachment.destroy') }}" style="display: none;"></div>
+                    <div class="sp-progress-bar" style="display: none;">
                         <div class="sp-bar"></div>
                     </div>
                 </li>
 
                 {% for attachment in draft.attachments %}
-                    <li class="sp-flex">
-                        <div class="sp-me-2 sp-truncate">
-                            <i class="fas fa-file"></i>&nbsp;
-
-                            <span class="sp-file-information">
-                            <span class="sp-filename">{{ attachment.original_name }}</span>
-                                <span class="sp-description sp-filesize">({{ attachment.upload.size }})</span>
-                                <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
-                            </span>
-                        </div>
-
-                        <div class="sp-delete-attachment sp-bg-red-600"
+                    <li style="margin-bottom: 0.5rem;">
+                        <span class="sp-file-information">
+                            <span class="sp-filename" style="color: #d1d5db; text-decoration: underline; cursor: pointer;">{{ attachment.original_name }}</span>
+                            <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.875rem; margin-left: 0.5rem;">({{ attachment.upload.size }})</span>
+                            <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.875rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
+                        </span>
+                        <div class="sp-delete-attachment"
                              data-url="{{ route('ticket.frontend.attachment.destroy') }}"
                              data-attachment-id="{{ attachment.id }}"
                              data-size="{{ attachment.upload.getRawOriginal('size') }}"
                              data-hash="{{ attachment.upload_hash }}"
                              data-silent="false"
-                             title="{{ Lang.get('general.remove') }}">
-                            <i class="fas fa-times sp-text-white"></i>
-                        </div>
+                             style="display: none;"></div>
                     </li>
                 {% endfor %}
             </ul>

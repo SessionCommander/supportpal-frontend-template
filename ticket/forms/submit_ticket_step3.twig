@@ -112,49 +112,27 @@
                             {% endif %}
                         </div>
 
-                        <ul class="sp-attached-files" style="list-style: none; padding: 0; margin: 0.75rem 0 0.75rem 0;">
-                            <li class="sp-flex sp-hidden" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(17, 24, 39, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; margin-bottom: 0.5rem;">
-                                <div style="flex: 1; min-width: 0;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9ca3af; display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                                        <polyline points="14 2 14 8 20 8"/>
-                                    </svg>
-                                    <span class="sp-file-information" style="display: inline-block; vertical-align: middle;">
-                                        <span class="sp-filename" style="color: #d1d5db; font-size: 0.875rem;"></span>
-                                        <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;"></span>
-                                        <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
-                                    </span>
-                                </div>
-                                <div class="sp-delete-attachment sp-hidden" title="{{ Lang.get('general.remove') }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M18 6 6 18"/>
-                                        <path d="m6 6 12 12"/>
-                                    </svg>
-                                </div>
-                                <div class="sp-progress-bar" style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: rgba(168, 85, 247, 0.2); border-radius: 0 0 0.375rem 0.375rem; overflow: hidden;">
-                                    <div class="sp-bar" style="height: 100%; background: #a855f7; width: 0%; transition: width 0.3s;"></div>
+                        <ul class="sp-attached-files" style="list-style: none; padding: 0; margin: 0.75rem 0;">
+                            <li class="sp-hidden" style="display: none;">
+                                <span class="sp-file-information">
+                                    <span class="sp-filename" style="color: #d1d5db; text-decoration: underline; cursor: pointer;"></span>
+                                    <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.875rem; margin-left: 0.5rem;"></span>
+                                    <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.875rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
+                                </span>
+                                <div class="sp-delete-attachment sp-hidden" data-url="{{ route('ticket.frontend.attachment.destroy') }}" style="display: none;"></div>
+                                <div class="sp-progress-bar" style="display: none;">
+                                    <div class="sp-bar"></div>
                                 </div>
                             </li>
                             {% if Request.old() is not empty and Request.old()['attachment'] is not empty %}
                                 {% for hash, file in Request.old()['attachment'] %}
-                                    <li class="sp-flex" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(17, 24, 39, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; margin-bottom: 0.5rem;">
-                                        <div style="flex: 1; min-width: 0;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9ca3af; display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
-                                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-                                                <polyline points="14 2 14 8 20 8"/>
-                                            </svg>
-                                            <span class="sp-file-information" style="display: inline-block; vertical-align: middle;">
-                                                <span class="sp-filename" style="color: #d1d5db; font-size: 0.875rem;">{{ file }}</span>
-                                                <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;"></span>
-                                                <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
-                                            </span>
-                                        </div>
-                                        <div class="sp-delete-attachment" data-url="{{ route('ticket.frontend.attachment.destroy') }}" data-hash="{{ hash }}" title="{{ Lang.get('general.remove') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M18 6 6 18"/>
-                                                <path d="m6 6 12 12"/>
-                                            </svg>
-                                        </div>
+                                    <li style="margin-bottom: 0.5rem;">
+                                        <span class="sp-file-information">
+                                            <span class="sp-filename" style="color: #d1d5db; text-decoration: underline; cursor: pointer;">{{ file }}</span>
+                                            <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.875rem; margin-left: 0.5rem;"></span>
+                                            <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.875rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
+                                        </span>
+                                        <div class="sp-delete-attachment" data-url="{{ route('ticket.frontend.attachment.destroy') }}" data-hash="{{ hash }}" style="display: none;"></div>
                                     </li>
                                 {% endfor %}
                             {% endif %}
@@ -341,32 +319,9 @@
             }
         });
         
-        // Clear errors when user types in message box
-        $(document).on('input change keyup', 'textarea[name="text"], .tox-edit-area', function() {
-            var editorContent = '';
-            if (typeof tinymce !== 'undefined') {
-                var editorId = $(this).closest('.tox-tinymce').attr('id') || 'text';
-                var editor = tinymce.get(editorId);
-                if (editor) {
-                    editorContent = editor.getContent().trim();
-                }
-            } else {
-                editorContent = $(this).val().trim();
-            }
-            
-            if (editorContent) {
-                clearErrors();
-            }
-        });
-        
-        // Clear errors when clicking submit button
-        $(document).on('click', 'button[type="submit"]', function() {
-            clearErrors();
-        });
-        
-        // Handle form validation errors - show at top
+        // Clear errors when form is submitted
         $(document).on('submit', 'form.validate', function(e) {
-            // Clear errors first, then check for new validation errors
+            // Clear attachment errors when form is submitted
             clearErrors();
             
             // Check for validation errors after a short delay
