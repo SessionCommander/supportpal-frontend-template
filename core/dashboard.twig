@@ -2,7 +2,7 @@
 
 {% block precontent %}
     {% if show_search %}
-        <div class="search-hero" style="padding-top: 80px; padding-bottom: 3rem; background: linear-gradient(135deg, rgba(88, 28, 135, 0.3) 0%, rgba(111, 34, 50, 0.2) 50%, rgba(3, 7, 18, 1) 100%);">
+        <div class="search-hero" style="padding-top: calc(80px + 3rem); padding-bottom: 3rem; margin-top: -80px; background: linear-gradient(135deg, rgba(88, 28, 135, 0.3) 0%, rgba(111, 34, 50, 0.2) 50%, rgba(3, 7, 18, 1) 100%);">
             <div class="content-wrapper">
                 <div style="text-align: center; max-width: 66.666667%; margin: 0 auto;">
                     <h1 style="font-size: 1.875rem; font-weight: 600; margin-bottom: 1.5rem; color: white;">
@@ -27,7 +27,7 @@
 
         <div class="dashboard-grid">
             {% if isModuleEnabled('Selfservice') %}
-                <a href="{% if types is not empty and not types.isEmpty() %}{{ types.first().url }}{% else %}{{ route('selfservice.index') }}{% endif %}" class="dashboard-card" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem; text-decoration: none; transition: all 0.2s;">
+                <a href="{{ route('selfservice.index') }}" class="dashboard-card" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem; text-decoration: none; transition: all 0.2s;">
                     <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
                             <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
