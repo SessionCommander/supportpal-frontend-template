@@ -282,6 +282,41 @@
     {% block scripts_footer %}{% endblock %}
 
     <script>
+        // Fix any white overlays blocking interactions
+        (function() {
+            function fixOverlays() {
+                // Find any elements that might be blocking interactions
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(function(el) {
+                    const styles = window.getComputedStyle(el);
+                    // Check if element is covering the viewport and blocking clicks
+                    if (styles.position === 'fixed' || styles.position === 'absolute') {
+                        const rect = el.getBoundingClientRect();
+                        const coversViewport = rect.width >= window.innerWidth * 0.9 && 
+                                              rect.height >= window.innerHeight * 0.9;
+                        const hasWhiteBg = styles.backgroundColor === 'rgb(255, 255, 255)' || 
+                                          styles.backgroundColor === 'white' ||
+                                          styles.background === 'white' ||
+                                          (el.style && (el.style.backgroundColor === 'white' || el.style.backgroundColor === '#fff' || el.style.backgroundColor === '#ffffff'));
+                        
+                        if (coversViewport && hasWhiteBg && el.tagName !== 'BODY' && el.tagName !== 'HTML') {
+                            el.style.display = 'none';
+                            el.style.pointerEvents = 'none';
+                        }
+                    }
+                });
+            }
+            
+            // Run immediately and after DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', fixOverlays);
+            } else {
+                fixOverlays();
+            }
+            setTimeout(fixOverlays, 100);
+            setTimeout(fixOverlays, 500);
+        })();
+        
         // Hide SupportPal branding that might be injected
         (function() {
             function hideSupportPalBranding() {

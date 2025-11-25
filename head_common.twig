@@ -11,6 +11,8 @@
 <meta name="environment" content="{{ Config.get('app.env') }}" />
 
 <!-- Icon -->
+<link rel="icon" href="https://sessioncommander.com/logo.svg" type="image/svg+xml" />
+<link rel="icon" href="https://sessioncommander.com/favicon.ico" type="image/x-icon" />
 {% if Config.get('settings.favicon') is not empty %}
     <link rel="icon" href="{{ Config.get('settings.favicon') }}" sizes="32x32"
           {% if Config.get('settings.favicon_dark_mode') is not empty %}media="(prefers-color-scheme: light)"{% endif %} />
@@ -55,12 +57,20 @@ html {
 
 body {
   font-family: var(--font-inter), system-ui, sans-serif;
-  background: linear-gradient(135deg, rgba(88, 28, 135, 0.15) 0%, rgba(111, 34, 50, 0.1) 50%, rgba(17, 24, 39, 1) 100%);
-  background-attachment: fixed;
-  color: #f3f4f6;
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.15) 0%, rgba(111, 34, 50, 0.1) 50%, rgba(17, 24, 39, 1) 100%) !important;
+  background-attachment: fixed !important;
+  background-color: transparent !important;
+  color: #f3f4f6 !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-top: 80px;
+}
+
+/* Override SupportPal's body background classes */
+body.sp-bg-secondary,
+body.sp-bg-primary {
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.15) 0%, rgba(111, 34, 50, 0.1) 50%, rgba(17, 24, 39, 1) 100%) !important;
+  background-color: transparent !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -341,16 +351,52 @@ main {
   color: #f3f4f6;
 }
 
-/* Content wrapper background */
-.content-wrapper {
-  background-color: #030712;
-}
-
 /* All SupportPal content should blend with website */
 .sp-content,
 .sp-content-inner,
 .sp-wrapper {
   background-color: transparent;
+}
+
+/* Ensure no white overlays from SupportPal defaults */
+body > *:not(header):not(footer):not(main),
+body > div:not(.content-wrapper) {
+  background-color: transparent !important;
+}
+
+/* Override any SupportPal default white backgrounds */
+.sp-bg-primary,
+.sp-bg-secondary,
+[class*="sp-bg-"] {
+  background-color: transparent !important;
+}
+
+/* Ensure no overlay is blocking interactions */
+body::before,
+body::after,
+html::before,
+html::after {
+  display: none !important;
+  pointer-events: none !important;
+  content: none !important;
+}
+
+/* Make sure main content is interactive */
+main,
+.content-wrapper,
+.sp-content-inner,
+.sp-wrapper {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1 !important;
+  background-color: transparent !important;
+}
+
+/* Override any SupportPal wrapper that might have white background */
+.sp-wrapper,
+.sp-content-wrapper {
+  background-color: transparent !important;
+  background: transparent !important;
 }
 
 /* Old breadcrumb styling - now using page-header-breadcrumb */
