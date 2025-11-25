@@ -1196,7 +1196,7 @@ a[href]:hover {
 .sp-message-text {
   color: #d1d5db;
   line-height: 1.6;
-  padding-left: 0.5rem !important; /* Reduced left padding */
+  padding-left: 0 !important; /* Left-aligned */
 }
 
 .sp-message-text p {
@@ -1539,147 +1539,6 @@ input[type="submit"]:hover {
   line-height: 1.6;
 }
 
-/* Editor Styling */
-.tox-tinymce {
-  border: 1px solid rgba(168, 85, 247, 0.2) !important;
-  border-radius: 0.5rem !important;
-  background: rgba(31, 41, 55, 0.5) !important;
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.tox .tox-edit-area {
-  min-height: 350px !important;
-  flex: 1 1 auto !important;
-}
-
-.tox .tox-edit-area__iframe {
-  background: rgba(31, 41, 55, 0.5) !important;
-  min-height: 350px !important;
-  height: auto !important;
-}
-
-.tox .tox-edit-area__iframe[style*="min-height"] {
-  min-height: 350px !important;
-  height: auto !important;
-}
-
-/* Make editor container expand dynamically */
-.tox .tox-editor-header {
-  flex-shrink: 0 !important;
-}
-
-.tox .tox-editor-container {
-  display: flex !important;
-  flex-direction: column !important;
-  min-height: 500px !important;
-}
-
-.tox .tox-editor-container .tox-edit-area {
-  flex: 1 1 auto !important;
-  min-height: 350px !important;
-}
-
-.tox .tox-toolbar,
-.tox .tox-toolbar__overflow,
-.tox .tox-toolbar__primary {
-  background: rgba(17, 24, 39, 0.8) !important;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.3) !important;
-  padding: 0.25rem !important;
-}
-
-.tox .tox-toolbar__group {
-  border-right: 1px solid rgba(168, 85, 247, 0.2) !important;
-  padding: 0 0.5rem !important;
-}
-
-.tox .tox-toolbar__group:last-child {
-  border-right: none !important;
-}
-
-.tox .tox-tbtn {
-  color: #d1d5db !important;
-  border-radius: 0.25rem !important;
-  transition: all 0.2s !important;
-}
-
-.tox .tox-tbtn:hover {
-  background: rgba(168, 85, 247, 0.2) !important;
-  color: #a855f7 !important;
-}
-
-.tox .tox-tbtn--enabled {
-  background: rgba(168, 85, 247, 0.3) !important;
-  color: #a855f7 !important;
-}
-
-.tox .tox-tbtn--select .tox-tbtn__select-label {
-  color: #d1d5db !important;
-}
-
-.tox .tox-tbtn--select:hover .tox-tbtn__select-label {
-  color: #a855f7 !important;
-}
-
-.tox .tox-tbtn--select .tox-tbtn__select-chevron svg {
-  fill: #9ca3af !important;
-}
-
-.tox .tox-tbtn--select:hover .tox-tbtn__select-chevron svg {
-  fill: #a855f7 !important;
-}
-
-.tox .tox-tbtn svg {
-  fill: currentColor !important;
-}
-
-.tox .tox-menubar {
-  background: rgba(17, 24, 39, 0.5) !important;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
-}
-
-/* TinyMCE Statusbar - minimal styling, colors only, prevent movement, expand earlier */
-.tox .tox-statusbar {
-  background: rgba(17, 24, 39, 0.5) !important;
-  border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
-  color: #d1d5db !important;
-  position: relative !important;
-  width: 100% !important;
-  flex-shrink: 0 !important;
-  min-height: 39px !important;
-  height: auto !important;
-}
-
-.tox .tox-statusbar__text-container {
-  position: relative !important;
-  overflow: visible !important;
-  min-height: 39px !important;
-  display: flex !important;
-  align-items: center !important;
-}
-
-.tox .tox-statusbar__path {
-  position: relative !important;
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-}
-
-.tox .tox-statusbar__path-item {
-  color: #d1d5db !important;
-}
-
-.tox .tox-statusbar__path-item:hover {
-  background: rgba(168, 85, 247, 0.1) !important;
-  color: #a855f7 !important;
-}
-
-/* Ensure editor expands content area before statusbar moves */
-.tox .tox-edit-area {
-  flex-grow: 1 !important;
-  flex-shrink: 1 !important;
-  min-height: 350px !important;
-  height: auto !important;
-}
 
 /* Attachment Section Styling */
 .sp-attachment-section {
@@ -1689,16 +1548,6 @@ input[type="submit"]:hover {
   margin-top: 0 !important;
 }
 
-/* Remove extra padding between editor and attachments */
-.sp-validation-container + .sp-attachment-section {
-  margin-top: 0 !important;
-  padding-top: 0.5rem !important;
-}
-
-.tox-tinymce + .sp-attachment-section,
-.tox-tinymce ~ .sp-attachment-section {
-  margin-top: 0 !important;
-}
 
 .sp-file-input:hover {
   background: rgba(168, 85, 247, 0.1) !important;
@@ -1738,19 +1587,6 @@ input[type="submit"]:hover {
   background: #a855f7 !important;
 }
 
-.tox .tox-menu {
-  background: rgba(17, 24, 39, 0.95) !important;
-  border: 1px solid rgba(168, 85, 247, 0.2) !important;
-}
-
-.tox .tox-collection__item {
-  color: #d1d5db !important;
-}
-
-.tox .tox-collection__item:hover {
-  background: rgba(168, 85, 247, 0.2) !important;
-  color: #a855f7 !important;
-}
 
 /* Select2 Styling */
 .select2-container--default .select2-selection--single,
