@@ -266,25 +266,6 @@
                             submitBtn.disabled = false;
                         }
                         messageForm.submit();
-                    } else {
-                        // If no form, just mark as resolved via AJAX or redirect
-                        var ticketId = '{{ ticket.id }}';
-                        if (ticketId && typeof App !== 'undefined' && App.FrontendTicketView) {
-                            // Use the existing ticket view functionality
-                            if (typeof jQuery !== 'undefined') {
-                                jQuery.ajax({
-                                    url: '{{ route('ticket.frontend.ticket.update', {'number': ticket.number}) }}',
-                                    method: 'POST',
-                                    data: {
-                                        _token: document.querySelector('meta[name="csrf_token"]').content,
-                                        close: 1
-                                    },
-                                    success: function() {
-                                        window.location.reload();
-                                    }
-                                });
-                            }
-                        }
                     }
                 });
             }
