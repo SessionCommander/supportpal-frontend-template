@@ -24,9 +24,9 @@
     <div class="reply-form sp-editor-container sp-form-row sp-form-full">
         <div class="sp-input-container">
             <h2 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">{{ Lang.choice('ticket.post_reply', 1) }}</h2>
-            <div class="sp-validation-container" style="margin-bottom: 0;">
+            <div class="tox-rounded-none sp-validation-container" style="min-height: 500px; margin-bottom: 0;">
                 {% set loadDraftMessageRoute = draft is not empty ? route('ticket.frontend.message.showJson', {id: draft.id}) : null %}
-                <textarea name="text" id="newMessage" class="sp-auto-expand-textarea" style="width: 100%; min-height: 200px; padding: 0.75rem; background: rgba(17, 24, 39, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6; font-family: var(--font-inter), system-ui, sans-serif; font-size: 0.875rem; line-height: 1.6; resize: none; overflow: hidden;" placeholder="Enter your reply here...">{{ draft.text|default('') }}</textarea>
+                {{ form_editor('text', null, {'data-route': loadDraftMessageRoute, 'id': 'newMessage'}) }}
             </div>
 
             <div class="sp-attachment-section" style="margin-top: 0; padding-top: 0.75rem; border-top: 1px solid rgba(168, 85, 247, 0.2);">
@@ -135,8 +135,11 @@
 
             <input type="hidden" name="close" value="0" />
 
-            <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
-                {{ form_submit(Lang.choice('ticket.post_reply', 1), {'style': 'padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 500; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;', 'id': 'postReplyButton'}) }}
+            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;">
+                <button type="button" class="sp-mark-resolved" style="padding: 0.75rem 1.5rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; color: #d1d5db; font-weight: 500; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;">
+                    Reply and Close
+                </button>
+                {{ form_submit(Lang.choice('ticket.post_reply', 1), {'style': 'padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 500; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;'}) }}
             </div>
         </div>
     </div>

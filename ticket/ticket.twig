@@ -42,11 +42,6 @@
                 </svg>
                 {{ Lang.get('general.print') }}
             </a>
-            {% if ticket.status.id != Config.get('settings.default_resolved_status') %}
-                <button class="sp-mark-resolved" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; text-decoration: none; font-size: 0.875rem; cursor: pointer; transition: all 0.2s;" data-close="{{ Lang.get('ticket.mark_resolved_and_post_reply') }}">
-                    {{ Lang.get('ticket.mark_resolved') }}
-                </button>
-            {% endif %}
         </div>
 
         <div class="sp-sidebar-box">
@@ -203,51 +198,14 @@
         {{ jsValidatorFields|raw }}
     {% endif %}
 
-    <!-- Auto-expanding textarea and form handling -->
+    <!-- WYSIWYG Editor -->
+    <script src="{{ asset_rev('resources/assets/libs/editor.min.js') }}"></script>
+
+    <!-- Mark as Resolved button handler -->
     <script>
         (function() {
-            var textarea = document.getElementById('newMessage');
-            var postReplyButton = document.getElementById('postReplyButton');
             var markResolvedButton = document.querySelector('.sp-mark-resolved');
             var closeInput = document.querySelector('input[name="close"]');
-            
-            if (textarea) {
-                // Auto-expand on input
-                textarea.addEventListener('input', function() {
-                    this.style.height = 'auto';
-                    this.style.height = (this.scrollHeight) + 'px';
-                    
-                    // Enable/disable Post Reply button based on content
-                    if (postReplyButton) {
-                        if (this.value.trim().length > 0) {
-                            postReplyButton.disabled = false;
-                            postReplyButton.style.opacity = '1';
-                            postReplyButton.style.cursor = 'pointer';
-                        } else {
-                            postReplyButton.disabled = true;
-                            postReplyButton.style.opacity = '0.5';
-                            postReplyButton.style.cursor = 'not-allowed';
-                        }
-                    }
-                });
-                
-                // Set initial height
-                textarea.style.height = 'auto';
-                textarea.style.height = (textarea.scrollHeight) + 'px';
-                
-                // Check initial state
-                if (postReplyButton) {
-                    if (textarea.value.trim().length > 0) {
-                        postReplyButton.disabled = false;
-                        postReplyButton.style.opacity = '1';
-                        postReplyButton.style.cursor = 'pointer';
-                    } else {
-                        postReplyButton.disabled = true;
-                        postReplyButton.style.opacity = '0.5';
-                        postReplyButton.style.cursor = 'not-allowed';
-                    }
-                }
-            }
             
             // Handle Mark as Resolved button
             if (markResolvedButton && closeInput) {
@@ -257,14 +215,9 @@
                         closeInput.value = '1';
                     }
                     
-                    // If there's a message form, submit it
+                    // Submit the message form
                     var messageForm = document.querySelector('.sp-message-form');
                     if (messageForm) {
-                        // Enable the submit button if it's disabled
-                        var submitBtn = messageForm.querySelector('input[type="submit"], button[type="submit"]');
-                        if (submitBtn && submitBtn.disabled) {
-                            submitBtn.disabled = false;
-                        }
                         messageForm.submit();
                     }
                 });
