@@ -7,6 +7,10 @@
     {{ type.name }}
 {% endblock %}
 
+{% block page_title %}
+    {{ type.name }}
+{% endblock %}
+
 {% block sidebar %}
     {% include 'frontend.' ~ template ~ '.selfservice.sidebar' %}
     {{ parent() }}

@@ -19,7 +19,7 @@
 
 {% block content %}
 
-    <div style="max-width: 42rem; margin: 0 auto;">
+    <div style="max-width: 56rem; margin: 0 auto;">
         <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem;">
 
             {{ form_open({'route': 'ticket.frontend.ticket.storeStep3', 'class': 'validate'}) }}
@@ -38,22 +38,26 @@
                     {% endif %}
                 {% endif %}
 
-                <div class="sp-form-row">
-                    {{ form_label('department', Lang.choice('ticket.department', 1)) }}
-                    <div class="sp-input-container">
-                        {{ form_hidden('department', department.id) }}
-                        <span class="department-name" style="color: #d1d5db; font-size: 0.875rem;">{{ department.frontend_name }}</span>
-                    </div>
-                </div>
-
-                {% if department_priorities|length > 1 %}
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
                     <div class="sp-form-row">
-                        {{ form_label('priority', Lang.choice('ticket.priority', 1)) }}
+                        {{ form_label('department', Lang.choice('ticket.department', 1)) }}
                         <div class="sp-input-container">
-                            {{ form_select('priority', department_priorities, null, {'autofocus': 'autofocus', 'style': 'width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6;'}) }}
+                            {{ form_hidden('department', department.id) }}
+                            <span class="department-name" style="color: #d1d5db; font-size: 0.875rem;">{{ department.frontend_name }}</span>
                         </div>
                     </div>
-                {% endif %}
+
+                    {% if department_priorities|length > 1 %}
+                        <div class="sp-form-row">
+                            {{ form_label('priority', Lang.choice('ticket.priority', 1)) }}
+                            <div class="sp-input-container">
+                                {{ form_select('priority', department_priorities, null, {'autofocus': 'autofocus', 'style': 'width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6;'}) }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div></div>
+                    {% endif %}
+                </div>
 
                 {% if organisationUsers is not empty %}
                     <div class="sp-form-row">
@@ -68,12 +72,12 @@
                 <div class="sp-form-row sp-form-full">
                     {{ form_label('cc[]', Lang.get('ticket.cc')) }}
                     <div class="sp-input-container">
-                        {{ form_select('cc[]', [], [], {'multiple': 'multiple', 'style': 'width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6;'}) }}
+                        {{ form_select('cc[]', [], [], {'multiple': 'multiple', 'class': 'ticket-cc-select', 'style': 'width: 100%;'}) }}
                         <div style="color: #9ca3af; font-size: 0.875rem; margin-top: 0.5rem;">{{ Lang.get('ticket.cc_desc') }}</div>
                     </div>
                 </div>
 
-                <div style="margin: 1.5rem 0; padding: 1.5rem 0; border-top: 1px solid rgba(168, 85, 247, 0.2); border-bottom: 1px solid rgba(168, 85, 247, 0.2);"></div>
+                <div style="margin: 1.5rem 0; border-top: 1px solid rgba(168, 85, 247, 0.2);"></div>
 
                 <div class="sp-form-row sp-form-full">
                     {{ form_label('subject', Lang.get('ticket.subject')) }}
@@ -94,7 +98,7 @@
                     </div>
                 </div>
 
-                <div class="sp-form-row sp-form-full">
+                <div class="sp-form-row sp-form-full" style="margin-top: 1.5rem;">
                     {{ form_label('text', Lang.choice('general.message', 1)) }}
                     <div class="sp-input-container">
                         {{ form_editor('text') }}

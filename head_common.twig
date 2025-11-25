@@ -965,6 +965,23 @@ a[style*="background: rgba(31, 41, 55, 0.5)"]:hover {
   display: block;
 }
 
+/* Form row spacing */
+.sp-form-row {
+  margin-bottom: 1.5rem;
+}
+
+.sp-form-row label:not(.sp-form-label) {
+  color: #d1d5db;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.sp-form-row + .sp-form-row {
+  margin-top: 0;
+}
+
 .sp-icon {
   color: #a855f7;
 }
@@ -1282,6 +1299,15 @@ a[href]:hover {
 /* Sidebar Styling */
 .sp-sidebar {
   background: transparent;
+  width: 100%;
+  flex: none;
+}
+
+@media (min-width: 1024px) {
+  .sp-sidebar {
+    width: 16rem;
+    max-width: 16rem;
+  }
 }
 
 .sp-sidebar-box {
@@ -1299,6 +1325,11 @@ a[href]:hover {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1rem;
+}
+
+/* Ensure sidebar content is visible */
+.sp-sidebar-box > div {
+  display: block !important;
 }
 
 /* Collapsible Styling */
@@ -1483,6 +1514,15 @@ input[type="submit"]:hover {
 
 .tox .tox-edit-area__iframe {
   background: rgba(31, 41, 55, 0.5) !important;
+  min-height: 350px !important;
+}
+
+.tox .tox-edit-area {
+  min-height: 350px !important;
+}
+
+.tox .tox-edit-area__iframe[style*="min-height"] {
+  min-height: 350px !important;
 }
 
 .tox .tox-toolbar,
@@ -1505,6 +1545,25 @@ input[type="submit"]:hover {
   color: #a855f7 !important;
 }
 
+.tox .tox-menubar {
+  background: rgba(17, 24, 39, 0.5) !important;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
+}
+
+.tox .tox-menu {
+  background: rgba(17, 24, 39, 0.95) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+}
+
+.tox .tox-collection__item {
+  color: #d1d5db !important;
+}
+
+.tox .tox-collection__item:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #a855f7 !important;
+}
+
 /* Select2 Styling */
 .select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
@@ -1512,14 +1571,53 @@ input[type="submit"]:hover {
   border: 1px solid rgba(168, 85, 247, 0.2) !important;
   border-radius: 0.375rem !important;
   color: #f3f4f6 !important;
+  min-height: 2.75rem !important;
+  padding: 0.25rem !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   color: #f3f4f6 !important;
+  padding: 0.5rem 0.75rem !important;
+  line-height: 1.5 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  color: #f3f4f6 !important;
+  padding: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background: rgba(168, 85, 247, 0.2) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  color: #f3f4f6 !important;
+  padding: 0.25rem 0.5rem !important;
+  margin: 0.25rem !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  color: #d1d5db !important;
+  margin-right: 0.5rem !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+  color: #a855f7 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-search--inline .select2-search__field {
+  color: #f3f4f6 !important;
+  padding: 0.5rem 0.75rem !important;
+  margin: 0 !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow b {
   border-color: #9ca3af transparent transparent transparent !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border-color: #9333ea !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1) !important;
 }
 
 .select2-dropdown {
@@ -1536,6 +1634,47 @@ input[type="submit"]:hover {
 .select2-results__option--highlighted {
   background: rgba(168, 85, 247, 0.2) !important;
   color: #a855f7 !important;
+}
+
+/* Specific styling for CC field */
+.ticket-cc-select + .select2-container,
+.sp-recipients-input + .select2-container {
+  width: 100% !important;
+}
+
+/* CC recipients display styling */
+.sp-recipients {
+  transition: all 0.2s;
+}
+
+.sp-recipients:hover {
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.sp-recipients-text {
+  min-height: 1.5rem;
+  padding: 0.25rem 0;
+}
+
+/* Show Select2 when initialized for CC field */
+.sp-recipients-input.sp-hidden + .select2-container {
+  display: block !important;
+}
+
+.sp-recipients-input.sp-hidden {
+  display: none !important;
+}
+
+/* Message form editor container */
+.reply-form .sp-input-container {
+  background: rgba(31, 41, 55, 0.5);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.sp-editor-container {
+  margin-bottom: 1.5rem;
 }
 
 
