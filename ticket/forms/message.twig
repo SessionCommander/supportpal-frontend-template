@@ -91,7 +91,7 @@
                         <span class="sp-file-information">
                             <span class="sp-filename"></span>
                             <span class="sp-description sp-filesize"></span>
-                            <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove Attachment)</span>
+                            <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
                         </span>
                     </div>
 
@@ -112,7 +112,7 @@
                             <span class="sp-file-information">
                             <span class="sp-filename">{{ attachment.original_name }}</span>
                                 <span class="sp-description sp-filesize">({{ attachment.upload.size }})</span>
-                                <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove Attachment)</span>
+                                <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
                             </span>
                         </div>
 
@@ -139,13 +139,13 @@
 
     <input type="hidden" name="close" value="0" />
 
-    <div class="sp-flex sp-flex-wrap sp-mt-6 sm:sp-flex-nowrap">
-        {{ form_submit(Lang.choice('ticket.post_reply', 1), {'class': 'sp-w-full sm:sp-w-auto', 'disabled': 'disabled'}) }}
-
-        {% set class = 'sp-mark-resolved sp-w-full sm:sp-w-auto sp-mt-4 sm:sp-mt-0 sm:sp-ml-4' %}
+    <div class="sp-flex sp-flex-wrap sp-justify-end sp-mt-6 sm:sp-flex-nowrap" style="gap: 0.75rem;">
+        {% set class = 'sp-mark-resolved sp-w-full sm:sp-w-auto' %}
         {% if ticket.status.id == Config.get('settings.default_resolved_status') %}
             {% set class = class ~ ' ' ~ 'sp-hidden' %}
         {% endif %}
         {{ form_button(Lang.get('ticket.mark_resolved'), {'class': class, 'data-close': Lang.get('ticket.mark_resolved_and_post_reply')}) }}
+
+        {{ form_submit(Lang.choice('ticket.post_reply', 1), {'class': 'sp-w-full sm:sp-w-auto', 'disabled': 'disabled'}) }}
     </div>
 </form>

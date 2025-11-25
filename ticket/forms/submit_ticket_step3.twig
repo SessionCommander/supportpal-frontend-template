@@ -122,7 +122,7 @@
                                     <span class="sp-file-information" style="display: inline-block; vertical-align: middle;">
                                         <span class="sp-filename" style="color: #d1d5db; font-size: 0.875rem;"></span>
                                         <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;"></span>
-                                        <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove Attachment)</span>
+                                        <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
                                     </span>
                                 </div>
                                 <div class="sp-delete-attachment sp-hidden" title="{{ Lang.get('general.remove') }}">
@@ -146,7 +146,7 @@
                                             <span class="sp-file-information" style="display: inline-block; vertical-align: middle;">
                                                 <span class="sp-filename" style="color: #d1d5db; font-size: 0.875rem;">{{ file }}</span>
                                                 <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;"></span>
-                                                <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove Attachment)</span>
+                                                <span class="sp-remove-attachment-text" style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
                                             </span>
                                         </div>
                                         <div class="sp-delete-attachment" data-url="{{ route('ticket.frontend.attachment.destroy') }}" data-hash="{{ hash }}" title="{{ Lang.get('general.remove') }}">
@@ -228,7 +228,7 @@
     <script>
         new FileUpload();
         
-        // Make "(Remove Attachment)" text clickable
+        // Make "(Remove)" text clickable
         $(document).on('click', '.sp-remove-attachment-text', function(e) {
             e.preventDefault();
             var $li = $(this).closest('li');
@@ -240,6 +240,33 @@
                 }
                 // Trigger the click on the delete button to open the confirmation modal
                 $deleteBtn.trigger('click');
+            }
+        });
+        
+        // Handle file upload errors
+        $(document).on('fileuploadfail', '.sp-file-upload', function(e, data) {
+            var errorMessage = 'An error occurred while uploading the file.';
+            if (data.jqXHR && data.jqXHR.responseJSON && data.jqXHR.responseJSON.message) {
+                errorMessage = data.jqXHR.responseJSON.message;
+            } else if (data.textStatus) {
+                errorMessage = data.textStatus;
+            }
+            
+            // Show error alert
+            var $errorAlert = $('.attachment.sp-alert-error');
+            if ($errorAlert.length) {
+                $errorAlert.find('.sp-container').text(errorMessage);
+                $errorAlert.removeClass('sp-hidden');
+                
+                // Scroll to error
+                $('html, body').animate({
+                    scrollTop: $errorAlert.offset().top - 100
+                }, 300);
+            }
+            
+            // Remove the failed file from the list
+            if (data.context) {
+                $(data.context).remove();
             }
         });
     </script>

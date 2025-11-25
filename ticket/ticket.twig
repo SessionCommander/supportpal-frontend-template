@@ -200,7 +200,7 @@
     <script>
         new FileUpload();
         
-        // Make "(Remove Attachment)" text clickable
+        // Make "(Remove)" text clickable
         $(document).on('click', '.sp-remove-attachment-text', function(e) {
             e.preventDefault();
             var $li = $(this).closest('li');
@@ -212,6 +212,33 @@
                 }
                 // Trigger the click on the delete button to open the confirmation modal
                 $deleteBtn.trigger('click');
+            }
+        });
+        
+        // Handle file upload errors
+        $(document).on('fileuploadfail', '.sp-file-upload', function(e, data) {
+            var errorMessage = 'An error occurred while uploading the file.';
+            if (data.jqXHR && data.jqXHR.responseJSON && data.jqXHR.responseJSON.message) {
+                errorMessage = data.jqXHR.responseJSON.message;
+            } else if (data.textStatus) {
+                errorMessage = data.textStatus;
+            }
+            
+            // Show error alert
+            var $errorAlert = $('.attachment.sp-alert-error');
+            if ($errorAlert.length) {
+                $errorAlert.find('.sp-container').text(errorMessage);
+                $errorAlert.removeClass('sp-hidden');
+                
+                // Scroll to error
+                $('html, body').animate({
+                    scrollTop: $errorAlert.offset().top - 100
+                }, 300);
+            }
+            
+            // Remove the failed file from the list
+            if (data.context) {
+                $(data.context).remove();
             }
         });
     </script>

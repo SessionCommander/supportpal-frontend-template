@@ -2160,6 +2160,58 @@ label.error,
   cursor: move !important;
 }
 
+/* TinyMCE Image Upload Dropzone Styling */
+.tox .tox-dropzone,
+.tox .tox-dropzone__overlay,
+.tox .tox-image-tools .tox-dropzone,
+.tox-dialog__body .tox-dropzone {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border: 2px dashed rgba(168, 85, 247, 0.3) !important;
+  border-radius: 0.5rem !important;
+  color: #d1d5db !important;
+}
+
+.tox .tox-dropzone__overlay-text,
+.tox .tox-dropzone p,
+.tox .tox-dropzone .tox-label,
+.tox .tox-dropzone__overlay .tox-label,
+.tox-dialog__body .tox-dropzone p,
+.tox-dialog__body .tox-dropzone .tox-label {
+  color: #d1d5db !important;
+}
+
+.tox .tox-dropzone:hover,
+.tox-dialog__body .tox-dropzone:hover {
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  background: rgba(31, 41, 55, 0.7) !important;
+}
+
+/* TinyMCE Image Upload Tab Content */
+.tox-dialog__body-content .tox-form__group p,
+.tox-dialog__body-content .tox-form__group .tox-label {
+  color: #d1d5db !important;
+}
+
+/* Mark as Resolved Button Styling */
+.sp-mark-resolved {
+  background: rgba(31, 41, 55, 0.8) !important;
+  border: 1px solid rgba(168, 85, 247, 0.3) !important;
+  color: #d1d5db !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  transition: all 0.2s !important;
+  cursor: pointer !important;
+}
+
+.sp-mark-resolved:hover:not(:disabled) {
+  background: rgba(168, 85, 247, 0.2) !important;
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  color: #a855f7 !important;
+  transform: translateY(-1px) !important;
+}
+
 /* Enhanced SweetAlert/Swal Modal Styling */
 .swal2-popup,
 .swal-modal {
