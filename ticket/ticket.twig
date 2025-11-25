@@ -193,26 +193,38 @@
             e.preventDefault();
             var $link = $(this);
             var url = $link.data('url');
-            var token = $link.data('token');
+            var guestToken = $link.data('token');
             var attachmentId = $link.data('attachment-id');
             var hash = $link.data('hash');
+            var csrfToken = $('meta[name=csrf_token]').prop('content');
             
             if (confirm('Are you sure you want to remove this attachment?')) {
+                var postData = {
+                    _token: csrfToken,
+                    attachment_id: attachmentId,
+                    hash: hash
+                };
+                
+                // Add guest token if it exists
+                if (guestToken) {
+                    postData.token = guestToken;
+                }
+                
                 $.ajax({
                     url: url,
                     method: 'POST',
-                    data: {
-                        _token: token,
-                        attachment_id: attachmentId,
-                        hash: hash
-                    },
+                    data: postData,
                     success: function() {
                         $link.closest('li').fadeOut(function() {
                             $(this).remove();
                         });
                     },
-                    error: function() {
-                        showErrorAtTop('Failed to remove attachment.');
+                    error: function(xhr, status, error) {
+                        var errorMessage = 'Failed to remove attachment.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        showErrorAtTop(errorMessage);
                     }
                 });
             }
