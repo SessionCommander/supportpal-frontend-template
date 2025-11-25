@@ -63,15 +63,15 @@
 					</a>
 					<span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.875rem; margin-left: 0.5rem;">({{ attachment.upload.size }})</span>
 					{% if message.by != 0 %}
-						<span class="sp-remove-attachment-text" 
-							  style="color: #ef4444; font-size: 0.875rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline;">(Remove)</span>
-						<button type="button" class="sp-delete-attachment sp-hidden"
+						<div class="sp-delete-attachment"
 							 data-url="{{ route('ticket.frontend.attachment.destroy') }}"
 							 data-attachment-id="{{ attachment.id }}"
 							 data-size="{{ attachment.upload.getRawOriginal('size') }}"
 							 data-hash="{{ attachment.upload_hash }}"
 							 data-silent="false"
-							 style="display: none;"></button>
+							 title="{{ Lang.get('general.remove') }}">
+							<i class="fas fa-times sp-text-white"></i>
+						</div>
 					{% endif %}
 				</li>
 			{% endfor %}

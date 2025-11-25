@@ -188,18 +188,6 @@
     <script>
         new FileUpload();
         
-        // Make "(Remove)" text clickable for reply history attachments
-        $(document).on('click', '.sp-attachments .sp-remove-attachment-text', function(e) {
-            e.preventDefault();
-            var $li = $(this).closest('li');
-            var $deleteBtn = $li.find('.sp-delete-attachment');
-            if ($deleteBtn.length) {
-                // Remove hidden class and display:none to make it clickable
-                $deleteBtn.removeClass('sp-hidden').css('display', '');
-                // Trigger the click on the delete button to use the FileUpload library's delete mechanism
-                $deleteBtn.trigger('click');
-            }
-        });
         
         // Make "(Remove)" text clickable for new reply form attachments
         $(document).on('click', '.sp-attached-files .sp-remove-attachment-text', function(e) {
