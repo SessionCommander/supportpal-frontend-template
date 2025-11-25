@@ -43,29 +43,27 @@
 
 			{% for attachment in message.attachments %}
 				<li class="sp-flex" data-download-url="{{ attachment.direct_frontend_url }}" data-filename="{{ attachment.original_name }}" style="width: 100%;">
-					<div class="sp-me-2" style="flex: 1; min-width: 0; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; padding: 0.75rem;">
-						{% if attachment.upload.isPreviewable() %}
-							{% if attachment.upload.isPreviewableVideo() or attachment.upload.isPreviewableAudio() %}
-								<a class="sp-attachment-preview"
-								   data-video='{"source": [{"src":"{{ attachment.previewFrontendUrl(true) }}", "type":"{{ attachment.upload.mime }}"}], "attributes": {"preload": false, "controls": true}}'
-						   		   data-download-url="{{ attachment.direct_frontend_url }}"
-						   		   style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
-							{% else %}
-								<a class="{% if attachment.upload.isPreviewableImage() %}sp-attachment-preview{% endif %}"
-						   		   {% if not attachment.upload.isPreviewableImage() %}target="_blank"{% endif %}
-						           href="{{ attachment.previewFrontendUrl(true) }}"
-						           data-download-url="{{ attachment.direct_frontend_url }}"
-						           style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
-							{% endif %}
+					{% if attachment.upload.isPreviewable() %}
+						{% if attachment.upload.isPreviewableVideo() or attachment.upload.isPreviewableAudio() %}
+							<a class="sp-attachment-preview"
+							   data-video='{"source": [{"src":"{{ attachment.previewFrontendUrl(true) }}", "type":"{{ attachment.upload.mime }}"}], "attributes": {"preload": false, "controls": true}}'
+					   		   data-download-url="{{ attachment.direct_frontend_url }}"
+					   		   style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
 						{% else %}
-							<a href="{{ attachment.direct_frontend_url }}" style="text-decoration: none; color: inherit; display: flex; align-items: center; width: 100%;">
+							<a class="{% if attachment.upload.isPreviewableImage() %}sp-attachment-preview{% endif %}"
+					   		   {% if not attachment.upload.isPreviewableImage() %}target="_blank"{% endif %}
+					           href="{{ attachment.previewFrontendUrl(true) }}"
+					           data-download-url="{{ attachment.direct_frontend_url }}"
+					           style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
 						{% endif %}
-							<span class="sp-file-information" style="display: inline-flex; align-items: center; gap: 0.25rem; flex-wrap: wrap;">
-								<span class="sp-filename" style="word-break: break-word;">{{ attachment.original_name }}</span>
-								<span class="sp-description sp-filesize">({{ attachment.upload.size }})</span>
-							</span>
-						</a>
-					</div>
+					{% else %}
+						<a href="{{ attachment.direct_frontend_url }}" style="text-decoration: none; color: inherit; display: flex; align-items: center; flex: 1; min-width: 0;">
+					{% endif %}
+						<span class="sp-file-information" style="display: inline-flex; align-items: center; gap: 0.25rem; white-space: nowrap;">
+							<span class="sp-filename">{{ attachment.original_name }}</span>
+							<span class="sp-description sp-filesize">({{ attachment.upload.size }})</span>
+						</span>
+					</a>
 					{% if message.by != 0 %}
 						<span class="sp-remove-attachment-text" 
 							  style="color: #ef4444; font-size: 0.75rem; margin-left: 0.5rem; cursor: pointer; text-decoration: underline; flex-shrink: 0; align-self: center;"
