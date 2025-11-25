@@ -194,10 +194,8 @@
             var $li = $(this).closest('li');
             var $deleteBtn = $li.find('.sp-delete-attachment');
             if ($deleteBtn.length) {
-                // Show the delete button if it's hidden
-                if ($deleteBtn.hasClass('sp-hidden')) {
-                    $deleteBtn.removeClass('sp-hidden');
-                }
+                // Remove hidden class and display:none to make it clickable
+                $deleteBtn.removeClass('sp-hidden').css('display', '');
                 // Trigger the click on the delete button to use the FileUpload library's delete mechanism
                 $deleteBtn.trigger('click');
             }
