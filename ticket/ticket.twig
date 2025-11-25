@@ -56,6 +56,37 @@
             </div>
         </div>
 
+        {% set channelAddonInstance = ChannelFactory.getChannel(ticket.channel.name) %}
+        {% if ticket.locked == 0 and channelAddonInstance.canReplyToTicket(ticket, auth_user() ?: ticket.user) %}
+            {% if organisationEmails is defined or ticket.cc is not empty %}
+                <div class="sp-sidebar-box">
+                    <h2 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">{{ Lang.get('ticket.cc') }}</h2>
+                    <div class="sp-form-row">
+                        <div class="sp-input-container">
+                            <div class="sp-recipients-text" style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 0.5rem;">
+                                {{ Lang.get('ticket.cc_desc') }}
+                            </div>
+                            <select name="cc[]" multiple="multiple" class="ticket-cc-select-sidebar" style="width: 100%;">
+                                {% if organisationEmails is defined %}
+                                    {% for email in organisationEmails %}
+                                        <option selected="selected" data-data='{{ {'value': email, 'unremovable': true}|json_encode(constant('JSON_FORCE_OBJECT')) }}'
+                                                value='{{ email }}'>
+                                            {{ email }}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if ticket.cc is not empty %}
+                                    {% for email in ticket.cc %}
+                                        <option selected="selected" value='{{ email }}'>{{ email }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
         {{ View.fireHook('frontend.sidebar_end') }}
     </div>
 {% endblock %}
@@ -200,4 +231,44 @@
     </script>
 
     <script src="{{ asset_rev('resources/assets/frontend/js/ticket.js') }}"></script>
+
+    {# Sync sidebar CC field with hidden form field #}
+    <script>
+        (function() {
+            var sidebarCcSelect = document.querySelector('.ticket-cc-select-sidebar');
+            var hiddenCcSelect = document.querySelector('.ticket-cc-select-hidden');
+            
+            if (sidebarCcSelect && hiddenCcSelect) {
+                // Initialize Select2 on sidebar CC field if it exists
+                if (typeof jQuery !== 'undefined' && jQuery.fn.select2) {
+                    jQuery(sidebarCcSelect).select2({
+                        tags: true,
+                        tokenSeparators: [','],
+                        placeholder: 'Enter email address...'
+                    });
+                }
+                
+                // Sync values on form submit
+                var form = document.querySelector('.sp-message-form');
+                if (form) {
+                    form.addEventListener('submit', function() {
+                        // Get selected values from sidebar
+                        var selectedValues = [];
+                        if (typeof jQuery !== 'undefined' && jQuery(sidebarCcSelect).data('select2')) {
+                            selectedValues = jQuery(sidebarCcSelect).val() || [];
+                        } else {
+                            Array.from(sidebarCcSelect.selectedOptions).forEach(function(option) {
+                                selectedValues.push(option.value);
+                            });
+                        }
+                        
+                        // Update hidden field
+                        Array.from(hiddenCcSelect.options).forEach(function(option) {
+                            option.selected = selectedValues.includes(option.value);
+                        });
+                    });
+                }
+            }
+        })();
+    </script>
 {% endblock %}

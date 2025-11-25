@@ -1528,26 +1528,97 @@ input[type="submit"]:hover {
 .tox .tox-toolbar,
 .tox .tox-toolbar__overflow,
 .tox .tox-toolbar__primary {
-  background: rgba(17, 24, 39, 0.5) !important;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
+  background: rgba(17, 24, 39, 0.8) !important;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.3) !important;
+  padding: 0.25rem !important;
+}
+
+.tox .tox-toolbar__group {
+  border-right: 1px solid rgba(168, 85, 247, 0.2) !important;
+  padding: 0 0.5rem !important;
+}
+
+.tox .tox-toolbar__group:last-child {
+  border-right: none !important;
 }
 
 .tox .tox-tbtn {
   color: #d1d5db !important;
+  border-radius: 0.25rem !important;
+  transition: all 0.2s !important;
 }
 
 .tox .tox-tbtn:hover {
-  background: rgba(168, 85, 247, 0.1) !important;
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #a855f7 !important;
 }
 
 .tox .tox-tbtn--enabled {
-  background: rgba(168, 85, 247, 0.2) !important;
+  background: rgba(168, 85, 247, 0.3) !important;
   color: #a855f7 !important;
+}
+
+.tox .tox-tbtn--select .tox-tbtn__select-label {
+  color: #d1d5db !important;
+}
+
+.tox .tox-tbtn--select:hover .tox-tbtn__select-label {
+  color: #a855f7 !important;
+}
+
+.tox .tox-tbtn--select .tox-tbtn__select-chevron svg {
+  fill: #9ca3af !important;
+}
+
+.tox .tox-tbtn--select:hover .tox-tbtn__select-chevron svg {
+  fill: #a855f7 !important;
+}
+
+.tox .tox-tbtn svg {
+  fill: currentColor !important;
 }
 
 .tox .tox-menubar {
   background: rgba(17, 24, 39, 0.5) !important;
   border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
+}
+
+/* Attachment Section Styling */
+.sp-attachment-section {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+}
+
+.sp-file-input:hover {
+  background: rgba(168, 85, 247, 0.1) !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.sp-attached-files {
+  background: transparent !important;
+}
+
+.sp-attached-files li {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+}
+
+.sp-delete-attachment {
+  background: #ef4444 !important;
+  transition: background 0.2s !important;
+}
+
+.sp-delete-attachment:hover {
+  background: #dc2626 !important;
+}
+
+.sp-progress-bar {
+  background: rgba(168, 85, 247, 0.2) !important;
+}
+
+.sp-progress-bar .sp-bar {
+  background: #a855f7 !important;
 }
 
 .tox .tox-menu {
