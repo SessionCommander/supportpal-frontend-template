@@ -55,13 +55,20 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  background-color: #030712 !important;
+html {
+  height: 100%;
+  background-color: #030712;
   background-image: linear-gradient(135deg, rgba(88, 28, 135, 0.3) 0%, rgba(111, 34, 50, 0.2) 50%, rgba(3, 7, 18, 1) 100%);
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-position: center center;
+}
+
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  background-color: transparent !important;
+  background-image: none !important;
+  min-height: 100%;
   color: #f3f4f6 !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -71,11 +78,9 @@ body {
 /* Override SupportPal's body background classes */
 body.sp-bg-secondary,
 body.sp-bg-primary {
-  background-color: #030712 !important;
-  background-image: linear-gradient(135deg, rgba(88, 28, 135, 0.3) 0%, rgba(111, 34, 50, 0.2) 50%, rgba(3, 7, 18, 1) 100%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-color: transparent !important;
+  background-image: none !important;
+  min-height: 100% !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -364,11 +369,7 @@ main {
 }
 
 /* Override any SupportPal default white backgrounds - be more specific */
-body.sp-bg-secondary,
-body.sp-bg-primary {
-  background: linear-gradient(135deg, rgba(88, 28, 135, 0.15) 0%, rgba(111, 34, 50, 0.1) 50%, rgba(17, 24, 39, 1) 100%) !important;
-  background-color: transparent !important;
-}
+/* Removed duplicate/conflicting background definition - using the one above */
 
 /* Old breadcrumb styling - now using page-header-breadcrumb */
 .sp-breadcrumb {
