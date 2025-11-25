@@ -243,6 +243,23 @@
             }
         });
         
+        // Function to show error at top of page
+        function showErrorAtTop(message) {
+            var $errorBox = $('#js-message-box');
+            if ($errorBox.length) {
+                $errorBox.removeClass('sp-hidden').addClass('sp-alert-error').html(message);
+                $errorBox[0].style.display = 'block';
+                
+                // Scroll to top
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 300);
+            }
+        }
+        
+        // Hide all error containers initially
+        $('.attachment.sp-alert-error').addClass('sp-hidden');
+        
         // Handle file upload errors
         $(document).on('fileuploadfail', '.sp-file-upload', function(e, data) {
             var errorMessage = 'An error occurred while uploading the file.';
@@ -260,27 +277,11 @@
                 errorMessage = data.textStatus;
             }
             
-            // Show error alert
-            var $errorAlert = $('.attachment.sp-alert-error');
-            if ($errorAlert.length) {
-                $errorAlert.find('.sp-container').text(errorMessage);
-                $errorAlert.removeClass('sp-hidden');
-                
-                // Scroll to error
-                $('html, body').animate({
-                    scrollTop: $errorAlert.offset().top - 100
-                }, 300);
-            } else {
-                // Create error alert if it doesn't exist
-                var $newAlert = $('<div class="attachment sp-alert sp-alert-error sp-alert-sticky"><div class="sp-container sp-mx-auto">' + errorMessage + '</div></div>');
-                $('form').first().before($newAlert);
-                $newAlert.removeClass('sp-hidden');
-                
-                // Scroll to error
-                $('html, body').animate({
-                    scrollTop: $newAlert.offset().top - 100
-                }, 300);
-            }
+            // Show error at top of page
+            showErrorAtTop(errorMessage);
+            
+            // Hide local error containers
+            $('.attachment.sp-alert-error').addClass('sp-hidden');
             
             // Remove the failed file from the list
             if (data.context) {
@@ -306,23 +307,16 @@
                 if (!hasValidExtension) {
                     var errorMessage = 'File type not supported. Please upload a file with one of the following extensions: ' + allowedExtensions.join(', ');
                     
-                    // Show error alert
-                    var $errorAlert = $('.attachment.sp-alert-error');
-                    if ($errorAlert.length) {
-                        $errorAlert.find('.sp-container').text(errorMessage);
-                        $errorAlert.removeClass('sp-hidden');
-                    } else {
-                        var $newAlert = $('<div class="attachment sp-alert sp-alert-error sp-alert-sticky"><div class="sp-container sp-mx-auto">' + errorMessage + '</div></div>');
-                        $('form').first().before($newAlert);
-                        $newAlert.removeClass('sp-hidden');
-                    }
+                    // Show error at top of page
+                    showErrorAtTop(errorMessage);
                     
-                    // Scroll to error
-                    setTimeout(function() {
-                        $('html, body').animate({
-                            scrollTop: $('.attachment.sp-alert-error').offset().top - 100
-                        }, 300);
-                    }, 100);
+                    // Hide local error containers
+                    $('.attachment.sp-alert-error').addClass('sp-hidden');
+                    
+                    // Scroll to top
+                    $('html, body').animate({
+                        scrollTop: 0
+                    }, 300);
                     
                     // Prevent upload
                     e.preventDefault();

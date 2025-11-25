@@ -200,8 +200,38 @@
     <script>
         new FileUpload();
         
-        // Make "(Remove)" text clickable
-        $(document).on('click', '.sp-remove-attachment-text', function(e) {
+        // Make "(Remove)" text clickable for reply history attachments
+        $(document).on('click', '.sp-attachments .sp-remove-attachment-text', function(e) {
+            e.preventDefault();
+            var $link = $(this);
+            var url = $link.data('url');
+            var token = $link.data('token');
+            var attachmentId = $link.data('attachment-id');
+            var hash = $link.data('hash');
+            
+            if (confirm('Are you sure you want to remove this attachment?')) {
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        _token: token,
+                        attachment_id: attachmentId,
+                        hash: hash
+                    },
+                    success: function() {
+                        $link.closest('li').fadeOut(function() {
+                            $(this).remove();
+                        });
+                    },
+                    error: function() {
+                        showErrorAtTop('Failed to remove attachment.');
+                    }
+                });
+            }
+        });
+        
+        // Make "(Remove)" text clickable for new reply form attachments
+        $(document).on('click', '.sp-attached-files .sp-remove-attachment-text', function(e) {
             e.preventDefault();
             var $li = $(this).closest('li');
             var $deleteBtn = $li.find('.sp-delete-attachment');
@@ -213,6 +243,63 @@
                 // Trigger the click on the delete button to open the confirmation modal
                 $deleteBtn.trigger('click');
             }
+        });
+        
+        // Function to show error at top of page
+        function showErrorAtTop(message) {
+            var $errorBox = $('#js-message-box');
+            if ($errorBox.length) {
+                $errorBox.removeClass('sp-hidden').addClass('sp-alert-error').html(message);
+                $errorBox[0].style.display = 'block';
+                
+                // Scroll to top
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 300);
+            }
+        }
+        
+        // Hide all error containers initially and when empty
+        function hideEmptyErrorContainers() {
+            $('.attachment.sp-alert-error').each(function() {
+                var $container = $(this);
+                var text = $container.find('.sp-container').text().trim();
+                if (!text) {
+                    $container.addClass('sp-hidden');
+                }
+            });
+            
+            // Hide validation errors that are empty or hidden
+            $('.sp-validation-container .error, .sp-validation-container label.error').each(function() {
+                var $error = $(this);
+                var text = $error.text().trim();
+                if (!text || $error.hasClass('sp-hidden')) {
+                    $error.addClass('sp-hidden');
+                }
+            });
+            
+            // Update validation container class based on visible errors
+            $('.sp-validation-container').each(function() {
+                var $container = $(this);
+                var hasVisibleError = $container.find('.error:not(.sp-hidden), label.error:not(.sp-hidden)').length > 0;
+                if (hasVisibleError) {
+                    $container.addClass('error-active');
+                } else {
+                    $container.removeClass('error-active');
+                }
+            });
+        }
+        
+        // Hide empty error containers on page load
+        hideEmptyErrorContainers();
+        
+        // Watch for changes to validation errors
+        var observer = new MutationObserver(function(mutations) {
+            hideEmptyErrorContainers();
+        });
+        
+        $('.sp-validation-container').each(function() {
+            observer.observe(this, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
         });
         
         // Handle file upload errors
@@ -232,27 +319,11 @@
                 errorMessage = data.textStatus;
             }
             
-            // Show error alert
-            var $errorAlert = $('.attachment.sp-alert-error');
-            if ($errorAlert.length) {
-                $errorAlert.find('.sp-container').text(errorMessage);
-                $errorAlert.removeClass('sp-hidden');
-                
-                // Scroll to error
-                $('html, body').animate({
-                    scrollTop: $errorAlert.offset().top - 100
-                }, 300);
-            } else {
-                // Create error alert if it doesn't exist
-                var $newAlert = $('<div class="attachment sp-alert sp-alert-error sp-alert-sticky"><div class="sp-container sp-mx-auto">' + errorMessage + '</div></div>');
-                $('.sp-message-form').before($newAlert);
-                $newAlert.removeClass('sp-hidden');
-                
-                // Scroll to error
-                $('html, body').animate({
-                    scrollTop: $newAlert.offset().top - 100
-                }, 300);
-            }
+            // Show error at top of page
+            showErrorAtTop(errorMessage);
+            
+            // Hide local error containers
+            $('.attachment.sp-alert-error').addClass('sp-hidden');
             
             // Remove the failed file from the list
             if (data.context) {
@@ -278,29 +349,43 @@
                 if (!hasValidExtension) {
                     var errorMessage = 'File type not supported. Please upload a file with one of the following extensions: ' + allowedExtensions.join(', ');
                     
-                    // Show error alert
-                    var $errorAlert = $('.attachment.sp-alert-error');
-                    if ($errorAlert.length) {
-                        $errorAlert.find('.sp-container').text(errorMessage);
-                        $errorAlert.removeClass('sp-hidden');
-                    } else {
-                        var $newAlert = $('<div class="attachment sp-alert sp-alert-error sp-alert-sticky"><div class="sp-container sp-mx-auto">' + errorMessage + '</div></div>');
-                        $('.sp-message-form').before($newAlert);
-                        $newAlert.removeClass('sp-hidden');
-                    }
+                    // Show error at top of page
+                    showErrorAtTop(errorMessage);
                     
-                    // Scroll to error
-                    setTimeout(function() {
-                        $('html, body').animate({
-                            scrollTop: $('.attachment.sp-alert-error').offset().top - 100
-                        }, 300);
-                    }, 100);
+                    // Hide local error containers
+                    $('.attachment.sp-alert-error').addClass('sp-hidden');
+                    
+                    // Scroll to top
+                    $('html, body').animate({
+                        scrollTop: 0
+                    }, 300);
                     
                     // Prevent upload
                     e.preventDefault();
                     return false;
                 }
             }
+        });
+        
+        // Handle form validation errors - show at top
+        $(document).on('submit', '.sp-message-form', function(e) {
+            // Clear any previous errors
+            setTimeout(function() {
+                var $errors = $('.sp-validation-container .error:visible');
+                if ($errors.length) {
+                    var errorMessages = [];
+                    $errors.each(function() {
+                        var errorText = $(this).text().trim();
+                        if (errorText) {
+                            errorMessages.push(errorText);
+                        }
+                    });
+                    if (errorMessages.length) {
+                        showErrorAtTop(errorMessages.join('<br>'));
+                        $('.sp-validation-container .error').addClass('sp-hidden');
+                    }
+                }
+            }, 100);
         });
     </script>
 
