@@ -1544,18 +1544,39 @@ input[type="submit"]:hover {
   border: 1px solid rgba(168, 85, 247, 0.2) !important;
   border-radius: 0.5rem !important;
   background: rgba(31, 41, 55, 0.5) !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.tox .tox-edit-area {
+  min-height: 350px !important;
+  flex: 1 1 auto !important;
 }
 
 .tox .tox-edit-area__iframe {
   background: rgba(31, 41, 55, 0.5) !important;
   min-height: 350px !important;
-}
-
-.tox .tox-edit-area {
-  min-height: 350px !important;
+  height: auto !important;
 }
 
 .tox .tox-edit-area__iframe[style*="min-height"] {
+  min-height: 350px !important;
+  height: auto !important;
+}
+
+/* Make editor container expand dynamically */
+.tox .tox-editor-header {
+  flex-shrink: 0 !important;
+}
+
+.tox .tox-editor-container {
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 500px !important;
+}
+
+.tox .tox-editor-container .tox-edit-area {
+  flex: 1 1 auto !important;
   min-height: 350px !important;
 }
 
@@ -1617,7 +1638,7 @@ input[type="submit"]:hover {
   border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
 }
 
-/* TinyMCE Statusbar - minimal styling, colors only, prevent movement */
+/* TinyMCE Statusbar - minimal styling, colors only, prevent movement, expand earlier */
 .tox .tox-statusbar {
   background: rgba(17, 24, 39, 0.5) !important;
   border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
@@ -1625,15 +1646,22 @@ input[type="submit"]:hover {
   position: relative !important;
   width: 100% !important;
   flex-shrink: 0 !important;
+  min-height: 39px !important;
+  height: auto !important;
 }
 
 .tox .tox-statusbar__text-container {
   position: relative !important;
   overflow: visible !important;
+  min-height: 39px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .tox .tox-statusbar__path {
   position: relative !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
 }
 
 .tox .tox-statusbar__path-item {
@@ -1645,11 +1673,31 @@ input[type="submit"]:hover {
   color: #a855f7 !important;
 }
 
+/* Ensure editor expands content area before statusbar moves */
+.tox .tox-edit-area {
+  flex-grow: 1 !important;
+  flex-shrink: 1 !important;
+  min-height: 350px !important;
+  height: auto !important;
+}
+
 /* Attachment Section Styling */
 .sp-attachment-section {
   background: rgba(31, 41, 55, 0.5) !important;
   border-radius: 0.5rem !important;
-  padding: 1rem !important;
+  padding: 0.75rem !important;
+  margin-top: 0 !important;
+}
+
+/* Remove extra padding between editor and attachments */
+.sp-validation-container + .sp-attachment-section {
+  margin-top: 0 !important;
+  padding-top: 0.5rem !important;
+}
+
+.tox-tinymce + .sp-attachment-section,
+.tox-tinymce ~ .sp-attachment-section {
+  margin-top: 0 !important;
 }
 
 .sp-file-input:hover {
