@@ -1145,6 +1145,16 @@ a[href]:hover {
   margin-bottom: 1rem;
 }
 
+/* Remove blue highlight from newly posted messages */
+.sp-message[data-id].sp-highlight,
+.sp-message.sp-message-new,
+.sp-message.unread,
+.sp-message[style*="background"][style*="blue"],
+.sp-message[style*="background-color"][style*="blue"] {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+}
+
 /* Staff messages have purple glow */
 .sp-message-staff {
   box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3), 0 0 20px rgba(168, 85, 247, 0.1);
@@ -1573,26 +1583,31 @@ input[type="submit"]:hover {
   align-items: center !important;
   gap: 0.75rem !important;
   padding: 0.75rem !important;
+  overflow: visible !important;
 }
 
 .sp-delete-attachment {
   background: transparent !important;
   border: none !important;
-  padding: 0.25rem !important;
+  padding: 0.375rem !important;
   cursor: pointer !important;
   transition: all 0.2s !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 20px !important;
-  height: 20px !important;
+  width: 24px !important;
+  height: 24px !important;
   flex-shrink: 0 !important;
+  position: relative !important;
+  margin-left: auto !important;
 }
 
 .sp-delete-attachment svg {
   color: #ef4444 !important;
   stroke: #ef4444 !important;
   transition: all 0.2s !important;
+  width: 18px !important;
+  height: 18px !important;
 }
 
 .sp-delete-attachment:hover {
@@ -1606,7 +1621,8 @@ input[type="submit"]:hover {
 }
 
 /* Make sure delete button is visible in attachment items */
-.sp-attachment-item .sp-delete-attachment {
+.sp-attachment-item .sp-delete-attachment,
+.sp-attachments li .sp-delete-attachment {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -1752,22 +1768,36 @@ input[type="submit"]:hover {
   border: 1px solid rgba(168, 85, 247, 0.2);
   border-radius: 0.5rem;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.reply-form .sp-input-container .tox-tinymce {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.reply-form .sp-input-container .tox .tox-edit-area {
+  flex: 1;
+  min-height: 300px;
 }
 
 .sp-editor-container {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 /* TinyMCE Editor Styling - Match template colors */
 .tox-tinymce {
-  background: rgba(31, 41, 55, 0.5) !important;
-  border: 1px solid rgba(168, 85, 247, 0.2) !important;
-  border-radius: 0.5rem !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
 }
 
 .tox .tox-editor-header {
   background: rgba(17, 24, 39, 0.5) !important;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
+  border-bottom: none !important;
+  border-top: none !important;
   padding: 0.5rem !important;
 }
 
@@ -1801,7 +1831,8 @@ input[type="submit"]:hover {
 
 .tox .tox-menubar {
   background: rgba(17, 24, 39, 0.5) !important;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
+  border-bottom: none !important;
+  border-top: none !important;
   padding: 0.25rem 0.5rem !important;
 }
 
@@ -1816,14 +1847,33 @@ input[type="submit"]:hover {
   color: #d1d5db !important;
 }
 
-.tox .tox-menu__label:hover {
+.tox .tox-menu__label:hover,
+.tox .tox-collection__item--active .tox-menu__label {
   background: rgba(168, 85, 247, 0.2) !important;
+  color: #a855f7 !important;
+}
+
+.tox .tox-collection__item {
+  background: rgba(31, 41, 55, 0.5) !important;
+}
+
+.tox .tox-collection__item:hover,
+.tox .tox-collection__item--active {
+  background: rgba(168, 85, 247, 0.2) !important;
+}
+
+.tox .tox-collection__item-label {
+  color: #d1d5db !important;
+}
+
+.tox .tox-collection__item:hover .tox-collection__item-label,
+.tox .tox-collection__item--active .tox-collection__item-label {
   color: #a855f7 !important;
 }
 
 .tox .tox-statusbar {
   background: rgba(17, 24, 39, 0.5) !important;
-  border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
+  border-top: none !important;
   color: #9ca3af !important;
 }
 
@@ -1846,6 +1896,25 @@ input[type="submit"]:hover {
   color: #d1d5db !important;
 }
 
+.tox .tox-listbox {
+  background: rgba(17, 24, 39, 0.95) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+  border-radius: 0.375rem !important;
+}
+
+.tox .tox-listbox .tox-listbox__select-label {
+  color: #d1d5db !important;
+}
+
+.tox .tox-listbox .tox-listbox__select-label:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #a855f7 !important;
+}
+
+.tox .tox-listboxfield .tox-listbox--select:hover {
+  background: rgba(168, 85, 247, 0.1) !important;
+}
+
 .tox .tox-dialog {
   background: rgba(17, 24, 39, 0.95) !important;
   backdrop-filter: blur(12px);
@@ -1855,10 +1924,18 @@ input[type="submit"]:hover {
 
 .tox .tox-dialog__title {
   color: white !important;
+  background: rgba(17, 24, 39, 0.95) !important;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
 }
 
 .tox .tox-dialog__body-content {
   color: #d1d5db !important;
+  background: rgba(17, 24, 39, 0.95) !important;
+}
+
+.tox .tox-dialog__footer {
+  background: rgba(17, 24, 39, 0.95) !important;
+  border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
 }
 
 .tox .tox-textfield,
