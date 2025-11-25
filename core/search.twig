@@ -3,19 +3,21 @@
 {% block title %}{{ Lang.get('core.search_results') }}{% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ Lang.get('core.search_results') }}</span>
+{% endblock %}
+
+{% block page_title %}
     {{ Lang.get('core.search_results') }}
 {% endblock %}
 
-{% block content %}
-
-    <h1 style="font-size: 2rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
-        {{ Lang.get('core.search_results') }}
-    </h1>
-
-    <p style="color: #9ca3af; font-size: 1rem; margin-bottom: 2rem;">
+{% block page_description %}
+    <p class="page-header-description">
         {{ Lang.get('core.found_results', {'total': total}) }} '<strong style="color: #a855f7;">{{ term }}</strong>'.
     </p>
+{% endblock %}
+
+{% block content %}
 
     {% if total > 0 %}
         <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(168, 85, 247, 0.2);">

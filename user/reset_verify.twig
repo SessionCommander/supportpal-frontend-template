@@ -3,8 +3,12 @@
 {% block title %}{{ Lang.get('user.reset_password') }}{% endblock %}
 
 {% block breadcrumb %}
-	{{ parent() }}
-	{{ Lang.get('user.reset_password') }}
+	<span class="page-header-breadcrumb-separator">&raquo;</span>
+	<span>{{ Lang.get('user.reset_password') }}</span>
+{% endblock %}
+
+{% block page_title %}
+    {{ Lang.get('user.reset_password') }}
 {% endblock %}
 
 {% block content %}
@@ -35,9 +39,6 @@
                     </div>
                 {% endif %}
 
-                <h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
-                    {{ Lang.get('user.reset_password') }}
-                </h2>
                 <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 2rem; line-height: 1.6;">
                     {{ Lang.get('user.please_set_password') }}
                 </p>

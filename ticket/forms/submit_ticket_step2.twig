@@ -3,25 +3,29 @@
 {% block title %}{{ Lang.get('core.submit_ticket') }}{% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
-    {{ Lang.get('core.submit_ticket') }}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <a href="{{ route('ticket.frontend.ticket.createStep1') }}">{{ Lang.get('core.submit_ticket') }}</a>
+{% endblock %}
+
+{% block page_title %}
+    {{ Lang.get('ticket.select_department') }}
+{% endblock %}
+
+{% block page_description %}
+    <p class="page-header-description">
+        {{ Lang.get('ticket.select_department_desc') }}
+    </p>
 {% endblock %}
 
 {% block content %}
 
     <div style="max-width: 42rem; margin: 0 auto;">
-        <h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
-            {{ Lang.get('ticket.select_department') }}
-        </h2>
-        <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 2rem;">
-            {{ Lang.get('ticket.select_department_desc') }}
-        </p>
 
         {% if departments is not empty %}
             <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1rem;">
                 {% for department in departments %}
-                    <a class="sp-department" href="{{ route('ticket.frontend.ticket.createStep3', {'department': department.id}) }}" 
-                       style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
+                    <a class="sp-department dashboard-card" href="{{ route('ticket.frontend.ticket.createStep3', {'department': department.id}) }}" 
+                       style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s;">
                         <h4 style="font-size: 1.125rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
                             {{ department.frontend_name }}
                         </h4>

@@ -18,9 +18,14 @@
 {% block title %}{{ ticket.subject }}{% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
-    <a href="{{ route('ticket.frontend.ticket.index') }}">{{ Lang.choice('ticket.ticket', 2) }}</a> &nbsp;&raquo;&nbsp;
-    {{ Lang.choice('ticket.ticket', 1) }} #{{ ticket.number }}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <a href="{{ route('ticket.frontend.ticket.index') }}">{{ Lang.choice('ticket.ticket', 2) }}</a>
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ Lang.choice('ticket.ticket', 1) }} #{{ ticket.number }}</span>
+{% endblock %}
+
+{% block page_title %}
+    {{ ticket.subject }}
 {% endblock %}
 
 {% block sidebar %}

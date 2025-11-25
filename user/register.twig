@@ -3,8 +3,12 @@
 {% block title %}{{ Lang.get('user.register') }}{% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
-    {{ Lang.get('user.register_account') }}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ Lang.get('user.register_account') }}</span>
+{% endblock %}
+
+{% block page_title %}
+    {{ Lang.get('user.register') }}
 {% endblock %}
 
 {% block content %}
@@ -32,9 +36,6 @@
 
         <div style="max-width: 42rem; margin: 0 auto;">
             <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem;">
-                <h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 1.5rem; font-family: var(--font-playfair);">
-                    {{ Lang.get('user.register') }}
-                </h2>
 
                 {% if Session.has('social_metadata') %}
                     <div class="sp-alert sp-alert-info" style="margin-bottom: 1.5rem;">

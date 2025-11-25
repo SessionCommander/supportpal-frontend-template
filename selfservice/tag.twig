@@ -6,9 +6,14 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
-    <a href="{{ route('selfservice.index', [ type.slug ]) }}">{{ type.name }}</a> &nbsp;&raquo;&nbsp;
-    {{ tag.name }}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <a href="{{ route('selfservice.index', [ type.slug ]) }}">{{ type.name }}</a>
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ tag.name }}</span>
+{% endblock %}
+
+{% block page_title %}
+    {{ Lang.choice('selfservice.tag', 1) }}: {{ tag.name }}
 {% endblock %}
 
 {% block sidebar %}

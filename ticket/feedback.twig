@@ -3,9 +3,16 @@
 {% block title %}{{ Lang.get('ticket.feedback_for_ticket', {'number': ticket.number}) }}{% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
-    <a href="{{ route('ticket.frontend.ticket.index') }}">{{ Lang.choice('ticket.ticket', 2) }}</a> &nbsp;&raquo;&nbsp;
-    {{ Lang.choice('ticket.ticket', 1) }} #{{ ticket.number }}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <a href="{{ route('ticket.frontend.ticket.index') }}">{{ Lang.choice('ticket.ticket', 2) }}</a>
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <a href="{{ route('ticket.frontend.ticket.show', {'number': ticket.number}) }}">{{ Lang.choice('ticket.ticket', 1) }} #{{ ticket.number }}</a>
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ Lang.get('ticket.feedback') }}</span>
+{% endblock %}
+
+{% block page_title %}
+    {{ Lang.get('ticket.feedback_for_ticket', {'number': ticket.number}) }}
 {% endblock %}
 
 {% block content %}
@@ -27,9 +34,6 @@
                 <div style="margin: 2rem 0; padding: 2rem 0; border-top: 1px solid rgba(168, 85, 247, 0.2); border-bottom: 1px solid rgba(168, 85, 247, 0.2);"></div>
             {% endif %}
 
-            <h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 1.5rem; font-family: var(--font-playfair);">
-                {{ Lang.get('ticket.how_was_the_help') }}
-            </h2>
 
             {{ form_open({'route': ['ticket.frontend.ticket.feedback', ticket.number, token]}) }}
 

@@ -14,8 +14,13 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <a href="{{ route('selfservice.index', type.slug) }}">{{ type.name }}</a> &nbsp;&raquo;&nbsp;
-    {{ Lang.get('selfservice.viewing_article') }}
+    <a href="{{ route('selfservice.index', type.slug) }}">{{ type.name }}</a>
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ article.title }}</span>
+{% endblock %}
+
+{% block page_title %}
+    {{ article.title }}
 {% endblock %}
 
 {% block sidebar %}

@@ -1,8 +1,8 @@
 {% extends parent_template %}
 
 {% block breadcrumb %}
-    {{ parent() }}
-    {{ Lang.get('general.home') }}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ Lang.get('general.home') }}</span>
 {% endblock %}
 
 {% block precontent %}
@@ -30,138 +30,81 @@
         </div>
     {% else %}
 
-        {% if isModuleEnabled('Ticket') %}
-            <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                {% if not types.isEmpty() %}
-                    <div style="grid-column: span 1;">
-                {% else %}
-                    <div style="grid-column: span 1; display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem;">
-                {% endif %}
-                    <a href="{{ route('ticket.frontend.ticket.createStep1') }}" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
-                        <div style="display: flex; align-items: center; gap: 1.5rem;">
-                            <div class="icon-wrapper" style="width: 4rem; height: 4rem; background: rgba(168, 85, 247, 0.1); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
-                                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
-                                </svg>
-                            </div>
-                            <div style="flex: 1;">
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem;">
+            {% if isModuleEnabled('Selfservice') %}
+                <a href="{% if types is not empty and not types.isEmpty() %}{{ types.first().url }}{% else %}{{ route('selfservice.index') }}{% endif %}" class="dashboard-card" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem; text-decoration: none; transition: all 0.2s;">
+                    <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                        </svg>
+                        <div>
+                            <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                                Documentation
+                            </h3>
+                            <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
+                                Browse our knowledge base for answers and guides
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+
+            {% if isModuleEnabled('Ticket') %}
+                <a href="{{ route('ticket.frontend.ticket.createStep1') }}" class="dashboard-card" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem; text-decoration: none; transition: all 0.2s;">
+                    <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                        </svg>
+                        <div>
+                            <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                                Contact Us
+                            </h3>
+                            <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
+                                Get in touch with our support team
+                            </p>
+                        </div>
+                    </div>
+                </a>
+
+                {% if not auth_check() and Config.get('channel.web.settings.unauthenticated_users') %}
+                    <a href="{{ route('ticket.frontend.track') }}" class="dashboard-card" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem; text-decoration: none; transition: all 0.2s;">
+                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            <div>
                                 <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
-                                    {{ Lang.get('core.submit_ticket') }}
+                                    Track Ticket
                                 </h3>
                                 <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
-                                    {{ Lang.get('core.submit_ticket_desc') }}
+                                    Check the status of your support ticket
                                 </p>
                             </div>
                         </div>
                     </a>
-                    {% if not auth_check() and Config.get('channel.web.settings.unauthenticated_users') %}
-                        <a href="{{ route('ticket.frontend.track') }}" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
-                            <div style="display: flex; align-items: center; gap: 1.5rem;">
-                                <div class="icon-wrapper" style="width: 4rem; height: 4rem; background: rgba(168, 85, 247, 0.1); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
-                                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
-                                        {{ Lang.get('core.track_ticket') }}
-                                    </h3>
-                                    <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
-                                        {{ Lang.get('core.track_ticket_desc') }}
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    {% elseif auth_check() %}
-                        <a href="{{ route('ticket.frontend.ticket.index') }}" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
-                            <div style="display: flex; align-items: center; gap: 1.5rem;">
-                                <div class="icon-wrapper" style="width: 4rem; height: 4rem; background: rgba(168, 85, 247, 0.1); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
-                                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                                        <circle cx="12" cy="12" r="3"/>
-                                    </svg>
-                                </div>
-                                <div style="flex: 1;">
-                                    <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
-                                        {{ Lang.get('core.my_tickets') }}
-                                    </h3>
-                                    <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
-                                        {{ Lang.get('core.my_tickets_desc') }}
-                                    </p>
-                                </div>
-                            </div>
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
-
-        {% if isModuleEnabled('Selfservice') %}
-            <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem;">
-                {% for type in types %}
-                    {% set isCollapsible = not type.articles.isEmpty() and type.content == 0 and type.show_on_dashboard %}
-                    <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; transition: all 0.2s;" class="knowledgebase-card" data-collapsible="{{ isCollapsible ? 'true' : 'false' }}">
-                        <div style="display: flex; align-items: center; gap: 1.5rem; cursor: {% if isCollapsible %}pointer{% else %}default{% endif %};">
-                            <div class="icon-wrapper" style="width: 4rem; height: 4rem; background: rgba(168, 85, 247, 0.1); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
-                                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-                                </svg>
-                            </div>
-                            <div style="flex: 1;">
+                {% elseif auth_check() %}
+                    <a href="{{ route('ticket.frontend.ticket.index') }}" class="dashboard-card" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem; text-decoration: none; transition: all 0.2s;">
+                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            <div>
                                 <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
-                                    <a href="{{ type.url }}" style="color: white; text-decoration: none;">{{ type.name }}</a>
+                                    My Tickets
                                 </h3>
                                 <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
-                                    {{ type.description }}
+                                    View and manage your support tickets
                                 </p>
                             </div>
-                            {% if isCollapsible %}
-                                <div style="margin-left: auto;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9ca3af; transition: transform 0.2s;" class="chevron-icon">
-                                        <path d="m6 9 6 6 6-6"/>
-                                    </svg>
-                                </div>
-                            {% endif %}
                         </div>
-                        {% if isCollapsible %}
-                            <div class="articles-list" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(168, 85, 247, 0.2);">
-                                {% include 'frontend.' ~ template ~ '.selfservice.article_list' with {'articles': type.articles, 'noRssFeed': true} %}
-                                <div style="margin-top: 1.5rem;">
-                                    <a href="{{ type.url }}" style="display: inline-block; padding: 0.5rem 1rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border-radius: 0.5rem; text-decoration: none; font-size: 0.875rem; font-weight: 500;">
-                                        {{ Lang.get('general.view_all') }} &raquo;
-                                    </a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
     {% endif %}
 
     {{ View.fireHook('frontend.dashboard') }}
 
-{% endblock %}
-
-{% block scripts_footer %}
-    <script>
-        (function() {
-            // Collapsible knowledgebase sections
-            document.querySelectorAll('.knowledgebase-card[data-collapsible="true"]').forEach(function(card) {
-                const header = card.querySelector('div[style*="cursor"]');
-                const articlesList = card.querySelector('.articles-list');
-                const chevron = card.querySelector('.chevron-icon');
-                
-                if (header && articlesList && chevron) {
-                    header.addEventListener('click', function(e) {
-                        if (e.target.tagName === 'A') return;
-                        const isHidden = articlesList.style.display === 'none';
-                        articlesList.style.display = isHidden ? 'block' : 'none';
-                        chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
-                    });
-                }
-            });
-        })();
-    </script>
 {% endblock %}

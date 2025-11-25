@@ -55,7 +55,8 @@ html {
 
 body {
   font-family: var(--font-inter), system-ui, sans-serif;
-  background-color: #030712;
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.15) 0%, rgba(111, 34, 50, 0.1) 50%, rgba(17, 24, 39, 1) 100%);
+  background-attachment: fixed;
   color: #f3f4f6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -305,14 +306,18 @@ h1, h2, h3, h4, h5, h6 {
 /* Main Content */
 main {
   min-height: calc(100vh - 80px);
-  background-color: #030712;
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .content-wrapper {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem 1rem;
-  background-color: #030712;
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 640px) {
@@ -348,21 +353,9 @@ main {
   background-color: transparent;
 }
 
+/* Old breadcrumb styling - now using page-header-breadcrumb */
 .sp-breadcrumb {
-  color: #9ca3af;
-  font-size: 0.875rem;
-  margin-bottom: 2rem;
-  font-family: var(--font-inter);
-}
-
-.sp-breadcrumb a {
-  color: #9ca3af;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.sp-breadcrumb a:hover {
-  color: #a855f7;
+  display: none;
 }
 
 h1 {
@@ -750,6 +743,136 @@ table td {
   height: 1.5rem;
 }
 
+/* Remove backgrounds from icon wrappers - icons should be standalone */
+.icon-wrapper[style*="background"],
+.icon-wrapper,
+[style*="background"][style*="icon-wrapper"],
+[style*="background: rgba(168, 85, 247, 0.1)"],
+[style*="background: rgba(251, 191, 36, 0.1)"] {
+  background: none !important;
+}
+
+/* Remove backgrounds from SVG icon containers */
+[style*="background"][style*="icon"],
+[style*="background"] svg {
+  background: none !important;
+}
+
+/* Ensure SVG icons don't have background containers */
+svg[style*="color"] {
+  background: none !important;
+}
+
+/* Dashboard grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Dashboard cards hover effect */
+.dashboard-card:hover,
+a.dashboard-card:hover {
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+}
+
+/* All card links should have hover effects */
+a[style*="background: rgba(31, 41, 55, 0.5)"][style*="border: 1px solid rgba(168, 85, 247, 0.2)"]:hover,
+a[style*="background: rgba(31, 41, 55, 0.5)"]:hover {
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+}
+
+/* Department cards hover */
+.sp-department:hover {
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+}
+
+/* Page Header - Like Features page */
+.page-header {
+  position: relative;
+  padding: 4rem 0 3rem;
+  background: linear-gradient(135deg, rgba(88, 28, 135, 0.2) 0%, rgba(111, 34, 50, 0.1) 50%, rgba(17, 24, 39, 0.5) 100%);
+  margin: -2rem -1rem 3rem -1rem;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.page-header-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.page-header-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  flex-wrap: wrap;
+}
+
+.page-header-breadcrumb a {
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.page-header-breadcrumb a:hover {
+  color: #a855f7;
+}
+
+.page-header-breadcrumb-separator {
+  color: #6b7280;
+}
+
+.page-header-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  font-family: var(--font-playfair);
+  line-height: 1.2;
+}
+
+.page-header-title-gradient {
+  background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-header-description {
+  font-size: 1.125rem;
+  color: #d1d5db;
+  margin-top: 1rem;
+  max-width: 48rem;
+  line-height: 1.6;
+}
+
 /* Hide FontAwesome icons, use custom SVG instead */
 .sp-icon i.fas,
 .sp-icon i.far,
@@ -775,14 +898,17 @@ table td {
 }
 
 /* Links in content */
-.sp-content-inner a {
+.sp-content-inner a,
+a[href] {
   color: #a855f7;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: all 0.2s;
 }
 
-.sp-content-inner a:hover {
+.sp-content-inner a:hover,
+a[href]:hover {
   color: #c084fc;
+  text-decoration: underline;
 }
 
 /* Text colors */
@@ -1161,7 +1287,7 @@ input[type="submit"] {
   font-weight: 500;
   font-size: 0.875rem;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
   text-decoration: none;
   display: inline-block;
 }
@@ -1170,6 +1296,8 @@ input[type="submit"] {
 button[type="submit"]:hover,
 input[type="submit"]:hover {
   opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
 }
 
 .sp-button-sm {
@@ -1289,6 +1417,32 @@ input[type="submit"]:hover {
 .select2-results__option--highlighted {
   background: rgba(168, 85, 247, 0.2) !important;
   color: #a855f7 !important;
+}
+
+/* Hide SupportPal branding */
+*[class*="supportpal"],
+*[id*="supportpal"],
+*[class*="SupportPal"],
+*[id*="SupportPal"],
+*[class*="support-pal"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide footer text containing SupportPal */
+footer:has-text("SupportPal"),
+footer:has-text("Self-Hosted"),
+*:contains("Self-Hosted Help Desk Software by SupportPal") {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Ensure hidden elements stay hidden */
+.sp-hidden,
+[class*="hidden"]:not([class*="hover"]):not([class*="focus"]),
+[id*="js-message-box"].sp-hidden {
+  display: none !important;
+  visibility: hidden !important;
 }
 
 /* Print styles */

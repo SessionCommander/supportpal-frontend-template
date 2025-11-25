@@ -3,7 +3,11 @@
 {% block title %}{{ type.name }}{% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ type.name }}</span>
+{% endblock %}
+
+{% block page_title %}
     {{ type.name }}
 {% endblock %}
 

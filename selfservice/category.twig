@@ -3,11 +3,17 @@
 {% block title %}{{ categoryName }}{% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
-    <a href="{{ route('selfservice.index', [ type.slug ]) }}">{{ type.name }}</a> &nbsp;&raquo;&nbsp;
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <a href="{{ route('selfservice.index', [ type.slug ]) }}">{{ type.name }}</a>
     {% for category in breadcrumb %}
-        <a href="{{ category.frontend_url }}">{{ category.name }}</a> &nbsp;&raquo;&nbsp;
+        <span class="page-header-breadcrumb-separator">&raquo;</span>
+        <a href="{{ category.frontend_url }}">{{ category.name }}</a>
     {% endfor %}
+    <span class="page-header-breadcrumb-separator">&raquo;</span>
+    <span>{{ categoryName }}</span>
+{% endblock %}
+
+{% block page_title %}
     {{ categoryName }}
 {% endblock %}
 
