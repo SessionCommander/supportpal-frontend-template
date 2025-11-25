@@ -29,8 +29,8 @@
                 {{ form_editor('text', null, {'data-route': loadDraftMessageRoute, 'id': 'newMessage'}) }}
             </div>
 
-            <div class="sp-attachment-section" style="margin-top: 0; padding-top: 0.5rem; border-top: 1px solid rgba(168, 85, 247, 0.2);">
-                <label class="sp-file-input" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; text-decoration: none; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; margin-bottom: 1rem;">
+            <div class="sp-attachment-section" style="margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid rgba(168, 85, 247, 0.2);">
+                <label class="sp-file-input" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; text-decoration: none; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; margin-bottom: 0;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
                     </svg>
@@ -78,7 +78,7 @@
                     {% endfor %}
                 </div>
 
-                <ul class="sp-attached-files" style="list-style: none; padding: 0; margin: 0.75rem 0 0 0;">
+                <ul class="sp-attached-files" style="list-style: none; padding: 0; margin: 0.75rem 0 0.75rem 0;">
                     <li class="sp-attachment-item sp-hidden" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; margin-bottom: 0.5rem; position: relative;">
                         <div style="flex: 1; min-width: 0;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9ca3af; display: inline-block; vertical-align: middle; margin-right: 0.5rem;">
@@ -90,8 +90,8 @@
                                 <span class="sp-description sp-filesize" style="color: #9ca3af; font-size: 0.75rem; margin-left: 0.5rem;"></span>
                             </span>
                         </div>
-                        <div class="sp-delete-attachment" style="background: #ef4444; border-radius: 0.25rem; padding: 0.25rem 0.5rem; cursor: pointer; transition: background 0.2s;" title="{{ Lang.get('general.remove') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
+                        <div class="sp-delete-attachment" title="{{ Lang.get('general.remove') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 6 6 18"/>
                                 <path d="m6 6 12 12"/>
                             </svg>
@@ -118,8 +118,8 @@
                                  data-size="{{ attachment.upload.getRawOriginal('size') }}"
                                  data-hash="{{ attachment.upload_hash }}"
                                  data-silent="false"
-                                 style="background: #ef4444; border-radius: 0.25rem; padding: 0.25rem 0.5rem; cursor: pointer; transition: background 0.2s;" title="{{ Lang.get('general.remove') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: white;">
+                                 title="{{ Lang.get('general.remove') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M18 6 6 18"/>
                                     <path d="m6 6 12 12"/>
                                 </svg>

@@ -1545,7 +1545,8 @@ input[type="submit"]:hover {
   background: rgba(31, 41, 55, 0.5) !important;
   border-radius: 0.5rem !important;
   padding: 0.75rem !important;
-  margin-top: 0 !important;
+  margin-top: 0.5rem !important;
+  padding-bottom: 0.75rem !important;
 }
 
 
@@ -1561,15 +1562,41 @@ input[type="submit"]:hover {
 .sp-attached-files li {
   background: rgba(31, 41, 55, 0.5) !important;
   border: 1px solid rgba(168, 85, 247, 0.2) !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  padding: 0.75rem !important;
 }
 
 .sp-delete-attachment {
-  background: #ef4444 !important;
-  transition: background 0.2s !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0.25rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 20px !important;
+  height: 20px !important;
+  flex-shrink: 0 !important;
+}
+
+.sp-delete-attachment svg {
+  color: #ef4444 !important;
+  stroke: #ef4444 !important;
+  transition: all 0.2s !important;
 }
 
 .sp-delete-attachment:hover {
-  background: #dc2626 !important;
+  background: transparent !important;
+}
+
+.sp-delete-attachment:hover svg {
+  color: #dc2626 !important;
+  stroke: #dc2626 !important;
+  transform: scale(1.1) !important;
 }
 
 /* Make sure delete button is visible in attachment items */
@@ -1577,6 +1604,7 @@ input[type="submit"]:hover {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  position: relative !important;
 }
 
 .sp-progress-bar {
@@ -1721,9 +1749,146 @@ input[type="submit"]:hover {
 }
 
 .sp-editor-container {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
+/* TinyMCE Editor Styling - Match template colors */
+.tox-tinymce {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+  border-radius: 0.5rem !important;
+}
+
+.tox .tox-editor-header {
+  background: rgba(17, 24, 39, 0.5) !important;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
+  padding: 0.5rem !important;
+}
+
+.tox .tox-toolbar,
+.tox .tox-toolbar__overflow,
+.tox .tox-toolbar__primary {
+  background: transparent !important;
+}
+
+.tox .tox-toolbar button,
+.tox .tox-tbtn,
+.tox .tox-tbtn--enabled {
+  color: #d1d5db !important;
+  background: transparent !important;
+}
+
+.tox .tox-tbtn:hover,
+.tox .tox-tbtn--enabled:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #a855f7 !important;
+}
+
+.tox .tox-tbtn--enabled {
+  background: rgba(168, 85, 247, 0.1) !important;
+  color: #a855f7 !important;
+}
+
+.tox .tox-edit-area__iframe {
+  background: rgba(31, 41, 55, 0.5) !important;
+}
+
+.tox .tox-menubar {
+  background: rgba(17, 24, 39, 0.5) !important;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
+  padding: 0.25rem 0.5rem !important;
+}
+
+.tox .tox-menu {
+  background: rgba(17, 24, 39, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+  border-radius: 0.375rem !important;
+}
+
+.tox .tox-menu__label {
+  color: #d1d5db !important;
+}
+
+.tox .tox-menu__label:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
+  color: #a855f7 !important;
+}
+
+.tox .tox-statusbar {
+  background: rgba(17, 24, 39, 0.5) !important;
+  border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
+  color: #9ca3af !important;
+}
+
+.tox .tox-statusbar__path-item,
+.tox .tox-statusbar__wordcount {
+  color: #9ca3af !important;
+}
+
+.tox .tox-split-button {
+  border-color: rgba(168, 85, 247, 0.2) !important;
+}
+
+.tox .tox-split-button:hover {
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.tox .tox-listboxfield .tox-listbox--select {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border-color: rgba(168, 85, 247, 0.2) !important;
+  color: #d1d5db !important;
+}
+
+.tox .tox-dialog {
+  background: rgba(17, 24, 39, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(168, 85, 247, 0.2) !important;
+  border-radius: 0.5rem !important;
+}
+
+.tox .tox-dialog__title {
+  color: white !important;
+}
+
+.tox .tox-dialog__body-content {
+  color: #d1d5db !important;
+}
+
+.tox .tox-textfield,
+.tox .tox-textarea {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border-color: rgba(168, 85, 247, 0.2) !important;
+  color: #f3f4f6 !important;
+}
+
+.tox .tox-textfield:focus,
+.tox .tox-textarea:focus {
+  border-color: rgba(168, 85, 247, 0.4) !important;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1) !important;
+}
+
+.tox .tox-button {
+  background: rgba(31, 41, 55, 0.5) !important;
+  border-color: rgba(168, 85, 247, 0.2) !important;
+  color: #d1d5db !important;
+}
+
+.tox .tox-button:hover {
+  background: rgba(168, 85, 247, 0.2) !important;
+  border-color: rgba(168, 85, 247, 0.4) !important;
+  color: #a855f7 !important;
+}
+
+.tox .tox-button--primary {
+  background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%) !important;
+  border-color: transparent !important;
+  color: white !important;
+}
+
+.tox .tox-button--primary:hover {
+  background: linear-gradient(135deg, #9333ea 0%, #a855f7 50%, #c084fc 100%) !important;
+}
 
 /* CRITICAL: Ensure error messages are ALWAYS visible (unless explicitly hidden) */
 .sp-alert-error:not(.sp-hidden):not(.sp-alert-sticky),
