@@ -223,10 +223,10 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
-/* Hide SupportPal's plus/add button in header (appears via hooks) */
+/* Hide SupportPal's plus/add button and other icons in header (appears via hooks) */
 #main-header .sp-action-button,
 #main-header a.sp-action-button:not(.sp-dropdown-container .sp-action),
-#main-header button[class*="sp-action"]:not(.sp-action),
+#main-header button[class*="sp-action"]:not(.sp-action):not(.mobile-menu-btn),
 #main-header a[href*="create"]:not(.nav-link):not([href*="app.sessioncommander"]):not(.sp-dropdown-container a),
 #main-header a[href*="add"]:not(.nav-link):not(.sp-dropdown-container a),
 #main-header .fa-plus:not(.fa-chevron-down),
@@ -237,7 +237,16 @@ h1, h2, h3, h4, h5, h6 {
 #main-header [title*="Add"]:not(.sp-dropdown-container *),
 #main-header [title*="Create"]:not(.sp-dropdown-container *),
 #main-header [aria-label*="Add"]:not(.sp-dropdown-container *),
-#main-header [aria-label*="Create"]:not(.sp-dropdown-container *) {
+#main-header [aria-label*="Create"]:not(.sp-dropdown-container *),
+#main-header button.sp-button:not(.mobile-menu-btn),
+#main-header a.sp-button:not(.nav-link):not(.btn-login) {
+  display: none !important;
+}
+
+/* Hide specific elements added via hooks after header-inner */
+#main-header .header-container > a[class*="sp-action"]:not(.sp-dropdown-container a),
+#main-header .header-container > button[class*="sp-"],
+#main-header .header-container > .sp-action {
   display: none !important;
 }
 
@@ -1030,6 +1039,53 @@ a[href]:hover {
   display: inline-flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+}
+
+/* Tabs - Match purple theme and make compact */
+.sp-tabs {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.sp-tabs li {
+  margin: 0;
+  padding: 0;
+}
+
+.sp-tabs li a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  margin-bottom: -1px;
+}
+
+.sp-tabs li.sp-active a,
+.sp-tabs li:hover a {
+  color: #a855f7;
+  border-bottom-color: #a855f7;
+}
+
+.sp-tab-content {
+  margin-top: 1rem;
+}
+
+.sp-tab-content.sp-hidden {
+  display: none !important;
+}
+
+/* Hide empty Latest News or announcement sections */
+.sp-sidebar-box:empty,
+.sp-sidebar-box h2:only-child + *:empty {
+  display: none;
 }
 
 /* Ticket Grid Styling */
