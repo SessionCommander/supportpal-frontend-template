@@ -1145,6 +1145,32 @@ a[href]:hover {
   margin-bottom: 1rem;
 }
 
+/* Staff messages have purple glow */
+.sp-message-staff {
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.3), 0 0 20px rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+/* Disable message collapsing - always show full messages */
+.sp-message-collapsible,
+.sp-message-collapsed {
+  cursor: default !important;
+}
+
+.sp-message-text-trimmed {
+  display: none !important;
+}
+
+.sp-message-text-original {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+.sp-message-collapsed .sp-message-text-original {
+  display: block !important;
+  opacity: 1 !important;
+}
+
 .sp-message-header {
   display: flex;
   align-items: center;
@@ -1591,11 +1617,23 @@ input[type="submit"]:hover {
   border-bottom: 1px solid rgba(168, 85, 247, 0.2) !important;
 }
 
-/* TinyMCE Statusbar - minimal styling, colors only */
+/* TinyMCE Statusbar - minimal styling, colors only, prevent movement */
 .tox .tox-statusbar {
   background: rgba(17, 24, 39, 0.5) !important;
   border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
   color: #d1d5db !important;
+  position: relative !important;
+  width: 100% !important;
+  flex-shrink: 0 !important;
+}
+
+.tox .tox-statusbar__text-container {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.tox .tox-statusbar__path {
+  position: relative !important;
 }
 
 .tox .tox-statusbar__path-item {
@@ -1804,11 +1842,22 @@ input[type="submit"]:hover {
 
 
 /* CRITICAL: Ensure error messages are ALWAYS visible (unless explicitly hidden) */
-.sp-alert-error:not(.sp-hidden),
-.sp-alert-success:not(.sp-hidden),
-.sp-alert-warning:not(.sp-hidden),
-.sp-alert-info:not(.sp-hidden),
-.sp-alert:not(.sp-hidden) {
+.sp-alert-error:not(.sp-hidden):not(.sp-alert-sticky),
+.sp-alert-success:not(.sp-hidden):not(.sp-alert-sticky),
+.sp-alert-warning:not(.sp-hidden):not(.sp-alert-sticky),
+.sp-alert-info:not(.sp-hidden):not(.sp-alert-sticky),
+.sp-alert:not(.sp-hidden):not(.sp-alert-sticky) {
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Sticky alerts should respect sp-hidden class */
+.sp-alert-sticky.sp-hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.sp-alert-sticky:not(.sp-hidden) {
   display: block !important;
   visibility: visible !important;
 }

@@ -1,4 +1,4 @@
-<div class="sp-message sp-message-{{ message.id }} {% if unread %}sp-message-collapsible{% else %}sp-message-collapsed{% endif %}" data-id="{{ message.id }}">
+<div class="sp-message sp-message-{{ message.id }} {% if message.by == 0 %}sp-message-staff{% endif %}" data-id="{{ message.id }}">
 	<div class="sp-flex">
 		<div class="sp-flex-initial sp-hidden sp-me-4 md:sp-block">
 			<img src="{{ message.user.avatar_url }}" class="sp-avatar sp-max-w-xs md:sp-max-w-md" />
@@ -26,10 +26,7 @@
 	</div>
 
 	<div class="sp-message-text sp-flow-root">
-		<div class="sp-message-text-trimmed {% if unread %}sp-hidden{% endif %}" dir="auto">{{ message.excerpt }}</div>
-
-		<div class="sp-message-text-original {% if message.show_more is empty %}sp-message-text-loaded{% endif %}
-				 {% if message.clipped %}sp-message-text-clipped{% endif %} {% if not unread %}sp-hidden{% endif %}" dir="auto">
+		<div class="sp-message-text-original" dir="auto">
 			{% if message.show_more is empty %}
 				{{ message.purified_text|raw }}
 			{% endif %}
