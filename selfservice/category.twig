@@ -22,11 +22,13 @@
         {# Show any subcategories if they exist #}
         {% include 'frontend.' ~ template ~ '.selfservice.category_list' with {'categories': subcategories, 'none': false} %}
 
-        <hr />
+        <div style="margin: 2rem 0; padding: 2rem 0; border-top: 1px solid rgba(168, 85, 247, 0.2); border-bottom: 1px solid rgba(168, 85, 247, 0.2);"></div>
     {% endif %}
 
     {# Show all articles in category #}
-    <h2>{{ Lang.choice('selfservice.article', 2) }}</h2>
+    <h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 1.5rem; font-family: var(--font-playfair);">
+        {{ Lang.choice('selfservice.article', 2) }}
+    </h2>
     {% include 'frontend.' ~ template ~ '.selfservice.article_list' with {'category': false, 'show_pinned': type.view == 1} %}
 
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends parent_template %}
 
 {% block title %}
-    405 - {{ Lang.get('messages.page_not_found') }}
+    405 - {{ Lang.get('messages.method_not_allowed') }}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -11,8 +11,33 @@
 
 {% block content %}
 
-    <p class="sp-m-0">{{ Lang.get('messages.cant_find_page') }} {{ Lang.get('messages.please_report') }}</p>
-
-    <p class="sp-mb-0">{{ Lang.get('messages.return_to', {'page': '<a href="' ~ route('core.frontend.home') ~ '">' ~ mb_strtolower(Lang.get('general.support_portal'), 'UTF-8') ~ '</a>'})|raw }}</p>
+    <div style="text-align: center; padding: 4rem 0; max-width: 42rem; margin: 0 auto;">
+        <div style="margin-bottom: 2rem;">
+            <div class="icon-wrapper large" style="width: 8rem; height: 8rem; margin: 0 auto; background: rgba(168, 85, 247, 0.1); border-radius: 1rem; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+                    <path d="M9 12l2 2 4-4"/>
+                </svg>
+            </div>
+        </div>
+        
+        <h1 style="font-size: 3rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+            405
+        </h1>
+        
+        <h2 style="font-size: 1.5rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+            {{ Lang.get('messages.method_not_allowed') }}
+        </h2>
+        
+        <p style="color: #9ca3af; font-size: 1rem; margin-bottom: 2rem; line-height: 1.6;">
+            {{ Lang.get('messages.method_not_allowed_desc') }}
+        </p>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{{ route('core.frontend.home') }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem;">
+                {{ Lang.get('general.support_portal') }}
+            </a>
+        </div>
+    </div>
 
 {% endblock %}

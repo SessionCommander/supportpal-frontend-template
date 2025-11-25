@@ -9,13 +9,37 @@
 
 {% block content %}
 
-    <h2>{{ Lang.get('core.maintenance') }}</h2>
-
-    <div class="sp-alert sp-alert-warning sp-alert-with-icon sp-alert-bottom">
-        <i class="sp-alert-icon fas fa-exclamation-triangle"></i>
-        <div class="sp-alert-content">
-            {{ Lang.get('core.maintenance_desc') }}
+    <div style="text-align: center; padding: 4rem 0; max-width: 42rem; margin: 0 auto;">
+        <div style="margin-bottom: 2rem;">
+            <div class="icon-wrapper large" style="width: 8rem; height: 8rem; margin: 0 auto; background: rgba(251, 191, 36, 0.1); border-radius: 1rem; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #fbbf24;">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                    <path d="M12 9v4"/>
+                    <path d="M12 17h.01"/>
+                </svg>
+            </div>
         </div>
+        
+        <h1 style="font-size: 2.5rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+            {{ Lang.get('core.maintenance') }}
+        </h1>
+        
+        <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 0.5rem; padding: 1.5rem; margin: 2rem 0; text-align: left;">
+            <div style="display: flex; align-items: start; gap: 1rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #fbbf24; flex-shrink: 0; margin-top: 0.125rem;">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                    <path d="M12 9v4"/>
+                    <path d="M12 17h.01"/>
+                </svg>
+                <div style="color: #fbbf24; font-size: 0.875rem; line-height: 1.6;">
+                    {{ Lang.get('core.maintenance_desc') }}
+                </div>
+            </div>
+        </div>
+        
+        <p style="color: #9ca3af; font-size: 1rem; margin: 0;">
+            {{ Lang.get('core.maintenance_soon') }}
+        </p>
     </div>
 
 {% endblock %}

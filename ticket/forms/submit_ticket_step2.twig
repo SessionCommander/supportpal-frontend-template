@@ -9,20 +9,35 @@
 
 {% block content %}
 
-    <h2>{{ Lang.get('ticket.select_department') }}</h2>
+    <div style="max-width: 42rem; margin: 0 auto;">
+        <h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+            {{ Lang.get('ticket.select_department') }}
+        </h2>
+        <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 2rem;">
+            {{ Lang.get('ticket.select_department_desc') }}
+        </p>
 
-    <p class="sp-description">{{ Lang.get('ticket.select_department_desc') }}</p>
-
-    {% for department in departments %}
-        <a class="sp-department sp-block sp-px-4 sp-py-3 sp-mt-3 sp-bg-secondary sp-border sp-border-tertiary sp-rounded hover:sp-bg-tertiary"
-           href="{{ route('ticket.frontend.ticket.createStep3', {'department': department.id}) }}">
-            <h4>{{ department.frontend_name }}</h4>
-            {% if department.description is not empty %}
-                <p class="sp-mt-3/2 sp-mb-0 sp-description">{{ department.description }}</p>
-            {% endif %}
-        </a>
-    {% else %}
-        {{ Lang.get('ticket.no_departments') }}
-    {% endfor %}
+        {% if departments is not empty %}
+            <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1rem;">
+                {% for department in departments %}
+                    <a class="sp-department" href="{{ route('ticket.frontend.ticket.createStep3', {'department': department.id}) }}" 
+                       style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
+                        <h4 style="font-size: 1.125rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                            {{ department.frontend_name }}
+                        </h4>
+                        {% if department.description is not empty %}
+                            <p style="color: #9ca3af; font-size: 0.875rem; margin: 0; line-height: 1.5;">
+                                {{ department.description }}
+                            </p>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 3rem 0; color: #9ca3af;">
+                {{ Lang.get('ticket.no_departments') }}
+            </div>
+        {% endif %}
+    </div>
 
 {% endblock %}

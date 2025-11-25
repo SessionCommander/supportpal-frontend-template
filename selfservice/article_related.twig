@@ -1,20 +1,24 @@
 {% if not related.isEmpty() %}
-    <ul class="sp-list-outside sp-related-articles">
+    <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1rem;">
         {% for article in related %}
             {% if type is empty %}
                 {# This is needed if we don't have a single type, for example when showing related articles when submitting a ticket #}
                 {% set custom_type = true %}
                 {% set type = article.types.first() %}
             {% endif %}
-            <li>
-                <a {% if newWindow is defined and newWindow %}target="_blank"{% endif %} href='{{ article.url(type) }}'>
+            <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1rem; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5);">
+                <a {% if newWindow is defined and newWindow %}target="_blank"{% endif %} href='{{ article.url(type) }}' style="color: white; text-decoration: none; font-weight: 500; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7; flex-shrink: 0;">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
                     {{ article.title }}
                 </a>
-            </li>
+            </div>
             {% if custom_type is not empty and custom_type %}
                 {# We need to clear it so it doesn't get used for the following article #}
                 {% set type = null %}
             {% endif %}
         {% endfor %}
-    </ul>
+    </div>
 {% endif %}

@@ -9,49 +9,66 @@
 
 {% block content %}
 
-    <a href="{{ route('ticket.frontend.ticket.createStep1') }}" class="sp-button sp-button-submit sp-mb-6">
-        <i class="fas fa-plus"></i>&nbsp; {{ Lang.get('core.submit_ticket') }}
-    </a>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <h1 style="font-size: 2rem; font-weight: 600; color: white; margin: 0; font-family: var(--font-playfair);">
+            {{ Lang.choice('ticket.ticket', 2) }}
+        </h1>
+        <a href="{{ route('ticket.frontend.ticket.createStep1') }}" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="M12 5v14"/>
+            </svg>
+            {{ Lang.get('core.submit_ticket') }}
+        </a>
+    </div>
 
-    <div class="sp-filter-results sp-hidden">
-        <h3>{{ Lang.get('general.filter_results') }}</h3>
+    <div class="sp-filter-results sp-hidden" style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+            {{ Lang.get('general.filter_results') }}
+        </h3>
 
-        <div class="sp-table">
-            <div class="sp-table-row">
-                <label>{{ Lang.get('general.number') }}:</label>
-                <div id="filter_number"></div>
+        <div class="sp-table" style="display: table; width: 100%;">
+            <div class="sp-table-row" style="display: table-row;">
+                <label style="display: table-cell; padding: 0.5rem; color: #d1d5db; font-weight: 500; width: 30%;">{{ Lang.get('general.number') }}:</label>
+                <div id="filter_number" style="display: table-cell; padding: 0.5rem;"></div>
             </div>
-            <div class="sp-table-row">
-                <label>{{ Lang.get('general.subject') }}:</label>
-                <div id="filter_subject"></div>
+            <div class="sp-table-row" style="display: table-row;">
+                <label style="display: table-cell; padding: 0.5rem; color: #d1d5db; font-weight: 500; width: 30%;">{{ Lang.get('general.subject') }}:</label>
+                <div id="filter_subject" style="display: table-cell; padding: 0.5rem;"></div>
             </div>
-            <div class="sp-table-row">
-                <label>{{ Lang.choice('ticket.department', 1) }}:</label>
-                <div id="filter_department"> </div>
+            <div class="sp-table-row" style="display: table-row;">
+                <label style="display: table-cell; padding: 0.5rem; color: #d1d5db; font-weight: 500; width: 30%;">{{ Lang.choice('ticket.department', 1) }}:</label>
+                <div id="filter_department" style="display: table-cell; padding: 0.5rem;"></div>
             </div>
-            <div class="sp-table-row">
-                <label>{{ Lang.choice('general.status', 1) }}:</label>
-                <div id="filter_status"> </div>
+            <div class="sp-table-row" style="display: table-row;">
+                <label style="display: table-cell; padding: 0.5rem; color: #d1d5db; font-weight: 500; width: 30%;">{{ Lang.choice('general.status', 1) }}:</label>
+                <div id="filter_status" style="display: table-cell; padding: 0.5rem;"></div>
             </div>
-            <div class="sp-table-row">
-                <label>{{ Lang.get('ticket.submitted') }}:</label>
-                <div>
-                    <button class="sp-action sp-filter-datepicker" data-active="0" data-column="4">
-                        <i class="fas fa-calendar"></i>
-                        <span class="sp-hidden xs:sp-inline">
-                        &nbsp;<span class="sp-filter-datepicker-text">{{ Lang.get('general.date') }}</span>
-                    </span>
+            <div class="sp-table-row" style="display: table-row;">
+                <label style="display: table-cell; padding: 0.5rem; color: #d1d5db; font-weight: 500; width: 30%;">{{ Lang.get('ticket.submitted') }}:</label>
+                <div style="display: table-cell; padding: 0.5rem;">
+                    <button class="sp-action sp-filter-datepicker" data-active="0" data-column="4" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; cursor: pointer; font-size: 0.875rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                            <line x1="16" x2="16" y1="2" y2="6"/>
+                            <line x1="8" x2="8" y1="2" y2="6"/>
+                            <line x1="3" x2="21" y1="10" y2="10"/>
+                        </svg>
+                        <span class="sp-filter-datepicker-text sp-hidden xs:sp-inline">{{ Lang.get('general.date') }}</span>
                     </button>
                 </div>
             </div>
-            <div class="sp-table-row">
-                <label>{{ Lang.get('ticket.last_reply') }}:</label>
-                <div>
-                    <button class="sp-action sp-filter-datepicker" data-active="0" data-column="5">
-                        <i class="fas fa-calendar"></i>
-                        <span class="sp-hidden xs:sp-inline">
-                        &nbsp;<span class="sp-filter-datepicker-text">{{ Lang.get('general.date') }}</span>
-                    </span>
+            <div class="sp-table-row" style="display: table-row;">
+                <label style="display: table-cell; padding: 0.5rem; color: #d1d5db; font-weight: 500; width: 30%;">{{ Lang.get('ticket.last_reply') }}:</label>
+                <div style="display: table-cell; padding: 0.5rem;">
+                    <button class="sp-action sp-filter-datepicker" data-active="0" data-column="5" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #d1d5db; cursor: pointer; font-size: 0.875rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                            <line x1="16" x2="16" y1="2" y2="6"/>
+                            <line x1="8" x2="8" y1="2" y2="6"/>
+                            <line x1="3" x2="21" y1="10" y2="10"/>
+                        </svg>
+                        <span class="sp-filter-datepicker-text sp-hidden xs:sp-inline">{{ Lang.get('general.date') }}</span>
                     </button>
                 </div>
             </div>

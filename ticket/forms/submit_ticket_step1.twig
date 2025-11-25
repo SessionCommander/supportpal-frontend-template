@@ -9,53 +9,63 @@
 
 {% block content %}
 
-    {{ form_open({ 'route': [ 'ticket.frontend.ticket.storeStep1' ], 'class': 'validate' }) }}
+    <div style="max-width: 42rem; margin: 0 auto;">
+        <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem;">
+            <h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                {{ Lang.get('ticket.enter_your_details') }}
+            </h2>
+            <p style="color: #9ca3af; font-size: 0.875rem; margin-bottom: 2rem;">
+                {{ Lang.get('ticket.enter_user_details') }}
+            </p>
 
-        {{ form_hidden('department', Request.input('department')) }}
+            {{ form_open({ 'route': [ 'ticket.frontend.ticket.storeStep1' ], 'class': 'validate' }) }}
 
-        <h2>{{ Lang.get('ticket.enter_your_details') }}</h2>
+                {{ form_hidden('department', Request.input('department')) }}
 
-        <p class="sp-description">{{ Lang.get('ticket.enter_user_details') }}</p>
+                {% set email = Request.old('email') %}
+                {% if email %}
+                    <div class="sp-form-row">
+                        {{ form_label('firstname', Lang.get('user.firstname')) }}
+                        <div class="sp-input-container">
+                            {{ form_text('firstname', null, {'autofocus': 'autofocus', 'style': 'width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6;'}) }}
+                        </div>
+                    </div>
 
-        {% set email = Request.old('email') %}
-        {% if email %}
-            <div class="sp-form-row">
-                {{ form_label('firstname', Lang.get('user.firstname')) }}
-                <div class="sp-input-container">
-                    {{ form_text('firstname', null, {'autofocus': 'autofocus'}) }}
+                    <div class="sp-form-row">
+                        {{ form_label('lastname', Lang.get('user.lastname')) }}
+                        <div class="sp-input-container">
+                            {{ form_text('lastname', null, {'style': 'width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6;'}) }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="sp-form-row">
+                    {{ form_label('email', Lang.get('general.email')) }}
+                    <div class="sp-input-container">
+                        {{ form_email('email', email, (email ? {'style': 'width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6;'} : {'autofocus': 'autofocus', 'style': 'width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6;'})) }}
+                    </div>
                 </div>
-            </div>
 
-            <div class="sp-form-row">
-                {{ form_label('lastname', Lang.get('user.lastname')) }}
-                <div class="sp-input-container">
-                    {{ form_text('lastname') }}
+                {% if email and Config.get('settings.organisations_enabled') %}
+                    <div class="sp-form-row">
+                        {{ form_label('organisation', Lang.choice('user.organisation', 1)) }}
+                        <div class="sp-input-container">
+                            {{ form_text('organisation', null, {'style': 'width: 100%; padding: 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #f3f4f6;'}) }}
+                            <span style="color: #9ca3af; font-size: 0.875rem; margin-left: 0.5rem;">({{ Lang.get('general.optional') }})</span>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="sp-form-row" style="margin-top: 1.5rem;">
+                    <label></label>
+                    <div class="sp-input-container">
+                        {{ form_submit(Lang.choice('general.submit', 1), {'style': 'width: 100%; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 500; font-size: 0.875rem; cursor: pointer;'}) }}
+                    </div>
                 </div>
-            </div>
-        {% endif %}
 
-        <div class="sp-form-row">
-            {{ form_label('email', Lang.get('general.email')) }}
-            <div class="sp-input-container">
-                {{ form_email('email', email, (email ? {} : {'autofocus': 'autofocus'})) }}
-            </div>
+            {{ form_close() }}
         </div>
-
-        {% if email and Config.get('settings.organisations_enabled') %}
-            <div class="sp-form-row">
-                {{ form_label('organisation', Lang.choice('user.organisation', 1)) }}
-                <div class="sp-input-container">
-                    {{ form_text('organisation') }} &nbsp;
-                    <span class="sp-description">({{ Lang.get('general.optional') }})</span>
-                </div>
-            </div>
-        {% endif %}
-
-        <div class="sp-form-button">
-            {{ form_submit(Lang.choice('general.submit', 1)) }}
-        </div>
-
-    {{ form_close() }}
+    </div>
 
 {% endblock %}
 

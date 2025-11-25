@@ -11,8 +11,37 @@
 
 {% block content %}
 
-    <p class="sp-m-0">{{ Lang.get('messages.cant_find_page') }} {{ Lang.get('messages.please_report') }}</p>
-
-    <p class="sp-mb-0">{{ Lang.get('messages.return_to', {'page': '<a href="' ~ route('core.frontend.home') ~ '">' ~ mb_strtolower(Lang.get('general.support_portal'), 'UTF-8') ~ '</a>'})|raw }}</p>
+    <div style="text-align: center; padding: 4rem 0; max-width: 42rem; margin: 0 auto;">
+        <div style="margin-bottom: 2rem;">
+            <div class="icon-wrapper large" style="width: 8rem; height: 8rem; margin: 0 auto; background: rgba(168, 85, 247, 0.1); border-radius: 1rem; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="m15 9-6 6"/>
+                    <path d="m9 9 6 6"/>
+                </svg>
+            </div>
+        </div>
+        
+        <h1 style="font-size: 3rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+            404
+        </h1>
+        
+        <h2 style="font-size: 1.5rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+            {{ Lang.get('messages.page_not_found') }}
+        </h2>
+        
+        <p style="color: #9ca3af; font-size: 1rem; margin-bottom: 2rem; line-height: 1.6;">
+            {{ Lang.get('messages.cant_find_page') }} {{ Lang.get('messages.please_report') }}
+        </p>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{{ route('core.frontend.home') }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem;">
+                {{ Lang.get('general.support_portal') }}
+            </a>
+            <a href="https://sessioncommander.com" style="display: inline-block; padding: 0.75rem 1.5rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem;">
+                Back to Website
+            </a>
+        </div>
+    </div>
 
 {% endblock %}

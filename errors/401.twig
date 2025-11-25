@@ -1,7 +1,7 @@
 {% extends parent_template %}
 
 {% block title %}
-    401 - {{ Lang.get('messages.unauthorised') }}
+    401 - {{ Lang.get('messages.unauthorized') }}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -11,8 +11,37 @@
 
 {% block content %}
 
-    <p class="sp-m-0">{{ Lang.get('messages.not_authorised') }} {{ Lang.get('messages.please_report') }}</p>
-
-    <p class="sp-mb-0">{{ Lang.get('messages.return_to', {'page': '<a href="' ~ URL.previous() ~ '">' ~ mb_strtolower(Lang.get('general.previous_page'), 'UTF-8') ~ '</a>'})|raw }}</p>
+    <div style="text-align: center; padding: 4rem 0; max-width: 42rem; margin: 0 auto;">
+        <div style="margin-bottom: 2rem;">
+            <div class="icon-wrapper large" style="width: 8rem; height: 8rem; margin: 0 auto; background: rgba(168, 85, 247, 0.1); border-radius: 1rem; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                    <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H3"/>
+                    <path d="M3 7v10a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15"/>
+                    <path d="m10 11 2 2 4-4"/>
+                </svg>
+            </div>
+        </div>
+        
+        <h1 style="font-size: 3rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+            401
+        </h1>
+        
+        <h2 style="font-size: 1.5rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+            {{ Lang.get('messages.unauthorized') }}
+        </h2>
+        
+        <p style="color: #9ca3af; font-size: 1rem; margin-bottom: 2rem; line-height: 1.6;">
+            {{ Lang.get('messages.login_required') }}
+        </p>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="{{ route('user.login') }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem;">
+                {{ Lang.get('user.login') }}
+            </a>
+            <a href="{{ route('core.frontend.home') }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem;">
+                {{ Lang.get('general.support_portal') }}
+            </a>
+        </div>
+    </div>
 
 {% endblock %}

@@ -2,18 +2,22 @@
     {{ View.fireHook('frontend.sidebar_start') }}
 
     {% if categories is not empty and not categories.isEmpty() %}
-        <div class="sp-sidebar-box">
-            <h2>{{ Lang.choice('selfservice.category', 2) }}</h2>
-            <ul class="sp-nav">
+        <div class="sp-sidebar-box" style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+                {{ Lang.choice('selfservice.category', 2) }}
+            </h2>
+            <ul class="sp-nav" style="list-style: none; padding: 0; margin: 0;">
                 {% for category in categories %}
-                <li>
-                    <a href="{{ category.frontend_url }}">
-                        {% if category.count is not empty %}
-                            <span class="sp-badge sp-float-end">{{ category.count }}</span>
-                        {% endif %}
-                        <div class="nav-item" {% if currentCategory is not empty and currentCategory == category.id %}style="font-weight: bold;"{% endif %}>
+                <li style="margin-bottom: 0.5rem;">
+                    <a href="{{ category.frontend_url }}" style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.75rem; color: #9ca3af; text-decoration: none; border-radius: 0.375rem; transition: all 0.2s; hover:background: rgba(168, 85, 247, 0.1); hover:color: #a855f7;">
+                        <div class="nav-item" style="{% if currentCategory is not empty and currentCategory == category.id %}font-weight: 600; color: #a855f7;{% endif %}">
                             {{ category.dashes|raw }}&nbsp;{{ category.name }}
                         </div>
+                        {% if category.count is not empty %}
+                            <span style="display: inline-block; padding: 0.125rem 0.5rem; background: rgba(168, 85, 247, 0.2); border-radius: 0.25rem; font-size: 0.75rem; color: #a855f7;">
+                                {{ category.count }}
+                            </span>
+                        {% endif %}
                     </a>
                 </li>
                 {% endfor %}
@@ -22,12 +26,14 @@
     {% endif %}
 
     {% if tags is not empty and not tags.isEmpty() %}
-        <div class="sp-sidebar-box">
-            <h2>{{ Lang.choice('selfservice.tag', 2) }}</h2>
-            <ul class="sp-nav">
+        <div class="sp-sidebar-box" style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 1rem; font-family: var(--font-playfair);">
+                {{ Lang.choice('selfservice.tag', 2) }}
+            </h2>
+            <ul class="sp-nav" style="list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: gap: 0.5rem;">
                 {% for tag in tags %}
                     <li>
-                        <a href="{{ route('selfservice.tag', { 'frontendType': type.slug, 'slug': tag.slug }) }}">
+                        <a href="{{ route('selfservice.tag', { 'frontendType': type.slug, 'slug': tag.slug }) }}" style="display: inline-block; padding: 0.375rem 0.75rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.375rem; color: #9ca3af; text-decoration: none; font-size: 0.875rem; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:color: #a855f7;">
                             {{ tag.name }}
                         </a>
                     </li>

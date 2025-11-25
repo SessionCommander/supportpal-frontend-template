@@ -7,14 +7,14 @@
 
 {% block precontent %}
     {% if show_search %}
-        <div class="sp-search-container sp-sticky sp-px-6 sp-bg-primary sp-shadow print:sp-hidden">
-            <div class="sp-container sp-pb-3 sp-m-auto sm:sp-pb-6 lg:sp-pt-3 lg:sp-pb-12">
-                <div class="sp-search sp-w-full sp-mx-auto sp-text-center sm:sp-w-3/4 lg:sp-w-2/3">
-                    <div class="sp-mb-3/2 sp-font-semibold sp-text-lg xs:sp-text-xl sm:sp-mb-3 sm:sp-text-2xl lg:sp-text-3xl">
+        <div class="search-hero" style="padding-top: 80px; padding-bottom: 3rem; background: linear-gradient(135deg, rgba(88, 28, 135, 0.2) 0%, rgba(111, 34, 50, 0.1) 50%, rgba(3, 7, 18, 1) 100%);">
+            <div class="content-wrapper">
+                <div style="text-align: center; max-width: 66.666667%; margin: 0 auto;">
+                    <h1 style="font-size: 1.875rem; font-weight: 600; margin-bottom: 1.5rem; color: white;">
                         {{ Lang.get('core.how_can_we_help') }}
-                    </div>
-                    <form name="search" action="{{ route('core.frontend.search') }}" method="get">
-                        <input type="search" name="query" placeholder="{{ Lang.get('general.search') }}" />
+                    </h1>
+                    <form name="search" action="{{ route('core.frontend.search') }}" method="get" style="margin: 0;">
+                        <input type="search" name="query" placeholder="{{ Lang.get('general.search') }}" style="width: 100%; padding: 0.75rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; color: #f3f4f6; font-size: 1rem;" />
                     </form>
                 </div>
             </div>
@@ -25,90 +25,118 @@
 {% block content %}
 
     {% if not isModuleEnabled('Ticket') and not isModuleEnabled('Selfservice') %}
-
-        {{ Lang.get('core.no_modules') }}
-
+        <div style="text-align: center; padding: 3rem 0; color: #9ca3af;">
+            {{ Lang.get('core.no_modules') }}
+        </div>
     {% else %}
 
         {% if isModuleEnabled('Ticket') %}
-            <div class="sp-flex sp-flex-wrap sp--m-3 lg:sp-flex-nowrap {% if not types.isEmpty() %}sp-mb-6{% endif %}">
-                <a href="{{ route('ticket.frontend.ticket.createStep1') }}"
-                   class="sp-w-full sp-px-6 sp-py-3 sp-m-3 sp-bg-secondary sp-rounded sp-shadow lg:sp-w-1/2">
-                    <div class="sp-dashboard-section sp-flex sp-items-center">
-                        <div class="sp-icon sp-flex-none sp-me-6">
-                            <i class="fas fa-fw fa-envelope-open-text sp-text-5xl" alt="{{ Lang.get('core.submit_ticket') }}"></i>
-                        </div>
-                        <div class="sp-grow sp-py-1">
-                            <h4 class="sp-text-xl">{{ Lang.get('core.submit_ticket') }}</h4>
-                            <p class="sp-m-0 sp-text-secondary">{{ Lang.get('core.submit_ticket_desc') }}</p>
-                        </div>
-                    </div>
-                </a>
-                {% if not auth_check() and Config.get('channel.web.settings.unauthenticated_users') %}
-                    <a href="{{ route('ticket.frontend.track') }}"
-                       class="sp-w-full sp-px-6 sp-py-3 sp-m-3 sp-bg-secondary sp-rounded sp-shadow lg:sp-w-1/2">
-                        <div class="sp-dashboard-section sp-flex sp-items-center">
-                            <div class="sp-icon sp-flex-none sp-me-6">
-                                <i class="fas fa-fw fa-binoculars sp-text-5xl" alt="{{ Lang.get('core.track_ticket') }}"></i>
-                            </div>
-                            <div class="sp-grow sp-py-1">
-                                <h4 class="sp-text-xl">{{ Lang.get('core.track_ticket') }}</h4>
-                                <p class="sp-m-0 sp-text-secondary">{{ Lang.get('core.track_ticket_desc') }}</p>
-                            </div>
-                        </div>
-                    </a>
-                {% elseif auth_check() %}
-                    <a href="{{ route('ticket.frontend.ticket.index') }}"
-                       class="sp-w-full sp-px-6 sp-py-3 sp-m-3 sp-bg-secondary sp-rounded sp-shadow lg:sp-w-1/2">
-                        <div class="sp-dashboard-section sp-flex sp-items-center">
-                            <div class="sp-icon sp-flex-none sp-me-6">
-                                <i class="fas fa-fw fa-binoculars sp-text-5xl" alt="{{ Lang.get('core.track_ticket') }}"></i>
-                            </div>
-                            <div class="sp-grow sp-py-1">
-                                <h4 class="sp-text-xl">{{ Lang.get('core.my_tickets') }}</h4>
-                                <p class="sp-m-0 sp-text-secondary">{{ Lang.get('core.my_tickets_desc') }}</p>
-                            </div>
-                        </div>
-                    </a>
+            <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                {% if not types.isEmpty() %}
+                    <div style="grid-column: span 1;">
+                {% else %}
+                    <div style="grid-column: span 1; display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem;">
                 {% endif %}
+                    <a href="{{ route('ticket.frontend.ticket.createStep1') }}" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div class="icon-wrapper" style="width: 4rem; height: 4rem; background: rgba(168, 85, 247, 0.1); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                                </svg>
+                            </div>
+                            <div style="flex: 1;">
+                                <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                                    {{ Lang.get('core.submit_ticket') }}
+                                </h3>
+                                <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
+                                    {{ Lang.get('core.submit_ticket_desc') }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    {% if not auth_check() and Config.get('channel.web.settings.unauthenticated_users') %}
+                        <a href="{{ route('ticket.frontend.track') }}" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
+                            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                <div class="icon-wrapper" style="width: 4rem; height: 4rem; background: rgba(168, 85, 247, 0.1); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </div>
+                                <div style="flex: 1;">
+                                    <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                                        {{ Lang.get('core.track_ticket') }}
+                                    </h3>
+                                    <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
+                                        {{ Lang.get('core.track_ticket_desc') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    {% elseif auth_check() %}
+                        <a href="{{ route('ticket.frontend.ticket.index') }}" style="display: block; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; text-decoration: none; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
+                            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                <div class="icon-wrapper" style="width: 4rem; height: 4rem; background: rgba(168, 85, 247, 0.1); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                                        <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                        <circle cx="12" cy="12" r="3"/>
+                                    </svg>
+                                </div>
+                                <div style="flex: 1;">
+                                    <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                                        {{ Lang.get('core.my_tickets') }}
+                                    </h3>
+                                    <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
+                                        {{ Lang.get('core.my_tickets_desc') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
 
         {% if isModuleEnabled('Selfservice') %}
-            {% for type in types %}
-                {% set isCollapsible = not type.articles.isEmpty() and type.content == 0 and type.show_on_dashboard %}
-
-                <div class="sp-dashboard-section" id="sp-selfservice-{{ type.id }}">
-                    <div class="{% if isCollapsible %}sp-collapsible{% endif %}">
-                        <div class="sp-flex sp-items-center">
-                            <div class="sp-icon sp-flex-none sp-me-6">
-                                <a href="{{ type.url }}">
-                                    <i class="fas fa-fw {{ type.icon }} sp-text-5xl" alt="{{ type.name }}"></i>
-                                </a>
+            <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem;">
+                {% for type in types %}
+                    {% set isCollapsible = not type.articles.isEmpty() and type.content == 0 and type.show_on_dashboard %}
+                    <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; transition: all 0.2s;" class="knowledgebase-card" data-collapsible="{{ isCollapsible ? 'true' : 'false' }}">
+                        <div style="display: flex; align-items: center; gap: 1.5rem; cursor: {% if isCollapsible %}pointer{% else %}default{% endif %};">
+                            <div class="icon-wrapper" style="width: 4rem; height: 4rem; background: rgba(168, 85, 247, 0.1); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                                </svg>
                             </div>
-                            <div class="sp-grow sp-py-1">
-                                <h4 class="sp-text-xl"><a href="{{ type.url }}">{{ type.name }}</a></h4>
-                                <p class="sp-m-0">{{ type.description }}</p>
+                            <div style="flex: 1;">
+                                <h3 style="font-size: 1.25rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                                    <a href="{{ type.url }}" style="color: white; text-decoration: none;">{{ type.name }}</a>
+                                </h3>
+                                <p style="color: #9ca3af; margin: 0; font-size: 0.875rem;">
+                                    {{ type.description }}
+                                </p>
                             </div>
+                            {% if isCollapsible %}
+                                <div style="margin-left: auto;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9ca3af; transition: transform 0.2s;" class="chevron-icon">
+                                        <path d="m6 9 6 6 6-6"/>
+                                    </svg>
+                                </div>
+                            {% endif %}
                         </div>
-
                         {% if isCollapsible %}
-                            <span class="sp-ms-auto">
-                                <i class="fas fa-chevron-up"></i>
-                            </span>
+                            <div class="articles-list" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(168, 85, 247, 0.2);">
+                                {% include 'frontend.' ~ template ~ '.selfservice.article_list' with {'articles': type.articles, 'noRssFeed': true} %}
+                                <div style="margin-top: 1.5rem;">
+                                    <a href="{{ type.url }}" style="display: inline-block; padding: 0.5rem 1rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border-radius: 0.5rem; text-decoration: none; font-size: 0.875rem; font-weight: 500;">
+                                        {{ Lang.get('general.view_all') }} &raquo;
+                                    </a>
+                                </div>
+                            </div>
                         {% endif %}
                     </div>
-                    {% if isCollapsible %}
-                        <div class="sp-hidden sp-mt-6">
-                            {% include 'frontend.' ~ template ~ '.selfservice.article_list' with {'articles': type.articles, 'noRssFeed': true} %}
-
-                            <div class="sp-mt-6">
-                                <a href="{{ type.url }}" class="sp-button sp-button-sm">{{ Lang.get('general.view_all') }} &raquo;</a>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         {% endif %}
     {% endif %}
 
@@ -118,14 +146,22 @@
 
 {% block scripts_footer %}
     <script>
-        $(function () {
-            // Set a top on the search container so the header has a shadow on scrolling.
-            $('.sp-search-container').css('top', $('header').height() - $('.sp-search-container').height());
-
-            // Allow clicking on the type name, without toggling the section content.
-            $('.sp-dashboard-section a').on('click', function (e) {
-                e.stopPropagation();
+        (function() {
+            // Collapsible knowledgebase sections
+            document.querySelectorAll('.knowledgebase-card[data-collapsible="true"]').forEach(function(card) {
+                const header = card.querySelector('div[style*="cursor"]');
+                const articlesList = card.querySelector('.articles-list');
+                const chevron = card.querySelector('.chevron-icon');
+                
+                if (header && articlesList && chevron) {
+                    header.addEventListener('click', function(e) {
+                        if (e.target.tagName === 'A') return;
+                        const isHidden = articlesList.style.display === 'none';
+                        articlesList.style.display = isHidden ? 'block' : 'none';
+                        chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+                    });
+                }
             });
-        });
+        })();
     </script>
 {% endblock %}

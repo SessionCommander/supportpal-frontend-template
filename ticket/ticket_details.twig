@@ -1,29 +1,29 @@
-<div class="sp-ticket-details">
+<div class="sp-ticket-details" style="display: flex; flex-direction: column; gap: 1rem;">
     <div class="sp-form-row md:sp-hidden print:sp-hidden">
-        <label>{{ Lang.get('general.subject') }}</label>
-        <div class="sp-input-container sp-ticket-subject">
+        <label style="color: #d1d5db; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">{{ Lang.get('general.subject') }}</label>
+        <div class="sp-input-container sp-ticket-subject" style="color: white; font-weight: 500;">
             {{ ticket.subject }}
         </div>
     </div>
 
     <div class="sp-form-row">
-        <label>{{ Lang.get('general.number') }}</label>
-        <div class="sp-input-container">
+        <label style="color: #d1d5db; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">{{ Lang.get('general.number') }}</label>
+        <div class="sp-input-container" style="color: #9ca3af; font-size: 0.875rem;">
             {{ ticket.number }}
         </div>
     </div>
 
     <div class="sp-form-row">
-        <label>{{ Lang.choice('ticket.department', 1) }}</label>
-        <div class="sp-input-container">
+        <label style="color: #d1d5db; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">{{ Lang.choice('ticket.department', 1) }}</label>
+        <div class="sp-input-container" style="color: #9ca3af; font-size: 0.875rem;">
             <span class="sp-ticket-department">{{ ticket.department.frontend_name }}</span>
         </div>
     </div>
 
     <div class="sp-form-row">
-        <label>{{ Lang.choice('general.status', 1) }}</label>
+        <label style="color: #d1d5db; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">{{ Lang.choice('general.status', 1) }}</label>
         <div class="sp-input-container">
-            <span class="sp-ticket-status sp-badge" style="background-color: {{ ticket.status.colour }}">
+            <span class="sp-ticket-status" style="display: inline-block; padding: 0.25rem 0.75rem; background-color: {{ ticket.status.colour }}; color: white; border-radius: 0.375rem; font-size: 0.75rem; font-weight: 500;">
                 {{ ticket.status.name }}
             </span>
         </div>
@@ -31,9 +31,9 @@
 
     {% if priority_count > 1 %}
         <div class="sp-form-row">
-            <label>{{ Lang.choice('ticket.priority', 1) }}</label>
+            <label style="color: #d1d5db; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">{{ Lang.choice('ticket.priority', 1) }}</label>
             <div class="sp-input-container">
-                <span class="sp-ticket-priority sp-badge" style="background-color: {{ ticket.priority.colour }}">
+                <span class="sp-ticket-priority" style="display: inline-block; padding: 0.25rem 0.75rem; background-color: {{ ticket.priority.colour }}; color: white; border-radius: 0.375rem; font-size: 0.75rem; font-weight: 500;">
                     {{ ticket.priority.name }}
                 </span>
             </div>
@@ -41,15 +41,15 @@
     {% endif %}
 
     <div class="sp-form-row">
-        <label>{{ Lang.get('ticket.submitted') }}</label>
-        <div class="sp-input-container">
+        <label style="color: #d1d5db; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">{{ Lang.get('ticket.submitted') }}</label>
+        <div class="sp-input-container" style="color: #9ca3af; font-size: 0.875rem;">
             {{ timeago(ticket.created_at) }}
         </div>
     </div>
 
     <div class="sp-form-row">
-        <label>{{ Lang.get('ticket.last_reply') }}</label>
-        <div class="sp-input-container">
+        <label style="color: #d1d5db; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; display: block;">{{ Lang.get('ticket.last_reply') }}</label>
+        <div class="sp-input-container" style="color: #9ca3af; font-size: 0.875rem;">
             <span class="sp-ticket-updated">{{ timeago(ticket.last_message_time) }}</span>
         </div>
     </div>

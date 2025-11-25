@@ -1,18 +1,24 @@
-<h2>{{ Lang.choice('selfservice.category', 2) }}</h2>
+<h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 1.5rem; font-family: var(--font-playfair);">
+    {{ Lang.choice('selfservice.category', 2) }}
+</h2>
 
 {% if not categories.isEmpty() %}
-    <div class="sp-flex sp-flex-wrap sp--m-3">
+    <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem; md:grid-template-columns: repeat(2, minmax(0, 1fr));">
         {% for category in categories %}
             {% if not category.articles.isEmpty() %}
-            <div class="sp-w-full sp-p-3 md:sp-w-1/2">
-                <a class='sp-category-title sp-block sp-px-3 sp-py-3/2 sp-mb-3 sp-bg-secondary sp-shadow sp-rounded hover:sp-bg-tertiary'
-                   href='{{ category.frontend_url }}'>
-                    <i class="fas fa-fw fa-folder-open"></i>&nbsp; {{ category.name }} ({{ category.count }})
+            <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem;">
+                <a class='sp-category-title' href='{{ category.frontend_url }}' style="display: block; font-size: 1.125rem; font-weight: 600; color: white; margin-bottom: 1rem; text-decoration: none; font-family: var(--font-playfair); display: flex; align-items: center; gap: 0.5rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #a855f7;">
+                        <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/>
+                    </svg>
+                    {{ category.name }} <span style="color: #9ca3af; font-weight: 400; font-size: 0.875rem;">({{ category.count }})</span>
                 </a>
-                <ul class="sp-ps-5 sp-category-article-list">
+                <ul style="list-style: none; padding: 0; margin: 0; padding-left: 1.5rem;">
                     {% for article in category.articles %}
-                        <li>
-                            <a href='{{ article.url(type) }}'>{{ article.title }}</a>
+                        <li style="margin-bottom: 0.75rem;">
+                            <a href='{{ article.url(type) }}' style="color: #9ca3af; text-decoration: none; font-size: 0.875rem; transition: color 0.2s; hover:color: #a855f7;">
+                                {{ article.title }}
+                            </a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -21,5 +27,7 @@
         {% endfor %}
     </div>
 {% else %}
-    {{ Lang.get('selfservice.no_categories_frontend') }}
+    <div style="text-align: center; padding: 3rem 0; color: #9ca3af;">
+        {{ Lang.get('selfservice.no_categories_frontend') }}
+    </div>
 {% endif %}

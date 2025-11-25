@@ -1,38 +1,49 @@
 {% if not articles.isEmpty() %}
-    <ul class="sp-article-list">
+    <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1rem;">
         {% for article in articles %}
             {# article.categories is pre filtered to categories the user can view, while article.types is not #}
             {% set type = article.categories.first().type %}
 
-            <li data-slug="{{ article.slug }}">
-                <a href="{{ article.url(type) }}">
-                    <h4>
+            <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 1.5rem; transition: all 0.2s; hover:border-color: rgba(168, 85, 247, 0.5); hover:transform: translateY(-2px);">
+                <a href="{{ article.url(type) }}" style="text-decoration: none; display: block;">
+                    <h4 style="font-size: 1.125rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair); display: flex; align-items: center; gap: 0.5rem;">
                         {% if show_pinned|default is not empty and show_pinned and article.pinned %}
-                            <span class="sp-float-start">
-                                <i class="fas fa-thumbtack sp-me-1 sp-text-yellow-600" aria-hidden="true"></i> &nbsp;
-                            </span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #fbbf24; flex-shrink: 0;">
+                                <line x1="12" x2="12" y1="17" y2="22"/>
+                                <path d="M5 17h14v-6.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 6.76V4H9v2.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 10.24Z"/>
+                            </svg>
                         {% endif %}
                         {{ article.title }}
                     </h4>
-                    <p class="sp-description sp-truncate">{{ article.excerpt }}</p>
+                    <p style="color: #9ca3af; font-size: 0.875rem; margin: 0; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                        {{ article.excerpt }}
+                    </p>
                 </a>
 
                 {% include 'frontend.' ~ template ~ '.selfservice.article_details' %}
-            </li>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 
-    {{ articles.render()|raw }}
+    <div style="margin-top: 2rem;">
+        {{ articles.render()|raw }}
+    </div>
 
     {% if type|default is not empty and type.view == 1 and noRssFeed is not defined %}
-        <div class="sp-mt-6 sp-text-center print:sp-hidden">
-            <a href="{{ rssFeedLink }}" class="sp-inline-block sp-px-3 sp-py-2 sp-bg-secondary sp-rounded sp-shadow hover:sp-bg-tertiary">
-                <i class="fas fa-rss-square sp-text-orange-600"></i>&nbsp;
+        <div style="margin-top: 1.5rem; text-align: center;">
+            <a href="{{ rssFeedLink }}" style="display: inline-block; padding: 0.5rem 1rem; background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; color: #f3f4f6; text-decoration: none; font-size: 0.875rem; transition: all 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 0.5rem; color: #f97316;">
+                    <path d="M4 11a9 9 0 0 1 9 9"/>
+                    <path d="M4 4a16 16 0 0 1 16 16"/>
+                    <circle cx="5" cy="19" r="1"/>
+                </svg>
                 {{ Lang.get('selfservice.rssfeed') }}
             </a>
         </div>
     {% endif %}
 
 {% else %}
-    {{ Lang.get('selfservice.no_articles') }}
+    <div style="text-align: center; padding: 3rem 0; color: #9ca3af;">
+        {{ Lang.get('selfservice.no_articles') }}
+    </div>
 {% endif %}

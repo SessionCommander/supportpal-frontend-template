@@ -11,53 +11,95 @@
 
     {% if register_success|default is not empty and register_success %}
 
-        <div class="sp-alert sp-alert-success">{{ Lang.get('user.success_register') }}</div>
-        {{ Lang.get('user.success_register_desc') }}
+        <div style="max-width: 42rem; margin: 0 auto;">
+            <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 0.5rem; padding: 2rem; text-align: center;">
+                <div style="margin-bottom: 1rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #22c55e; margin: 0 auto;">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <h2 style="font-size: 1.5rem; font-weight: 600; color: white; margin-bottom: 0.5rem; font-family: var(--font-playfair);">
+                    {{ Lang.get('user.success_register') }}
+                </h2>
+                <p style="color: #9ca3af; font-size: 0.875rem; margin: 0;">
+                    {{ Lang.get('user.success_register_desc') }}
+                </p>
+            </div>
+        </div>
 
     {% else %}
 
-        {% if Session.has('social_metadata') %}
-            <div class="sp-alert">
-                {{ Lang.get('user.social_linking_register') }}
-                <br /><br />
-                {{ Lang.get('user.already_registered') }}
-                <a href="{{ route('user.login', {'social': 1}) }}">{{ Lang.get('user.login') }} &raquo;</a>
-            </div>
-        {% else %}
-            {% if not socialite_providers.isEmpty() %}
-                <div class="sp--m-3/2 sp-text-center">
-                    {% include 'frontend.' ~ template ~ '.user.social_login_options' %}
-                </div>
+        <div style="max-width: 42rem; margin: 0 auto;">
+            <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem;">
+                <h2 style="font-size: 1.875rem; font-weight: 600; color: white; margin-bottom: 1.5rem; font-family: var(--font-playfair);">
+                    {{ Lang.get('user.register') }}
+                </h2>
 
-                <hr />
-            {% endif %}
-        {% endif %}
-
-        {{ form_open({ 'route': [ 'user.register' ], 'method': 'post', 'files': true, 'class': 'validate' }) }}
-
-            {% include 'frontend.' ~ template ~ '.user.forms.user_profile' %}
-
-            {% include 'frontend.' ~ template ~ '.user.forms.organisation' %}
-
-            {% include 'frontend.' ~ template ~ '.forms.custom_fields' with {'new': true} %}
-
-            {% if show_captcha %}
-                {% if Captcha.isVisible() %}
-                    <div class="sp-form-row sp-items-center">
-                        <div class="sp-input-container">
-                            {{ Captcha.getHtml() }}
-                        </div>
+                {% if Session.has('social_metadata') %}
+                    <div class="sp-alert sp-alert-info" style="margin-bottom: 1.5rem;">
+                        {{ Lang.get('user.social_linking_register') }}
+                        <br /><br />
+                        {{ Lang.get('user.already_registered') }}
+                        <a href="{{ route('user.login', {'social': 1}) }}" style="color: #a855f7; text-decoration: none;">
+                            {{ Lang.get('user.login') }} &raquo;
+                        </a>
                     </div>
                 {% else %}
-                    {{ Captcha.getHtml() }}
+                    {% if not socialite_providers.isEmpty() %}
+                        <div style="text-align: center; margin-bottom: 1.5rem;">
+                            {% include 'frontend.' ~ template ~ '.user.social_login_options' %}
+                        </div>
+
+                        <div style="margin: 1.5rem 0; text-align: center; position: relative;">
+                            <div style="position: absolute; inset: 0; display: flex; align-items: center;">
+                                <div style="flex: 1; height: 1px; background: rgba(168, 85, 247, 0.2);"></div>
+                                <span style="padding: 0 1rem; color: #9ca3af; font-size: 0.875rem; background: rgba(31, 41, 55, 0.5);">{{ Lang.get('general.or') }}</span>
+                                <div style="flex: 1; height: 1px; background: rgba(168, 85, 247, 0.2);"></div>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
 
-            <div class="sp-form-button">
-                {{ form_submit(Lang.get('user.register')) }}
+                {{ form_open({ 'route': [ 'user.register' ], 'method': 'post', 'files': true, 'class': 'validate' }) }}
+
+                    {% include 'frontend.' ~ template ~ '.user.forms.user_profile' %}
+
+                    {% include 'frontend.' ~ template ~ '.user.forms.organisation' %}
+
+                    {% include 'frontend.' ~ template ~ '.forms.custom_fields' with {'new': true} %}
+
+                    {% if show_captcha %}
+                        {% if Captcha.isVisible() %}
+                            <div class="sp-form-row">
+                                <div class="sp-input-container">
+                                    {{ Captcha.getHtml() }}
+                                </div>
+                            </div>
+                        {% else %}
+                            {{ Captcha.getHtml() }}
+                        {% endif %}
+                    {% endif %}
+
+                    <div class="sp-form-row" style="margin-top: 1.5rem;">
+                        <label></label>
+                        <div class="sp-input-container">
+                            {{ form_submit(Lang.get('user.register'), {'style': 'width: 100%; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 500; font-size: 0.875rem; cursor: pointer;'}) }}
+                        </div>
+                    </div>
+
+                {{ form_close() }}
+
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(168, 85, 247, 0.2); text-align: center;">
+                    <p style="color: #9ca3af; font-size: 0.875rem; margin: 0;">
+                        {{ Lang.get('user.already_have_account') }}
+                        <a href="{{ route('user.login') }}" style="color: #a855f7; text-decoration: none; font-weight: 500;">
+                            {{ Lang.get('user.login') }}
+                        </a>
+                    </p>
+                </div>
             </div>
-
-        {{ form_close() }}
+        </div>
 
     {% endif %}
 

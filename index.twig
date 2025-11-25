@@ -31,27 +31,18 @@
             {{ View.fireHook('frontend.header_start') }}
 
             <div class="header-inner">
-                <a href="{{ route('core.frontend.home') }}" class="logo-link">
-                    {% if Config.get('settings.favicon') is not empty %}
-                        <img src="{{ Config.get('settings.favicon') }}" alt="{{ company }}" />
-                    {% else %}
-                        <img src="{{ get_logo(false) }}" alt="{{ company }}" class="sp-inline dark:sp-hidden print:sp-inline" />
-                        <img src="{{ get_logo(true) }}" alt="{{ company }}" class="sp-hidden dark:sp-inline print:sp-hidden" />
-                    {% endif %}
+                <a href="https://sessioncommander.com" class="logo-link">
+                    <img src="https://sessioncommander.com/logo.svg" alt="SessionCommander" />
                     <span class="logo-text">SessionCommander</span>
                 </a>
 
                 <!-- Desktop Navigation -->
                 <div class="nav-desktop">
-                    {% if Config.get('settings.website_url') is not empty %}
-                        <a href="{{ Config.get('settings.website_url') }}/features" class="nav-link">Features</a>
-                        <a href="{{ Config.get('settings.website_url') }}/pricing" class="nav-link">Pricing</a>
-                        <a href="{{ Config.get('settings.website_url') }}/about" class="nav-link">About</a>
-                        <div class="nav-divider"></div>
-                        <a href="{{ route('core.frontend.home') }}" class="nav-resource">Support</a>
-                        <a href="{{ Config.get('settings.website_url') }}/community" class="nav-resource">Community</a>
-                    {% endif %}
-
+                    <a href="https://sessioncommander.com/features" class="nav-link">Features</a>
+                    <a href="https://sessioncommander.com/pricing" class="nav-link">Pricing</a>
+                    <a href="https://sessioncommander.com/about" class="nav-link">About</a>
+                    <a href="https://support.sessioncommander.com" class="nav-link">Support</a>
+                    <a href="https://community.sessioncommander.com" class="nav-link">Community</a>
                     {% if auth_check() %}
                         <div class="sp-dropdown-container sp-relative" style="margin-left: 0.5rem;">
                             <a class="sp-action" style="color: #d1d5db; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
@@ -64,7 +55,7 @@
                             </div>
                         </div>
                     {% else %}
-                        <a href="{{ route('user.login') }}" class="btn-login">Log In</a>
+                        <a href="https://app.sessioncommander.com" class="btn-login">Log In</a>
                     {% endif %}
                 </div>
 
@@ -85,20 +76,18 @@
     <!-- Mobile Menu -->
     <nav id="mobile-menu">
         <div class="menu-content">
-            {% if Config.get('settings.website_url') is not empty %}
-                <a href="{{ Config.get('settings.website_url') }}/features" class="mobile-nav-link">Features</a>
-                <a href="{{ Config.get('settings.website_url') }}/pricing" class="mobile-nav-link">Pricing</a>
-                <a href="{{ Config.get('settings.website_url') }}/about" class="mobile-nav-link">About</a>
-                <div class="mobile-nav-divider">
-                    <a href="{{ route('core.frontend.home') }}" class="mobile-nav-resource">Support</a>
-                    <a href="{{ Config.get('settings.website_url') }}/community" class="mobile-nav-resource">Community</a>
-                    {% if auth_check() %}
-                        <a href="{{ route('user.login') }}" class="mobile-btn-login">{{ Lang.get('user.login') }}</a>
-                    {% else %}
-                        <a href="{{ route('user.login') }}" class="mobile-btn-login">Log In</a>
-                    {% endif %}
-                </div>
-            {% endif %}
+            <a href="https://sessioncommander.com/features" class="mobile-nav-link">Features</a>
+            <a href="https://sessioncommander.com/pricing" class="mobile-nav-link">Pricing</a>
+            <a href="https://sessioncommander.com/about" class="mobile-nav-link">About</a>
+            <a href="https://support.sessioncommander.com" class="mobile-nav-link">Support</a>
+            <a href="https://community.sessioncommander.com" class="mobile-nav-link">Community</a>
+            <div class="mobile-nav-divider">
+                {% if auth_check() %}
+                    <a href="{{ route('user.login') }}" class="mobile-btn-login">{{ Lang.get('user.login') }}</a>
+                {% else %}
+                    <a href="https://app.sessioncommander.com" class="mobile-btn-login">Log In</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
@@ -169,13 +158,8 @@
             <div class="footer-grid">
                 <!-- Brand -->
                 <div class="footer-brand">
-                    <a href="{{ route('core.frontend.home') }}" class="footer-logo-link">
-                        {% if Config.get('settings.favicon') is not empty %}
-                            <img src="{{ Config.get('settings.favicon') }}" alt="{{ company }}" />
-                        {% else %}
-                            <img src="{{ get_logo(false) }}" alt="{{ company }}" class="sp-inline dark:sp-hidden" />
-                            <img src="{{ get_logo(true) }}" alt="{{ company }}" class="sp-hidden dark:sp-inline" />
-                        {% endif %}
+                    <a href="https://sessioncommander.com" class="footer-logo-link">
+                        <img src="https://sessioncommander.com/logo.svg" alt="SessionCommander" />
                         <span class="footer-logo-text">SessionCommander</span>
                     </a>
                     <p class="footer-description">
@@ -187,17 +171,15 @@
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <ul>
-                        {% if Config.get('settings.website_url') is not empty %}
-                            <li>
-                                <a href="{{ Config.get('settings.website_url') }}/features">Features</a>
-                            </li>
-                            <li>
-                                <a href="{{ Config.get('settings.website_url') }}/pricing">Pricing</a>
-                            </li>
-                            <li>
-                                <a href="{{ Config.get('settings.website_url') }}/about">About</a>
-                            </li>
-                        {% endif %}
+                        <li>
+                            <a href="https://sessioncommander.com/features">Features</a>
+                        </li>
+                        <li>
+                            <a href="https://sessioncommander.com/pricing">Pricing</a>
+                        </li>
+                        <li>
+                            <a href="https://sessioncommander.com/about">About</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -206,13 +188,11 @@
                     <h3>Resources</h3>
                     <ul>
                         <li>
-                            <a href="{{ route('core.frontend.home') }}">Support</a>
+                            <a href="https://support.sessioncommander.com">Support</a>
                         </li>
-                        {% if Config.get('settings.website_url') is not empty %}
-                            <li>
-                                <a href="{{ Config.get('settings.website_url') }}/community">Community Forum</a>
-                            </li>
-                        {% endif %}
+                        <li>
+                            <a href="https://community.sessioncommander.com">Community Forum</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -222,13 +202,11 @@
                     &copy; {{ "now"|date("Y") }} SessionCommander. All rights reserved.
                 </p>
                 <div class="footer-links">
-                    {% if Config.get('settings.website_url') is not empty %}
-                        <a href="{{ Config.get('settings.website_url') }}/privacy">Privacy Policy</a>
-                        <a href="{{ Config.get('settings.website_url') }}/terms">Terms of Service</a>
-                        <a href="{{ Config.get('settings.website_url') }}/terms-summary">Terms Summary</a>
-                        <a href="{{ Config.get('settings.website_url') }}/sla">SLA</a>
-                        <a href="{{ Config.get('settings.website_url') }}/dpa">DPA</a>
-                    {% endif %}
+                    <a href="https://sessioncommander.com/privacy">Privacy Policy</a>
+                    <a href="https://sessioncommander.com/terms">Terms of Service</a>
+                    <a href="https://sessioncommander.com/terms-summary">Terms Summary</a>
+                    <a href="https://sessioncommander.com/sla">SLA</a>
+                    <a href="https://sessioncommander.com/dpa">DPA</a>
                     {% if Config.get('settings.language_frontend_toggle') == 1 %}
                         <div style="display: inline-flex; align-items: center; gap: 0.5rem;">
                             <i class="fas fa-language" title="{{ Lang.choice('general.language', 1) }}" style="color: #6b7280;"></i>

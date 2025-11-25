@@ -9,25 +9,50 @@
 
 {% block content %}
 
-    {% if error is not defined %}
-		<div class="sp-alert sp-alert-success sp-alert-m-0">
-			<strong>{{ Lang.get('messages.success') }}</strong><br />
-			{{ Lang.get('user.thank_you_for_verifying_email') }}
-			{% if not auth_check() %}
-				{{ Lang.get('user.continue_to_login', {'route': route('user.login')})|raw }}
-			{% endif %}
-		</div>
-	{% else %}
-		<div class="sp-alert sp-alert-error sp-alert-m-0">
-			<strong>{{ Lang.get('messages.error') }}</strong><br />
-			{{ error }}
-		</div>
+    <div style="max-width: 42rem; margin: 0 auto;">
+        <div style="background: rgba(31, 41, 55, 0.5); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 0.5rem; padding: 2rem;">
+            {% if error is not defined %}
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="width: 6rem; height: 6rem; margin: 0 auto 1rem; background: rgba(34, 197, 94, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #22c55e;">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="sp-alert sp-alert-success" style="text-align: center;">
+                    <strong style="display: block; margin-bottom: 0.5rem; color: #86efac;">{{ Lang.get('messages.success') }}</strong>
+                    <p style="color: #86efac; margin: 0;">
+                        {{ Lang.get('user.thank_you_for_verifying_email') }}
+                        {% if not auth_check() %}
+                            {{ Lang.get('user.continue_to_login', {'route': route('user.login')})|raw }}
+                        {% endif %}
+                    </p>
+                </div>
+            {% else %}
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="width: 6rem; height: 6rem; margin: 0 auto 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ef4444;">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="m15 9-6 6"/>
+                            <path d="m9 9 6 6"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="sp-alert sp-alert-error" style="text-align: center;">
+                    <strong style="display: block; margin-bottom: 0.5rem; color: #fca5a5;">{{ Lang.get('messages.error') }}</strong>
+                    <p style="color: #fca5a5; margin: 0;">{{ error }}</p>
+                </div>
 
-		{% if resend %}
-			<div class="sp-mt-6">
-				<a href="{{ resend }}" class="sp-button">{{ Lang.get('user.resend_verification_email') }}</a>
-			</div>
-		{% endif %}
-	{% endif %}
+                {% if resend %}
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <a href="{{ resend }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #a855f7 100%); color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 500; font-size: 0.875rem;">
+                            {{ Lang.get('user.resend_verification_email') }}
+                        </a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}
