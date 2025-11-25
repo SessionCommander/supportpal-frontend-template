@@ -1771,12 +1771,14 @@ input[type="submit"]:hover {
 
 /* Simplify attachment preview structure in reply history - match new reply form */
 .sp-attachments li > a {
-  display: flex !important;
+  display: inline !important;
   align-items: center !important;
-  gap: 0.75rem !important;
-  flex: 1 !important;
-  text-decoration: none !important;
-  color: inherit !important;
+  gap: 0 !important;
+  flex: none !important;
+  text-decoration: underline !important;
+  color: #d1d5db !important;
+  background: transparent !important;
+  padding: 0 !important;
 }
 
 /* Hide hover icons in reply history attachments */
@@ -1796,6 +1798,7 @@ input[type="submit"]:hover {
   padding: 0 !important;
   margin-bottom: 0.5rem !important;
   overflow: visible !important;
+  white-space: nowrap !important;
 }
 
 .sp-attachments li:last-child {
@@ -1806,12 +1809,20 @@ input[type="submit"]:hover {
   text-decoration: underline !important;
   color: #d1d5db !important;
   display: inline !important;
+  background: transparent !important;
+  padding: 0 !important;
+  padding-left: 0 !important;
+}
+
+.sp-attachments li > a:hover {
+  background: transparent !important;
 }
 
 .sp-attachments .sp-filename {
   color: #d1d5db !important;
   font-size: 0.875rem !important;
   text-decoration: underline !important;
+  white-space: nowrap !important;
 }
 
 .sp-attachments .sp-filesize {
