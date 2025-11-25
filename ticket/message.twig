@@ -43,18 +43,6 @@
 
 			{% for attachment in message.attachments %}
 				<li class="sp-relative" data-download-url="{{ attachment.direct_frontend_url }}" data-filename="{{ attachment.original_name }}">
-                    {% if message.by != 0 %}
-						<div class="sp-delete-attachment sp-absolute sp-end-0 sp-px-2 sp-py-1/2 sp-bg-red-600 sp-rounded-se
-                                sp-text-white sp-cursor-pointer sp-z-10 hover:sp-bg-red-800"
-							 title="{{ Lang.get('general.delete') }}"
-							 data-url="{{ route('ticket.frontend.attachment.destroy') }}"
-                             data-token="{{ Request.input('token', '') }}"
-                             data-attachment-id="{{ attachment.id }}"
-                             data-hash="{{ attachment.upload_hash }}">
-							<i class="fas fa-times"></i>
-						</div>
-					{% endif %}
-
 					{% if attachment.upload.isPreviewable() %}
 						{% if attachment.upload.isPreviewableVideo() or attachment.upload.isPreviewableAudio() %}
 							<a class="sp-attachment-preview group"
@@ -95,7 +83,19 @@
 							</div>
 
 							<div>
-								<div class="sp-attachment-name">{{ attachment.original_name }}</div>
+								<div class="sp-attachment-name">
+									{{ attachment.original_name }}
+									{% if message.by != 0 %}
+										<span class="sp-delete-attachment sp-inline-block sp-ml-2 sp-text-red-600 sp-cursor-pointer hover:sp-text-red-800"
+											 title="{{ Lang.get('general.delete') }}"
+											 data-url="{{ route('ticket.frontend.attachment.destroy') }}"
+											 data-token="{{ Request.input('token', '') }}"
+											 data-attachment-id="{{ attachment.id }}"
+											 data-hash="{{ attachment.upload_hash }}">
+											<i class="fas fa-times"></i>
+										</span>
+									{% endif %}
+								</div>
 								<div class="sp-description">{{ attachment.upload.size }}</div>
 							</div>
 						</a>
